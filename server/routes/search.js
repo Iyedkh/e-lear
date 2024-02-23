@@ -3,9 +3,9 @@ const router = express.Router();
 
 // Sample course data (can be replaced with a database)
 let courses = [
-    { id: 1, name: 'Course A', rating: 0 },
-    { id: 2, name: 'Course B', rating: 0 },
-    { id: 3, name: 'Course C', rating: 0 }
+    { id: 1, name: 'Mathematics 101', rating: 4.5 },
+    { id: 2, name: 'Physics Basics', rating: 3.8 },
+    { id: 3, name: 'Computer Science Fundamentals', rating: 4.2 }
 ];
 
 // Route to handle course search
@@ -19,7 +19,11 @@ router.get('/', (req, res) => {
         const results = courses.filter(course => course.name.toLowerCase().includes(query));
         
         // Send the filtered results as JSON response
-        res.json(results);
+        if (results.length > 0) {
+            res.json(results);
+        } else {
+            res.status(404).json({ error: 'No matching courses found' });
+        }
     } else {
         // If 'q' parameter is not provided, send an error response
         res.status(400).json({ error: 'Missing search query parameter' });
