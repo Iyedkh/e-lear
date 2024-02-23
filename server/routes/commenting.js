@@ -1,25 +1,54 @@
 const express = require('express');
 const router = express.Router();
+const Comment = require('../models/comment'); // Assuming you have a Comment model
 
-// Sample course data (can be replaced with a database)
-let courses = [
-    { id: 1, name: 'Course A', comments: [] },
-    { id: 2, name: 'Course B', comments: [] },
-    { id: 3, name: 'Course C', comments: [] }
-];
+// Route to create a new comment
+router.post('/comments', async (req, res) => {
+    try {
+        const { courseId, content, userId } = req.body;
+        const newComment = new Comment({
+            courseId,
+            content,
+            userId
+        });
+        const savedComment = await newComment.save();
+        res.status(201).json(savedComment);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
 
-// Route to handle course commenting
-router.post('/:id', (req, res) => {
-    const courseId = parseInt(req.params.id);
-    const { comment } = req.body;
+// Route to get all comments for a specific course
+router.get('/', async (req, res) => {
+    try {
+        const comments = await Comment.find();
+        res.json(comments);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
 
-    // Update the course comments (this is a simplified example)
-    const course = courses.find(course => course.id === courseId);
-    if (course) {
-        course.comments.push(comment);
-        res.status(200).send('Comment added successfully');
-    } else {
-        res.status(404).send('Course not found');
+
+// Route to update a comment
+router.put('/comments/:commentId', async (req, res) => {
+    try {
+        const commentId = req.params.commentId;
+        const updatedComment = await Comment.findByIdAndUpdate(commentId, req.body, { new: true });
+        res.json(updatedComment);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+// Route to delete a comment
+router.delete('/comments/:commentId', async (req, res) => {
+    try {
+        const commentId = req.params.commentId;
+        const deletedComment = await Comment.findByIdAndDelete(commentId);
+        res.json(deletedComment);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
 });
 

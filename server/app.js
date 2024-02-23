@@ -14,6 +14,7 @@ const courseRouter = require('./routes/courseRouter');
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+app.use(express.json());
 
 
 
