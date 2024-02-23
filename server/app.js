@@ -1,0 +1,29 @@
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+const path = require('path');
+const sockets = require('./sockets');
+const ratingRoutes = require('./routes/rating');
+const searchRoutes = require('./routes/search');
+const messagingRoutes = require('./routes/messaging');
+const commentingRoutes = require('./routes/commenting');
+
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+
+
+
+// Socket.io connection
+io.on('connection', sockets);
+
+// Routes
+app.use('/rate-course', ratingRoutes);
+app.use('/search-courses', searchRoutes);
+app.use('/message', messagingRoutes);
+app.use('/comment-course', commentingRoutes);
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
