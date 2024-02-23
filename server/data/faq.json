@@ -1,0 +1,22 @@
+[
+    {
+        "question": "What is JSON?",
+        "answer": "JSON (JavaScript Object Notation) is a lightweight data-interchange format."
+    },
+    {
+        "question": "How to parse JSON in JavaScript?",
+        "answer": "You can parse JSON in JavaScript using the JSON.parse() method."
+    },
+    {
+        "question": "What are the benefits of using JSON?",
+        "answer": "JSON is easy for humans to read and write. It's also easy for machines to parse and generate."
+    },
+    {
+        "question": "Can JSON represent complex data structures?",
+        "answer": "Yes, JSON can represent arrays and nested objects, allowing for complex data structures to be stored and transmitted."
+    },
+    {
+        "question": "Is JSON language-independent?",
+        "answer": "Yes, JSON is language-independent and can be used with any programming language that supports data interchange."
+    }
+]
