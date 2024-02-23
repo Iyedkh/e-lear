@@ -19,7 +19,7 @@ io.on('connection', sockets);
 
 // Routes
 app.use('/rate-course', ratingRoutes);
-app.use('/search-courses', searchRoutes);
+app.use('/courses', searchRoutes);
 app.use('/message', messagingRoutes);
 app.use('/comment-course', commentingRoutes);
 
