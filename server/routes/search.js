@@ -3,11 +3,7 @@ const router = express.Router();
 const Course = require('../models/course');
 
 // Sample course data (can be replaced with a database)
-let courses = [
-    new Course(1, 'Mathematics 101'),
-    new Course(2, 'Physics Basics'),
-    new Course(3, 'Computer Science Fundamentals')
-];
+
 
 // Route to retrieve all courses
 router.get('/', (req, res) => {

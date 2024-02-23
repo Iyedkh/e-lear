@@ -1,21 +1,14 @@
-// course.js
+const mongoose = require('mongoose');
 
-class Course {
-    constructor(id, title, rating = 0, comments = []) {
-        this.id = id;
-        this.title = title;
-        this.rating = rating;
-        this.comments = comments;
-    }
+// Define the Mongoose schema for the Course model
+const courseSchema = new mongoose.Schema({
+    id: Number,
+    title: String,
+    rating: { type: Number, default: 0 },
+    comments: [String]
+});
 
-    // Methods to update course rating and add comments
-    updateRating(newRating) {
-        this.rating = newRating;
-    }
+// Create a Mongoose model based on the schema
+const CourseModel = mongoose.model('Course', courseSchema);
 
-    addComment(comment) {
-        this.comments.push(comment);
-    }
-}
-
-module.exports = Course;
+module.exports = CourseModel;
