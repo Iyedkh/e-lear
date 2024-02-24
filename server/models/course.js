@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const courseSchema = new mongoose.Schema({
     id: Number,
     title: String,
-    rating: { type: Number, default: 0 },
+    rating: [{ type: Number, min: 1, max: 5 }],
     comments: [String]
 });
 

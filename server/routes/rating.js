@@ -1,26 +1,32 @@
 const express = require('express');
 const router = express.Router();
 
-// Sample course data (can be replaced with a database)
-let courses = [
-    { id: 1, name: 'Course A', rating: 0 },
-    { id: 2, name: 'Course B', rating: 0 },
-    { id: 3, name: 'Course C', rating: 0 }
-];
 
-// Route to handle course rating
-router.post('/:id', (req, res) => {
-    const courseId = parseInt(req.params.id);
-    const { rating } = req.body;
+// Import the Course model or course data
+const Course = require('../models/course');
 
-    // Update the course rating (this is a simplified example)
-    const course = courses.find(course => course.id === courseId);
-    if (course) {
+// Route to submit a new rating for a course
+router.post('/courses/:courseId/ratings', async (req, res) => {
+    const courseId = req.params.courseId;
+    const { rating } = req.body; // Assuming the rating is provided in the request body
+
+    try {
+        // Fetch the course from the database
+        const course = await Course.findById(courseId);
+        if (!course) {
+            return res.status(404).json({ error: 'Course not found' });
+        }
+
+        // Update the course's rating
         course.rating = rating;
-        res.status(200).send('Course rated successfully');
-    } else {
-        res.status(404).send('Course not found');
+        await course.save();
+
+        res.status(201).json({ message: 'Rating submitted successfully' });
+    } catch (error) {
+        console.error('Error submitting rating:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 module.exports = router;
