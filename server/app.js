@@ -10,6 +10,9 @@ const searchRoutes = require('./routes/search');
 const messagingRoutes = require('./routes/messaging');
 const commentingRoutes = require('./routes/commenting');
 const courseRouter = require('./routes/courseRouter');
+const certificateRoutes = require('./routes/certificateRoutes');
+const progressRoutes = require('./routes/progressRoutes');
+const rankRoutes = require('./routes/rankRoutes');
 
 
 const app = express();
@@ -30,6 +33,8 @@ app.use('/comment-course', commentingRoutes);
 app.use('/courses', courseRouter);
 app.use('/api/faq', faqRouter);
 app.use('/certificates', certificateRoutes);
+app.use('/api', progressRoutes);
+app.use('/api', rankRoutes);
 
 
 const PORT = process.env.PORT || 3000;

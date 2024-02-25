@@ -1,7 +1,7 @@
 // certificateRoutes.js
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+
 
 
 router.post('/certificates/generate', async (req, res) => {
