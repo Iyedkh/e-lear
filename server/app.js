@@ -13,11 +13,14 @@ const courseRouter = require('./routes/courseRouter');
 const certificateRoutes = require('./routes/certificateRoutes');
 const progressRoutes = require('./routes/progressRoutes');
 const rankRoutes = require('./routes/rankRoutes');
-
+const authRoutes = require('./routes/auth');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+const cors = require('cors');
+
+app.use(cors());
 app.use(express.json());
 
 
@@ -35,6 +38,7 @@ app.use('/api/faq', faqRouter);
 app.use('/certificates', certificateRoutes);
 app.use('/api', progressRoutes);
 app.use('/api', rankRoutes);
+app.use('/auth', authRoutes);
 
 
 const PORT = process.env.PORT || 3000;

@@ -5,7 +5,11 @@ const courseSchema = new mongoose.Schema({
     id: Number,
     title: String,
     rating: [{ type: Number, min: 1, max: 5 }],
-    comments: [String]
+    comments: [String],
+    category: {
+        type: String,
+        required: true
+    },
 });
 
 // Create a Mongoose model based on the schema

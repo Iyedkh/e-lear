@@ -1,9 +1,12 @@
+// routes/courseRoutes.js
+
 const express = require('express');
 const router = express.Router();
 const CourseModel = require('../models/course');
+const filterMiddleware = require('../middleware/filterMiddleware');
 
 // Route to get all courses
-router.get('/', async (req, res) => {
+router.get('/', filterMiddleware, async (req, res) => {
     try {
         const courses = await CourseModel.find();
         res.json(courses);
@@ -33,7 +36,8 @@ router.post('/', async (req, res) => {
             id: req.body.id,
             title: req.body.title,
             rating: req.body.rating, // Use provided rating
-            comments: req.body.comments // Use provided comments array
+            comments: req.body.comments, // Use provided comments array
+            category: req.body.category // Add category field
         });
 
         // Save the new course to the database
