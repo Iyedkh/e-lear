@@ -1,4 +1,4 @@
-const Discussion = require('../models/discussion');
+const Discussion = require('../models/Discussion');
 
 // Controller function to create a new discussion
 exports.createDiscussion = async (req, res) => {
