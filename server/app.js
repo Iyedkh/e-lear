@@ -16,6 +16,9 @@ const rankRoutes = require('./routes/rankRoutes');
 const authRoutes = require('./routes/auth');
 const discussionRoutes = require('./routes/discussionRoutes'); // Import discussion routes
 const postRoutes = require('./routes/postRoutes');
+const recommendationRoutes = require('./routes/recommendationRoutes');
+
+
 
 
 const app = express();
@@ -43,7 +46,7 @@ app.use('/api', rankRoutes);
 app.use('/auth', authRoutes);
 app.use('/discussion', discussionRoutes); 
 app.use('/api', postRoutes);
-
+app.use('/recommendations', recommendationRoutes);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
