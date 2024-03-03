@@ -1,6 +1,8 @@
 const express = require('express');
 const http = require('http');
+//DATABASE
 require('./config/connect');
+//Njyb Fl Routes
 const faqRouter = require('./routes/faq');
 const socketIo = require('socket.io');
 const path = require('path');
@@ -17,7 +19,7 @@ const authRoutes = require('./routes/auth');
 const discussionRoutes = require('./routes/discussionRoutes'); // Import discussion routes
 const postRoutes = require('./routes/postRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
-
+const communityChaptersRoutes = require('./routes/communityChaptersRoutes');
 
 
 
@@ -47,7 +49,12 @@ app.use('/auth', authRoutes);
 app.use('/discussion', discussionRoutes); 
 app.use('/api', postRoutes);
 app.use('/recommendations', recommendationRoutes);
+app.use('/community-chapters', communityChaptersRoutes);
 
+
+
+
+// Start the server
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
