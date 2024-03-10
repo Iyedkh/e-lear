@@ -1,4 +1,4 @@
-const Discussion = require('../models/Discussion');
+/* const Discussion = require('../models/Discussion');
 
 // Controller function to create a new discussion
 exports.createDiscussion = async (req, res) => {
@@ -66,3 +66,4 @@ exports.deleteDiscussionById = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+*/

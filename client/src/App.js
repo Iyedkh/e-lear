@@ -1,15 +1,21 @@
-// src/App.js
-
 import React from 'react';
-import Navigation from './components/Navigation';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+import SignInPage from './pages/SignInPage';
+import HomePage from './pages/HomePage';
 
 function App() {
-    return (
-        <div>
-            <Navigation />
-            {/* Add other components and content here */}
-        </div>
-    );
+  return (
+    <Router>
+      <div>
+        {/* Define routes */}
+        <Routes>  
+          <Route path="/" element={<SignInPage />} />
+          <Route path="/home" element={<HomePage />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
 export default App;

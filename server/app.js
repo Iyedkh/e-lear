@@ -20,7 +20,7 @@ const discussionRoutes = require('./routes/discussionRoutes'); // Import discuss
 const postRoutes = require('./routes/postRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
 const communityChaptersRoutes = require('./routes/communityChaptersRoutes');
-
+const signInRoute = require('./routes/signinRoute'); 
 
 
 const app = express();
@@ -50,7 +50,7 @@ app.use('/discussion', discussionRoutes);
 app.use('/api', postRoutes);
 app.use('/recommendations', recommendationRoutes);
 app.use('/community-chapters', communityChaptersRoutes);
-
+app.use('/api/auth', signInRoute);
 
 
 

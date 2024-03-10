@@ -1,0 +1,44 @@
+.signin-page {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .signin-page h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .signin-page form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .signin-page label {
+    margin-bottom: 5px;
+  }
+  
+  .signin-page input[type="email"],
+  .signin-page input[type="password"] {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .signin-page button {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .signin-page button:hover {
+    background-color: #0056b3;
+  }
+  
