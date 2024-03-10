@@ -76,5 +76,15 @@ router.delete('/:id', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
+// Route to fetch top-rated courses
+router.get('/courses/top-rated', async (req, res) => {
+    try {
+        // Query the database for courses with rating > 3
+        const courses = await CourseModel.find({ rating: { $gt: 3 } }).exec();
+        res.json(courses);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 module.exports = router;

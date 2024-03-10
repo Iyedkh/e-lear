@@ -21,7 +21,7 @@ const postRoutes = require('./routes/postRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
 const communityChaptersRoutes = require('./routes/communityChaptersRoutes');
 const signInRoute = require('./routes/signinRoute'); 
-
+const saveCourseRoute = require('./routes/save');
 
 const app = express();
 const server = http.createServer(app);
@@ -51,7 +51,7 @@ app.use('/api', postRoutes);
 app.use('/recommendations', recommendationRoutes);
 app.use('/community-chapters', communityChaptersRoutes);
 app.use('/api/auth', signInRoute);
-
+app.use('/api/savecourse', saveCourseRoute);
 
 
 // Start the server
