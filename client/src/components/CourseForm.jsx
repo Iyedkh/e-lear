@@ -1,15 +1,13 @@
-// CourseForm.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
 
 const CourseForm = () => {
     const [courseData, setCourseData] = useState({
-        id: '',
         title: '',
         rating: 0,
         comments: [],
-        category: ''
+        category: '',
+        videoUrl: '' // Add videoUrl field
     });
 
     const handleChange = (e) => {
@@ -24,11 +22,11 @@ const CourseForm = () => {
             console.log('Course added successfully:', response.data);
             // Optionally, you can clear the form after successful submission
             setCourseData({
-                id: '',
                 title: '',
                 rating: 0,
                 comments: [],
-                category: ''
+                category: '',
+                videoUrl: ''
             });
         } catch (error) {
             console.error('Error adding course:', error);
@@ -39,11 +37,7 @@ const CourseForm = () => {
         <div>
             <h2>Add New Course</h2>
             <form onSubmit={handleSubmit}>
-                <label>
-                    ID:
-                    <input type="text" name="id" value={courseData.id} onChange={handleChange} />
-                </label>
-                <br />
+
                 <label>
                     Title:
                     <input type="text" name="title" value={courseData.title} onChange={handleChange} />
@@ -62,6 +56,11 @@ const CourseForm = () => {
                 <label>
                     Category:
                     <input type="text" name="category" value={courseData.category} onChange={handleChange} />
+                </label>
+                <br />
+                <label>
+                    Video URL:
+                    <input type="text" name="videoUrl" value={courseData.videoUrl} onChange={handleChange} />
                 </label>
                 <br />
                 <button type="submit">Add Course</button>

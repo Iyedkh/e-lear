@@ -31,22 +31,18 @@ router.get('/:id', async (req, res) => {
 // Route to create a new course
 router.post('/', async (req, res) => {
     try {
-        // Create a new course instance based on the request body
         const newCourse = new CourseModel({
-            id: req.body.id,
             title: req.body.title,
-            rating: req.body.rating, // Use provided rating
-            comments: req.body.comments, // Use provided comments array
-            category: req.body.category // Add category field
+            rating: req.body.rating,
+            comments: req.body.comments,
+            category: req.body.category,
+            videoUrl: req.body.videoUrl // Include videoUrl in the request body
         });
 
-        // Save the new course to the database
         const savedCourse = await newCourse.save();
 
-        // Send the saved course as the response
         res.status(201).json(savedCourse);
     } catch (error) {
-        // Handle errors and send an appropriate error response
         res.status(400).json({ error: error.message });
     }
 });
@@ -76,10 +72,10 @@ router.delete('/:id', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
+
 // Route to fetch top-rated courses
 router.get('/courses/top-rated', async (req, res) => {
     try {
-        // Query the database for courses with rating > 3
         const courses = await CourseModel.find({ rating: { $gt: 3 } }).exec();
         res.json(courses);
     } catch (error) {
