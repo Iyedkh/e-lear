@@ -4,8 +4,9 @@ const CourseItem = ({ course }) => {
     return (
         <div>
             <h3>{course.title}</h3>
-            <p>{course.description}</p>
-            <button>Enroll</button>
+            <p>Rating: {course.rating}</p>
+            <p>Category: {course.category}</p>
+            {/* Add more details as needed */}
         </div>
     );
 };
