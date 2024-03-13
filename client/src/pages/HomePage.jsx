@@ -27,26 +27,38 @@ const HomePage = () => {
 
     const styles = `
       .container {
+        background-color:aqua ;
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-around;
+        justify-content: space-between;
         padding: 20px;
+        margin-top : 20px
+        
       }
 
       .title {
         font-size: 24px;
         text-align: center;
         margin-bottom: 20px;
+        padding: 10px;
+        background-color: rgb(240, 240, 240); /* Choose your desired color */
       }
 
       .link {
         font-size: 18px;
         margin-bottom: 20px;
+        display: block;
+        width: fit-content;
+        padding: 10px 20px;
+        background-color: rgb(100, 100, 200); /* Choose your desired color */
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        text-align: center;
       }
 
       .card {
         width: 300px;
-        margin-bottom: 20px;
         border-radius: 8px;
         overflow: hidden;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -87,14 +99,19 @@ const HomePage = () => {
         cursor: pointer;
         transition: background-color 0.3s ease;
       }
-
+.link:hover {
+        background-color: rgb(80, 80, 180); /* Choose your desired hover color */
+      }
       .watch-button:hover {
         background-color: #0056b3;
       }
 
       @media screen and (min-width: 768px) {
+        .container {
+          width: 100%; /* Take full width on screens larger than 768px */
+          justify-content: space-around; /* Center items horizontally */
         .title {
-          text-align: left;
+          text-align: center;
         }
       }
     `;
@@ -102,7 +119,7 @@ const HomePage = () => {
     return (
         <>
             <style>{styles}</style>
-            <div className="title">Home Page</div>
+            <div className="title">Courses Page</div>
             <Link to="/create-course" className="link">Create New Course</Link>
             <Grid container spacing={3} className="container">
                 {courses.map(course => (
@@ -116,7 +133,7 @@ const HomePage = () => {
                                     Rating: {course.rating}
                                 </Typography>
                                 <Typography variant="body2" component="p" className="description">
-                                    {course.description}
+                                Description : {course.description}
                                 </Typography>
                                 <Button variant="contained" color="primary" href={course.videoUrl} target="_blank" className="watch-button">
                                     Watch Now

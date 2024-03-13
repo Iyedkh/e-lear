@@ -24,7 +24,7 @@ const CourseForm = () => {
             setCourseData({
                 title: '',
                 rating: 0,
-                comments: [],
+                description: '',
                 category: '',
                 videoUrl: ''
             });
@@ -49,8 +49,8 @@ const CourseForm = () => {
                 </label>
                 <br />
                 <label>
-                    Comments:
-                    <input type="text" name="comments" value={courseData.comments} onChange={handleChange} />
+                    Description:
+                    <input type="text" name="comments" value={courseData.description} onChange={handleChange} />
                 </label>
                 <br />
                 <label>

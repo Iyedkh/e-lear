@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
         const newCourse = new CourseModel({
             title: req.body.title,
             rating: req.body.rating,
-            comments: req.body.comments,
+            description: req.body.description,
             category: req.body.category,
             videoUrl: req.body.videoUrl // Include videoUrl in the request body
         });
