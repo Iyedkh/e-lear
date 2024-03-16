@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import CourseDetailsPage from './pages/CourseDetailsPage';
 import CreateCoursePage from './pages/CreateCoursePage';
 import EditCoursePage from './pages/EditCoursePage';
+import './index.css'
 
 function App() {
   return (

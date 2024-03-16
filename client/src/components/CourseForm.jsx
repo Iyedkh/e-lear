@@ -5,9 +5,9 @@ const CourseForm = () => {
     const [courseData, setCourseData] = useState({
         title: '',
         rating: 0,
-        comments: [],
+        description: '',
         category: '',
-        videoUrl: '' // Add videoUrl field
+        videoUrl: ''
     });
 
     const handleChange = (e) => {
@@ -18,7 +18,13 @@ const CourseForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/courses', courseData);
+            const response = await axios.post('http://localhost:3000/courses', {
+                title: courseData.title,
+                rating: courseData.rating,
+                description: courseData.description,
+                category: courseData.category,
+                videoUrl: courseData.videoUrl
+            });
             console.log('Course added successfully:', response.data);
             // Optionally, you can clear the form after successful submission
             setCourseData({
@@ -37,7 +43,6 @@ const CourseForm = () => {
         <div>
             <h2>Add New Course</h2>
             <form onSubmit={handleSubmit}>
-
                 <label>
                     Title:
                     <input type="text" name="title" value={courseData.title} onChange={handleChange} />
@@ -50,7 +55,7 @@ const CourseForm = () => {
                 <br />
                 <label>
                     Description:
-                    <input type="text" name="comments" value={courseData.description} onChange={handleChange} />
+                    <input type="text" name="description" value={courseData.description} onChange={handleChange} />
                 </label>
                 <br />
                 <label>

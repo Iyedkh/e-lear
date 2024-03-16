@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Card, CardContent, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import NavBar from '../components/Navbar';
+import SearchBar from '../components/SearchBar';
 
 const HomePage = () => {
     const [courses, setCourses] = useState([]);
@@ -24,6 +26,18 @@ const HomePage = () => {
     }, []);
 
     const styles = `
+
+    .NavBar {
+        background-color: #1976d2; /* Adjust the background color as needed */
+    }
+    
+    .search-bar {
+        display: flex;
+        align-items: center;
+        margin-left: auto; /* Align search bar to the right */
+    }
+    
+  
     .container {
       background-color: aqua;
       display: flex; /* Changed to flex */
@@ -123,32 +137,35 @@ const HomePage = () => {
     `;
 
     return (
-        <>
-            <style>{styles}</style>
-            <div className="title">Courses Page</div>
-            <Link to="/create-course" className="link">Create New Course</Link>
-            <div className="container">
-                {courses.map(course => (
-                    <Card key={course._id} className="card">
-                        <CardContent className="card-content">
-                            <Typography variant="h5" component="h2" className="card-title">
-                                {course.title}
-                            </Typography>
-                            <Typography color="textSecondary" className="rating">
-                                Rating: {course.rating}
-                            </Typography>
-                            <Typography variant="body2" component="p" className="description">
-                                Description : {course.description}
-                            </Typography>
-                            <Button variant="contained" color="primary" href={course.videoUrl} target="_blank" className="watch-button">
-                                Watch Now
-                            </Button>
-                        </CardContent>
-                    </Card>
-                ))}
-            </div>
-        </>
-    );
-};
+        
+            <>
+                <NavBar /> {/* Include NavBar component */}
+                <SearchBar /> {/* Include SearchBar component */}
+                <style>{styles}</style>
+                <div className="title">Courses Page</div>
+                <Link to="/create-course" className="link">Create New Course</Link>
+                <div className="container">
+                    {courses.map(course => (
+                        <Card key={course._id} className="card">
+                            <CardContent className="card-content">
+                                <Typography variant="h5" component="h2" className="card-title">
+                                    {course.title}
+                                </Typography>
+                                <Typography color="textSecondary" className="rating">
+                                    Rating: {course.rating}
+                                </Typography>
+                                <Typography variant="body2" component="p" className="description">
+                                    Description : {course.description}
+                                </Typography>
+                                <Button variant="contained" color="primary" href={course.videoUrl} target="_blank" className="watch-button">
+                                    Watch Now
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
+            </>
+        );
+    };
 
 export default HomePage;
