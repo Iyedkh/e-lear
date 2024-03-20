@@ -1,121 +1,96 @@
-import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, InputBase, Button } from '@mui/material';
+import React from 'react';
+import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemText, useMediaQuery, useTheme, Button, InputBase } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@mui/styles'; // Import makeStyles from @mui/styles
-
-const useStyles = makeStyles({
-    root: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginRight: 'auto', // Aligns menu button to the left
-    },
-    title: {
-        flexGrow: 1,
-        display: 'none',
-        '@media (min-width: 600px)': {
-            display: 'block',
-        },
-    },
-    search: {
-        position: 'relative',
-        borderRadius: 4,
-        backgroundColor: '#ffffff',
-        '&:hover': {
-            backgroundColor: '#f1f1f1',
-        },
-        marginLeft: 'auto', // Aligns search bar to the right
-        marginRight: 20, // Add some right margin for spacing
-        width: 'auto',
-    },
-    searchIcon: {
-        padding: 4,
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    inputRoot: {
-        color: 'inherit',
-    },
-    inputInput: {
-        padding: '4px 4px 4px 24px',
-        transition: 'width 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-        width: 100,
-        '&:focus': {
-            width: 150,
-        },
-    },
-    navLinks: {
-        display: 'flex',
-        justifyContent: 'center', // Aligns nav-links to the center
-        listStyleType: 'none',
-        padding: 0,
-        margin: 0,
-    },
-    navItem: {
-        marginLeft: 20,
-    },
-});
+import SearchIcon from '@mui/icons-material/Search';
 
 const NavBar = () => {
-    const classes = useStyles();
-    const [searchQuery, setSearchQuery] = useState('');
+    const [open, setOpen] = React.useState(false);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const handleChange = (e) => {
-        setSearchQuery(e.target.value);
+    const handleDrawerOpen = () => {
+        setOpen(true);
     };
 
-    const handleSubmit = () => {
-        // Handle search functionality here
-        console.log('Search Query:', searchQuery);
+    const handleDrawerClose = () => {
+        setOpen(false);
     };
 
     return (
-        <div className={classes.root}>
-            <AppBar position="static">
+        <>
+            <AppBar position="static" style={{ backgroundColor: '#6c757d' }}>
                 <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="open drawer"
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        E-Learning Platform
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        Navbar Offcanvas
                     </Typography>
-                    <ul className={classes.navLinks}>
-                        <li className={classes.navItem}><Link to="/">Home</Link></li>
-                        <li className={classes.navItem}><Link to="/courses">Courses</Link></li>
-                        <li className={classes.navItem}><Link to="/about">About</Link></li>
-                    </ul>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                            onChange={handleChange}
-                        />
-                        <Button variant="contained" color="primary" onClick={handleSubmit}>
-                            Search
-                        </Button>
-                    </div>
+                    {!isMobile && (
+                        <>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <Button color="inherit" component={Link} to="/">Home</Button>
+                                <Button color="inherit" component={Link} to="/courses">Courses</Button>
+                                <Button color="inherit" component={Link} to="/about">About</Button>
+                            </div>
+                            <div style={{ flexGrow: 1 }} />
+                            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                            <div style={{
+                                        padding: 8,
+                                        borderRadius: 4,
+                                        backgroundColor: '#ffffff',
+                                        '&:hover': {
+                                            backgroundColor: '#f1f1f1',
+                                        },
+                                    }}>
+                                        <SearchIcon style={{ color: 'black' }} />
+                                    </div>
+                                <InputBase
+                                    placeholder="Search…"
+                                    style={{
+                                        padding: '8px 12px',
+                                        marginLeft: 8,
+                                        borderRadius: 4,
+                                        width: 200,
+                                    }}
+                                    inputProps={{ 'aria-label': 'search' }}
+                                />
+                            </div>
+                        </>
+                    )}
+                    {isMobile && (
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={handleDrawerOpen}
+                            style={{ marginLeft: 'auto' }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    )}
                 </Toolbar>
             </AppBar>
-        </div>
+            <Drawer
+                anchor="right"
+                open={open}
+                onClose={handleDrawerClose}
+            >
+                <div style={{ width: 250 }}>
+                    <List>
+                        <ListItem button component={Link} to="/">
+                            <ListItemText primary="Home" />
+                        </ListItem>
+                        <ListItem button component={Link} to="/courses">
+                            <ListItemText primary="Courses" />
+                        </ListItem>
+                        <ListItem button component={Link} to="/about">
+                            <ListItemText primary="About" />
+                        </ListItem>
+                    </List>
+                </div>
+            </Drawer>
+        </>
     );
-};
+}
 
 export default NavBar;
