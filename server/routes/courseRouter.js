@@ -1,12 +1,38 @@
-// routes/courseRoutes.js
-
 const express = require('express');
 const router = express.Router();
 const CourseModel = require('../models/course');
-const filterMiddleware = require('../middleware/filterMiddleware');
+const multer = require('multer');
 
-// Route to get all courses
-router.get('/', filterMiddleware, async (req, res) => {
+// Multer storage configuration
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/'); // Destination folder for uploaded files
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname); // File naming convention
+    }
+});
+// Check file type
+function checkFileType(file, cb) {
+    const allowedTypes = /jpeg|jpg|png/;
+    const isAllowedType = allowedTypes.test(file.mimetype);
+    if (isAllowedType) {
+        return cb(null, true);
+    } else {
+        cb('Error: Images only!');
+    }
+}
+
+// Multer upload instance
+const upload = multer({
+    storage: storage,
+    fileFilter: function (req, file, cb) {
+        checkFileType(file, cb); // Validate file type
+    }
+});
+
+// Route to fetch all courses
+router.get('/', async (req, res) => {
     try {
         const courses = await CourseModel.find();
         res.json(courses);
@@ -15,7 +41,7 @@ router.get('/', filterMiddleware, async (req, res) => {
     }
 });
 
-// Route to get a specific course by ID
+// Route to fetch a specific course by ID
 router.get('/:id', async (req, res) => {
     try {
         const course = await CourseModel.findById(req.params.id);
@@ -28,15 +54,16 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Route to create a new course
-router.post('/', async (req, res) => {
+// Route to create a new course with photo upload
+router.post('/', upload.single('image'), async (req, res) => {
     try {
         const newCourse = new CourseModel({
             title: req.body.title,
             rating: req.body.rating,
             description: req.body.description,
             category: req.body.category,
-            videoUrl: req.body.videoUrl // Include videoUrl in the request body
+            videoUrl: req.body.videoUrl,
+            imageData: req.file.buffer // Store the image data in the database
         });
 
         const savedCourse = await newCourse.save();
@@ -70,16 +97,6 @@ router.delete('/:id', async (req, res) => {
         res.json(deletedCourse);
     } catch (error) {
         res.status(400).json({ error: error.message });
-    }
-});
-
-// Route to fetch top-rated courses
-router.get('/courses/top-rated', async (req, res) => {
-    try {
-        const courses = await CourseModel.find({ rating: { $gt: 3 } }).exec();
-        res.json(courses);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
     }
 });
 

@@ -19,6 +19,7 @@ const NavBar = () => {
 
     return (
         <>
+        
             <AppBar position="static" style={{ backgroundColor: '#6c757d' }}>
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -28,7 +29,7 @@ const NavBar = () => {
                         <>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <Button color="inherit" component={Link} to="/">Home</Button>
-                                <Button color="inherit" component={Link} to="/courses">Courses</Button>
+                                <Button color="inherit" component={Link} to="/course">Courses</Button>
                                 <Button color="inherit" component={Link} to="/about">About</Button>
                             </div>
                             <div style={{ flexGrow: 1 }} />

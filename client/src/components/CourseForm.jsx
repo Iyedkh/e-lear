@@ -7,7 +7,8 @@ const CourseForm = () => {
         rating: 0,
         description: '',
         category: '',
-        videoUrl: ''
+        videoUrl: '',
+        photo: null // New state for storing the selected photo file
     });
 
     const handleChange = (e) => {
@@ -15,15 +16,28 @@ const CourseForm = () => {
         setCourseData({ ...courseData, [name]: value });
     };
 
+    // Function to handle file input change
+    const handleFileChange = (e) => {
+        setCourseData({ ...courseData, photo: e.target.files[0] }); // Store the selected file
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/courses', {
-                title: courseData.title,
-                rating: courseData.rating,
-                description: courseData.description,
-                category: courseData.category,
-                videoUrl: courseData.videoUrl
+            const formData = new FormData(); // Create FormData object for file upload
+            formData.append('photo', courseData.photo); // Append the selected file to FormData
+
+            // Append other course data to FormData
+            formData.append('title', courseData.title);
+            formData.append('rating', courseData.rating);
+            formData.append('description', courseData.description);
+            formData.append('category', courseData.category);
+            formData.append('videoUrl', courseData.videoUrl);
+
+            const response = await axios.post('http://localhost:3000/courses', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data' // Set content type for FormData
+                }
             });
             console.log('Course added successfully:', response.data);
             // Optionally, you can clear the form after successful submission
@@ -32,7 +46,8 @@ const CourseForm = () => {
                 rating: 0,
                 description: '',
                 category: '',
-                videoUrl: ''
+                videoUrl: '',
+                photo: null
             });
         } catch (error) {
             console.error('Error adding course:', error);
@@ -67,6 +82,11 @@ const CourseForm = () => {
                     Video URL:
                     <input type="text" name="videoUrl" value={courseData.videoUrl} onChange={handleChange} />
                 </label>
+                <br />
+                <label>
+    Photo:
+    <input type="file" accept="image/*" name="image" onChange={handleFileChange} />
+</label>
                 <br />
                 <button type="submit">Add Course</button>
             </form>

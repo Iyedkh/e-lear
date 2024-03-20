@@ -7,12 +7,14 @@ import CourseDetailsPage from './pages/CourseDetailsPage';
 import CreateCoursePage from './pages/CreateCoursePage';
 import EditCoursePage from './pages/EditCoursePage';
 import './index.css'
+import CourseListPage from './components/CourseList';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/course" element={<CourseListPage />} />
         <Route path="/course/:id" element={<CourseDetailsPage />} />
         <Route path="/create-course" element={<CreateCoursePage />} />
         <Route path="/edit-course/:id" element={<EditCoursePage />} />
