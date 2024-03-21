@@ -12,6 +12,7 @@ const storage = multer.diskStorage({
         cb(null, Date.now() + '-' + file.originalname); // File naming convention
     }
 });
+
 // Check file type
 function checkFileType(file, cb) {
     const allowedTypes = /jpeg|jpg|png/;
@@ -31,24 +32,11 @@ const upload = multer({
     }
 });
 
-// Route to fetch all courses
+// Route to get all courses
 router.get('/', async (req, res) => {
     try {
         const courses = await CourseModel.find();
-        res.json(courses);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Route to fetch a specific course by ID
-router.get('/:id', async (req, res) => {
-    try {
-        const course = await CourseModel.findById(req.params.id);
-        if (!course) {
-            return res.status(404).json({ error: 'Course not found' });
-        }
-        res.json(course);
+        res.status(200).json(courses);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -63,7 +51,7 @@ router.post('/', upload.single('image'), async (req, res) => {
             description: req.body.description,
             category: req.body.category,
             videoUrl: req.body.videoUrl,
-            imageData: req.file.buffer // Store the image data in the database
+            imageUrl: req.file.path // Save the image URL in the database
         });
 
         const savedCourse = await newCourse.save();
@@ -73,28 +61,35 @@ router.post('/', upload.single('image'), async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
+router.get('/courses/top-rated', async (req, res) => {
+    try {
+        const courses = await CourseModel.find({ rating: { $gt: 3 } }).exec();
+        res.json(courses);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
-// Route to update a course by ID
+
+// Route to update a course
 router.put('/:id', async (req, res) => {
     try {
-        const updatedCourse = await CourseModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!updatedCourse) {
-            return res.status(404).json({ error: 'Course not found' });
-        }
-        res.json(updatedCourse);
+        const updatedCourse = await CourseModel.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+        res.status(200).json(updatedCourse);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
 
-// Route to delete a course by ID
+// Route to delete a course
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedCourse = await CourseModel.findByIdAndDelete(req.params.id);
-        if (!deletedCourse) {
-            return res.status(404).json({ error: 'Course not found' });
-        }
-        res.json(deletedCourse);
+        await CourseModel.findByIdAndDelete(req.params.id);
+        res.status(200).json({ message: 'Course deleted successfully' });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

@@ -1,96 +1,92 @@
+
 import React, { useState } from 'react';
 import axios from 'axios';
+import NavBar from '../components/Navbar';
 
 const CourseForm = () => {
-    const [courseData, setCourseData] = useState({
+    const [formData, setFormData] = useState({
         title: '',
-        rating: 0,
+        rating: '',
         description: '',
         category: '',
         videoUrl: '',
-        photo: null // New state for storing the selected photo file
+        image: null
     });
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setCourseData({ ...courseData, [name]: value });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // Function to handle file input change
-    const handleFileChange = (e) => {
-        setCourseData({ ...courseData, photo: e.target.files[0] }); // Store the selected file
+    const handleImageChange = (e) => {
+        setFormData({ ...formData, image: e.target.files[0] });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const formDataToSend = new FormData();
+        formDataToSend.append('title', formData.title);
+        formDataToSend.append('rating', formData.rating);
+        formDataToSend.append('description', formData.description);
+        formDataToSend.append('category', formData.category);
+        formDataToSend.append('videoUrl', formData.videoUrl);
+        formDataToSend.append('image', formData.image);
+
         try {
-            const formData = new FormData(); // Create FormData object for file upload
-            formData.append('photo', courseData.photo); // Append the selected file to FormData
-
-            // Append other course data to FormData
-            formData.append('title', courseData.title);
-            formData.append('rating', courseData.rating);
-            formData.append('description', courseData.description);
-            formData.append('category', courseData.category);
-            formData.append('videoUrl', courseData.videoUrl);
-
-            const response = await axios.post('http://localhost:3000/courses', formData, {
+            await axios.post('http://localhost:3000/courses', formDataToSend, {
                 headers: {
-                    'Content-Type': 'multipart/form-data' // Set content type for FormData
+                    'Content-Type': 'multipart/form-data'
                 }
             });
-            console.log('Course added successfully:', response.data);
-            // Optionally, you can clear the form after successful submission
-            setCourseData({
+            alert('Course added successfully');
+            // Clear the form data after successful submission
+            setFormData({
                 title: '',
-                rating: 0,
+                rating: '',
                 description: '',
                 category: '',
                 videoUrl: '',
-                photo: null
+                image: null
             });
         } catch (error) {
             console.error('Error adding course:', error);
+            alert('Error adding course. Please try again.'); // Show error message in case of failure
         }
     };
 
     return (
-        <div>
-            <h2>Add New Course</h2>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Title:
-                    <input type="text" name="title" value={courseData.title} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Rating:
-                    <input type="number" name="rating" value={courseData.rating} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Description:
-                    <input type="text" name="description" value={courseData.description} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Category:
-                    <input type="text" name="category" value={courseData.category} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Video URL:
-                    <input type="text" name="videoUrl" value={courseData.videoUrl} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-    Photo:
-    <input type="file" accept="image/*" name="image" onChange={handleFileChange} />
-</label>
-                <br />
-                <button type="submit">Add Course</button>
-            </form>
-        </div>
+        <>
+            <NavBar />
+            <div className="container">
+                <h2>Create New Course</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label>Title:</label>
+                        <input type="text" name="title" value={formData.title} onChange={handleChange} />
+                    </div>
+                    <div className="form-group">
+                        <label>Rating:</label>
+                        <input type="number" name="rating" value={formData.rating} onChange={handleChange} />
+                    </div>
+                    <div className="form-group">
+                        <label>Description:</label>
+                        <textarea name="description" value={formData.description} onChange={handleChange}></textarea>
+                    </div>
+                    <div className="form-group">
+                        <label>Category:</label>
+                        <input type="text" name="category" value={formData.category} onChange={handleChange} />
+                    </div>
+                    <div className="form-group">
+                        <label>Video URL:</label>
+                        <input type="text" name="videoUrl" value={formData.videoUrl} onChange={handleChange} />
+                    </div>
+                    <div className="form-group">
+                        <label>Image:</label>
+                        <input type="file" accept="image/*" onChange={handleImageChange} />
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </>
     );
 };
 

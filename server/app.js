@@ -22,6 +22,8 @@ const recommendationRoutes = require('./routes/recommendationRoutes');
 const communityChaptersRoutes = require('./routes/communityChaptersRoutes');
 const signInRoute = require('./routes/signinRoute'); 
 const saveCourseRoute = require('./routes/save');
+const multer = require('multer');
+
 
 const app = express();
 const server = http.createServer(app);
@@ -30,6 +32,13 @@ const cors = require('cors');
 
 app.use(cors());
 app.use(express.json());
+// Set up Multer storage configuration
+const storage = multer.diskStorage({
+    destination: 'C:\\Users\\user\\Desktop\\e-lear\\e-lear\\uploads', // Specify the destination directory
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname); // File naming convention
+    }
+});
 
 
 // Socket.io connection
@@ -52,6 +61,17 @@ app.use('/recommendations', recommendationRoutes);
 app.use('/community-chapters', communityChaptersRoutes);
 app.use('/api/auth', signInRoute);
 app.use('/api/savecourse', saveCourseRoute);
+
+
+
+// Set up Multer middleware
+const upload = multer({ storage: storage });
+
+// Route for file upload
+app.post('/upload', upload.single('file'), (req, res) => {
+    // Handle file upload here (e.g., save file details to database)
+    res.status(200).json({ message: 'File uploaded successfully' });
+});
 
 
 // Start the server
