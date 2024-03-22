@@ -63,6 +63,8 @@ app.use('/api/auth', signInRoute);
 app.use('/api/savecourse', saveCourseRoute);
 
 
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static('uploads'));
 
 // Set up Multer middleware
 const upload = multer({ storage: storage });

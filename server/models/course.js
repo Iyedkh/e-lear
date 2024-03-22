@@ -10,7 +10,10 @@ const courseSchema = new mongoose.Schema({
         required: true
     },
     videoUrl: String,
-    imageData: Buffer // Field to store image data as binary
+    imageUrl: {
+        type: String, // Store the URL of the image
+        required: true
+    }
 });
 
 // Create a Mongoose model based on the schema

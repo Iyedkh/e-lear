@@ -23,7 +23,7 @@ const NavBar = () => {
             <AppBar position="static" style={{ backgroundColor: '#6c757d' }}>
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Navbar Offcanvas
+                        Infinite
                     </Typography>
                     {!isMobile && (
                         <>

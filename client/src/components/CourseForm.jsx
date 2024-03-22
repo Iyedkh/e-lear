@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import NavBar from '../components/Navbar';
@@ -56,6 +55,8 @@ const CourseForm = () => {
     return (
         <>
             <NavBar />
+
+            
             <div className="container">
                 <h2>Create New Course</h2>
                 <form onSubmit={handleSubmit}>

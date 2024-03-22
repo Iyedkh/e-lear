@@ -26,13 +26,13 @@ const TopRatedCourses = () => {
         .container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
+            justify-content: center;
             padding: 20px;
             margin-top: 20px;
         }
 
         .card {
-            width: calc(33.33% - 20px);
+            width: calc(100% - 20px);
             margin-bottom: 20px;
             border-radius: 8px;
             overflow: hidden;
@@ -78,35 +78,48 @@ const TopRatedCourses = () => {
         .watch-button:hover {
             background-color: #0056b3;
         }
+
+        @media screen and (min-width: 768px) {
+            .card {
+                width: calc(50% - 20px);
+            }
+        }
+
+        @media screen and (min-width: 992px) {
+            .card {
+                width: calc(33.33% - 20px);
+            }
+        }
     `;
 
     return (
         <>
             <style>{styles}</style>
+            <h2 className="text-center mb-4">Top Rated Courses</h2>
             <div className="container">
                 {topRatedCourses.map(course => (
-                    <Card>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image={course.imageUrl} // Display the course image
-                        alt={course.title}
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            {course.title}
-                        </Typography>
-                        <Typography color="textSecondary">
-                            Rating: {course.rating}
-                        </Typography>
-                        <Typography variant="body2" component="p">
-                            {course.description}
-                        </Typography>
-                        <Button variant="contained" color="primary" href={course.videoUrl} target="_blank">
-                            Watch Now
-                        </Button>
-                    </CardContent>
-                </Card>
+                    <Card key={course._id} className="card">
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            image={`http://localhost:3000${course.imageUrl}`}
+                            alt={course.title}
+                        />
+                        <CardContent className="card-content">
+                            <Typography gutterBottom variant="h5" component="div" className="card-title">
+                                {course.title}
+                            </Typography>
+                            <Typography color="textSecondary" className="rating">
+                                Rating: {course.rating}
+                            </Typography>
+                            <Typography variant="body2" component="p" className="description">
+                                {course.description}
+                            </Typography>
+                            <Button variant="contained" color="primary" href={course.videoUrl} target="_blank" className="watch-button">
+                                Watch Now
+                            </Button>
+                        </CardContent>
+                    </Card>
                 ))}
             </div>
         </>

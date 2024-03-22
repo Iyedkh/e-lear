@@ -4,7 +4,6 @@ import '../styles/CreateCoursePage.css';
 const CreateCoursePage = () => {
   return (
     <div>
-      <h2>Create New Course</h2>
       <CourseForm />
     </div>
   );
