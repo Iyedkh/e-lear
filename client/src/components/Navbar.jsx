@@ -81,7 +81,7 @@ const NavBar = () => {
                         <ListItem button component={Link} to="/">
                             <ListItemText primary="Home" />
                         </ListItem>
-                        <ListItem button component={Link} to="/courses">
+                        <ListItem button component={Link} to="/course">
                             <ListItemText primary="Courses" />
                         </ListItem>
                         <ListItem button component={Link} to="/about">

@@ -101,5 +101,14 @@ router.delete('/:id', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
-
+router.get('/category/:category', async (req, res) => {
+    try {
+        const category = req.params.category;
+        const courses = await Course.find({ category: category });
+        res.json(courses);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
 module.exports = router;
