@@ -1,22 +1,26 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import { Link } from 'react-router-dom';
-import NavBar from '../components/Navbar';
+
+import NavBar from '../components/Header/Header';
+import HeroSection from "../components/Hero-Section/HeroSection";
+import AboutUs from "../components/About-us/AboutUs";
+
 import TopRatedCourses from '../components/TopRatedCourses';
 import CoursesByCategory from '../components/CoursesByCategory';
-
+import Footer from "../components/Footer/Footer";
 const HomePage = () => {
    
         return (
             <>
-                <NavBar />
-                <div style={{ textAlign: 'center' }}>
-                    <h1>Welcome to Infinite</h1>
-                    <TopRatedCourses />
-                    <Link to="/course">View Courses</Link>
-                    <h4>See course by Category :</h4>
-                    <CoursesByCategory category="Math" />
-                </div>
+            <Fragment>
+                 <NavBar />
+                 <HeroSection />
+                 <AboutUs />
+                 <TopRatedCourses />
+                 <Footer />
+            </Fragment>
+               
+                
             </>
         );
     };

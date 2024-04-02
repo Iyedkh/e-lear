@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import CourseForm from '../components/CourseForm';
-import '../styles/EditCoursePage.css';
+import CourseForm from '../components/courseForum/CourseForm';
+
 const EditCoursePage = () => {
   const { id } = useParams();
 

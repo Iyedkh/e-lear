@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import NavBar from '../components/Navbar';
-
+import NavBar from '../Header/Header';
+import '../courseForum/forum.css'
 const CourseForm = () => {
     const [formData, setFormData] = useState({
         title: '',
@@ -57,7 +57,7 @@ const CourseForm = () => {
             <NavBar />
 
             
-            <div className="container">
+            <div className="containere">
                 <h2>Create New Course</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">

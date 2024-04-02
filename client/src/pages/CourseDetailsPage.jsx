@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getCourseById } from '../service/courseService';
-import '../styles/CourseDetailsPage.css';
+
 const CourseDetailsPage = () => {
   const { id } = useParams();
   const [course, setCourse] = useState(null);

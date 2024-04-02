@@ -1,6 +1,6 @@
 import React from 'react';
-import CourseForm from '../components/CourseForm';
-import '../styles/CreateCoursePage.css';
+import CourseForm from '../components/courseForum/CourseForm';
+
 const CreateCoursePage = () => {
   return (
     <div>

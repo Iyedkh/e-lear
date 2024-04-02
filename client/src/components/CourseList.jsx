@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import NavBar from '../components/Navbar';
+import NavBar from '../components/Header/Header';
+import Footer from "../components/Footer/Footer";
 import axios from 'axios';
 import { Card, CardContent, Typography, CardMedia, Button, Menu, MenuItem, TextField } from '@mui/material';
 
@@ -49,9 +50,11 @@ const CourseList = () => {
             setEditedTitle('');
             setEditedRating('');
             setEditedDescription('');
+            window.location.reload();
         } catch (error) {
             console.error('Error updating course:', error);
         }
+        
     };
 
     const handleDeleteCourse = async (courseId) => {
@@ -111,7 +114,7 @@ const CourseList = () => {
     );
 
     const styles = `
-    .container {
+    .containere {
         background-color: aqua;
         display: flex;
         flex-wrap: wrap;
@@ -283,7 +286,7 @@ const CourseList = () => {
             <style>{styles}</style>
             <div className="title">Courses Page</div>
             <Link to="/create-course" className="link">Create New Course</Link>
-            <div className="container">
+            <div className="containere">
                 {courses.map(course => (
                     <Card key={course._id} className="card">
                         <CardContent>
@@ -333,8 +336,11 @@ const CourseList = () => {
                     </Card>
                 ))}
             </div>
-        </>
+            <br />
+            <Footer />
+        </>   
     );
+     
 };
 
 export default CourseList;

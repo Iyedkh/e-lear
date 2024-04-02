@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, CardContent, CardMedia, Typography } from '@mui/material';
-
+import { Link } from 'react-router-dom';
 const TopRatedCourses = () => {
     const [topRatedCourses, setTopRatedCourses] = useState([]);
 
@@ -23,13 +23,13 @@ const TopRatedCourses = () => {
     }, []);
 
     const styles = `
-        .container {
+        .containere {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: space-between;
             padding: 20px;
             margin-top: 20px;
-        }
+            
 
         .card {
             width: calc(100% - 20px);
@@ -66,7 +66,7 @@ const TopRatedCourses = () => {
             width: 100%;
             padding: 10px 0;
             text-align: center;
-            background-color: #007bff;
+            background-color: #17bf9d44;
             color: #fff;
             text-decoration: none;
             border: none;
@@ -74,9 +74,14 @@ const TopRatedCourses = () => {
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+        .view {
+            display: flex;
+             justify-content: center; 
+             margin-top: 20px;
+          }
 
         .watch-button:hover {
-            background-color: #0056b3;
+            background-color: #089a7d;
         }
 
         @media screen and (min-width: 768px) {
@@ -95,8 +100,9 @@ const TopRatedCourses = () => {
     return (
         <>
             <style>{styles}</style>
+            
             <h2 className="text-center mb-4">Top Rated Courses</h2>
-            <div className="container">
+            <div className="containere">
                 {topRatedCourses.map(course => (
                     <Card key={course._id} className="card">
                         <CardMedia
@@ -122,6 +128,8 @@ const TopRatedCourses = () => {
                     </Card>
                 ))}
             </div>
+            
+            
         </>
     );
 };
