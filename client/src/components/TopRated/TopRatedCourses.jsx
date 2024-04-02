@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, CardContent, CardMedia, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+
+import './toprated.css';
 const TopRatedCourses = () => {
     const [topRatedCourses, setTopRatedCourses] = useState([]);
 
@@ -22,84 +23,12 @@ const TopRatedCourses = () => {
         fetchTopRatedCourses();
     }, []);
 
-    const styles = `
-        .containere {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            padding: 20px;
-            margin-top: 20px;
-            
-
-        .card {
-            width: calc(100% - 20px);
-            margin-bottom: 20px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-content {
-            padding: 20px;
-        }
-
-        .card-title {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .rating {
-            margin-bottom: 10px;
-        }
-
-        .description {
-            margin-bottom: 20px;
-        }
-
-        .watch-button {
-            display: block;
-            width: 100%;
-            padding: 10px 0;
-            text-align: center;
-            background-color: #17bf9d44;
-            color: #fff;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .view {
-            display: flex;
-             justify-content: center; 
-             margin-top: 20px;
-          }
-
-        .watch-button:hover {
-            background-color: #089a7d;
-        }
-
-        @media screen and (min-width: 768px) {
-            .card {
-                width: calc(50% - 20px);
-            }
-        }
-
-        @media screen and (min-width: 992px) {
-            .card {
-                width: calc(33.33% - 20px);
-            }
-        }
-    `;
+    
+        
 
     return (
         <>
-            <style>{styles}</style>
+            
             
             <h2 className="text-center mb-4">Top Rated Courses</h2>
             <div className="containere">
@@ -121,9 +50,9 @@ const TopRatedCourses = () => {
                             <Typography variant="body2" component="p" className="description">
                                 {course.description}
                             </Typography>
-                            <Button variant="contained" color="primary" href={course.videoUrl} target="_blank" className="watch-button">
+                            <div variant="contained" color="primary" href={course.videoUrl} target="_blank" className="watch-button">
                                 Watch Now
-                            </Button>
+                            </div>
                         </CardContent>
                     </Card>
                 ))}

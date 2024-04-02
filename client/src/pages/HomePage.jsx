@@ -5,7 +5,7 @@ import NavBar from '../components/Header/Header';
 import HeroSection from "../components/Hero-Section/HeroSection";
 import AboutUs from "../components/About-us/AboutUs";
 
-import TopRatedCourses from '../components/TopRatedCourses';
+import TopRatedCourses from '../components/TopRated/TopRatedCourses';
 import CoursesByCategory from '../components/CoursesByCategory';
 import Footer from "../components/Footer/Footer";
 const HomePage = () => {
