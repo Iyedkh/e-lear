@@ -1,70 +1,39 @@
-.containere {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px;
-    margin-top: 20px;
-    
-}
-.card {
-    width: calc(100% - 20px);
+/* No changes needed, keeping the existing styles */
+.single__course__item {
+    padding: 15px;
+  }
+  
+  .course__img img {
+    border-radius: 10px;
     margin-bottom: 20px;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card-content {
-    padding: 20px;
-}
-
-.card-title {
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-.rating {
-    margin-bottom: 10px;
-}
-
-.description {
-    margin-bottom: 20px;
-}
-
-.watch-button {
-    display: block;
-    width: 100%;
-    padding: 10px 0;
-    text-align: center;
-    background-color: #2ac4a544;
-    color: #30ce0c;
+  }
+  
+  .enroll a {
     text-decoration: none;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-
-.watch-button:hover {
-    background-color: #089a7d;
-    color: #000;
-    text-decoration: none;
-}
-
-@media screen and (min-width: 768px) {
-    .card {
-        width: calc(50% - 20px);
-    }
-}
-
-@media screen and (min-width: 992px) {
-    .card {
-        width: calc(33.33% - 20px);
-    }
-}
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #17bf9e;
+  }
+  
+  .lesson,
+  .students,
+  .rating {
+    font-size: 0.9rem;
+    color: #0a2b1e;
+    font-weight: 500;
+  }
+  
+  .lesson i,
+  .students i,
+  .rating i {
+    font-weight: 400;
+  }
+  
+  .course__title {
+    line-height: 2rem;
+  }
+  
+  .course__top__left h2 {
+    font-weight: 600;
+  }
+  

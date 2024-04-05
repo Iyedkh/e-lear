@@ -68,7 +68,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/courses/top-rated', async (req, res) => {
+router.get('/top-rated', async (req, res) => {
     try {
         const courses = await CourseModel.find({ rating: { $gt: 3 } }).exec();
         res.json(courses);

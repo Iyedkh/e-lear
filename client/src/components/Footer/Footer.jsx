@@ -6,7 +6,7 @@ import "./footer.css";
 const footerQuickLinks = [
   {
     display: "Home",
-    url: "#",
+    url: "/",
   },
   {
     display: "About US",
@@ -15,7 +15,7 @@ const footerQuickLinks = [
 
   {
     display: "Courses",
-    url: "#",
+    url: "/course",
   },
 
   {

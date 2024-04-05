@@ -81,37 +81,6 @@ const CourseList = () => {
         setAnchorEl(null);
     };
 
-    const EditOverlay = () => (
-        <div className="overlay">
-            <div className="edit-fields-container">
-                <TextField
-                    className="edit-field"
-                    label="Title"
-                    value={editedTitle}
-                    onChange={(e) => setEditedTitle(e.target.value)}
-                />
-                <TextField
-                    className="edit-field"
-                    label="Rating"
-                    value={editedRating}
-                    onChange={(e) => setEditedRating(e.target.value)}
-                />
-                <TextField
-                    className="edit-field"
-                    label="Description"
-                    value={editedDescription}
-                    onChange={(e) => setEditedDescription(e.target.value)}
-                />
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleUpdateCourse}
-                >
-                    Update
-                </Button>
-            </div>
-        </div>
-    );
 
     const styles = `
     .containere {
@@ -230,54 +199,7 @@ const CourseList = () => {
             justify-content: space-around; 
         }
     }
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 999;
-    }
     
-    .edit-fields-container {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        max-width: 80%;
-        width: 400px;
-    }
-    
-    .edit-field {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-    
-    .edit-field label {
-        font-weight: bold;
-    }
-    
-    .edit-field input[type='file'] {
-        display: none;
-    }
-    
-    .edit-field label.upload-label {
-        display: inline-block;
-        padding: 8px 16px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        cursor: pointer;
-        background-color: #f0f0f0;
-        transition: background-color 0.3s ease;
-    }
-    
-    .edit-field label.upload-label:hover {
-        background-color: #e0e0e0;
-    }
     `;
 
     return (
@@ -304,7 +226,7 @@ const CourseList = () => {
                                 open={Boolean(anchorEl)}
                                 onClose={handleMenuClose}
                             >
-                                <MenuItem onClick={() => handleEditCourse(course)}>Edit</MenuItem>
+                                <MenuItem component={Link}  to={`/edit-course/${course._id}`} onClick={() => handleUpdateCourse(course._id)}>Edit</MenuItem>
                                 <MenuItem onClick={() => handleDeleteCourse(course._id)}>Delete</MenuItem>
                             </Menu>
                             <CardMedia
@@ -313,7 +235,7 @@ const CourseList = () => {
                                 image={`http://localhost:3000${course.imageUrl}`}
                                 alt={course.title}
                             />
-                            {editCourse && editCourse._id === course._id && <EditOverlay />}
+                            {editCourse && editCourse._id === course._id }
                             <Typography gutterBottom variant="h5" component="div">
                                 {course.title}
                             </Typography>

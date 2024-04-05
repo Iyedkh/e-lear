@@ -1,66 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Card, CardContent, CardMedia, Typography } from '@mui/material';
-
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col } from "reactstrap";
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css'; // Import Swiper CSS
+import CourseCard from "./CourseCard";
 import './toprated.css';
-const TopRatedCourses = () => {
+const Courses = () => {
     const [topRatedCourses, setTopRatedCourses] = useState([]);
 
     useEffect(() => {
         const fetchTopRatedCourses = async () => {
             try {
-                const response = await fetch('http://localhost:3000/courses/courses/top-rated');
-                if (response.ok) {
-                    const data = await response.json();
-                    setTopRatedCourses(data);
-                } else {
-                    console.error('Failed to fetch top-rated courses:', response.status, response.statusText);
+                const response = await fetch('http://localhost:3000/courses/top-rated');
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch top-rated courses: ${response.status} ${response.statusText}`);
                 }
+                const data = await response.json();
+                setTopRatedCourses(data);
             } catch (error) {
-                console.error('Error fetching top-rated courses:', error);
+                console.error(error);
             }
         };
 
         fetchTopRatedCourses();
     }, []);
 
-    
-        
-
     return (
-        <>
-            
-            
-            <h2 className="text-center mb-4">Top Rated Courses</h2>
-            <div className="containere">
-                {topRatedCourses.map(course => (
-                    <Card key={course._id} className="card">
-                        <CardMedia
-                            component="img"
-                            height="140"
-                            image={`http://localhost:3000${course.imageUrl}`}
-                            alt={course.title}
-                        />
-                        <CardContent className="card-content">
-                            <Typography gutterBottom variant="h5" component="div" className="card-title">
-                                {course.title}
-                            </Typography>
-                            <Typography color="textSecondary" className="rating">
-                                Rating: {course.rating}
-                            </Typography>
-                            <Typography variant="body2" component="p" className="description">
-                                {course.description}
-                            </Typography>
-                            <div variant="contained" color="primary" href={course.videoUrl} target="_blank" className="watch-button">
-                                Watch Now
-                            </div>
-                        </CardContent>
-                    </Card>
-                ))}
+        <section>
+            <Container>
+        <Row>
+        <Col lg="12" className="mb-5">
+            <div className="course__top d-flex justify-content-between align-items-center">
+              <div className="course__top__left w-50">
+                <h2>Our Top Rated Courses</h2>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae
+                  consequatur libero quod voluptatibus ullam quia quas, vitae
+                  voluptatem recusandae reprehenderit!
+                </p>
+              </div>
+
+              <div className="w-50 text-end">
+                <a href="/course">
+                 <button className="btn"  >See All</button>
+                </a>
+               
+              </div>
             </div>
-            
-            
-        </>
+          </Col>
+          <div className="container">
+                <Swiper
+                    spaceBetween={50}
+                    slidesPerView={3}
+                    navigation
+                    pagination={{ clickable: true }}
+                    scrollbar={{ draggable: true }}
+                >
+                    {topRatedCourses.map(course => (
+                        <SwiperSlide key={course._id}>
+                            <CourseCard course={course} />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </div>
+        </Row>
+            </Container>
+        </section>
     );
 };
 
-export default TopRatedCourses;
+export default Courses;

@@ -1,14 +1,15 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import CourseForm from '../components/courseForum/CourseForm';
-
+import CourseEdit from '../components/editCourse/edit';
+import Footer from "../components/Footer/Footer";
 const EditCoursePage = () => {
   const { id } = useParams();
 
   return (
     <div>
-      <h2>Edit Course</h2>
-      <CourseForm courseId={id} />
+      
+      <CourseEdit courseId={id} />
+      <Footer />
     </div>
   );
 };

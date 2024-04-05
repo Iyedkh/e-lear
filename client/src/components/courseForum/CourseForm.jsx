@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import NavBar from '../Header/Header';
 import '../courseForum/forum.css'
+
+
 const CourseForm = () => {
     const [formData, setFormData] = useState({
         title: '',
