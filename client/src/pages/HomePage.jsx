@@ -5,7 +5,10 @@ import NavBar from '../components/Header/Header';
 import HeroSection from "../components/Hero-Section/HeroSection";
 import AboutUs from "../components/About-us/AboutUs";
 
+import ChooseUs from "../components/Choose-us/ChooseUs";
+import Features from "../components/Feature-section/Features";
 import TopRatedCourses from '../components/TopRated/TopRatedCourses';
+import Testimonials from "../components/Testimonial/Testimonials";
 import CoursesByCategory from '../components/CoursesByCategory';
 import Footer from "../components/Footer/Footer";
 const HomePage = () => {
@@ -17,6 +20,9 @@ const HomePage = () => {
                  <HeroSection />
                  <AboutUs />
                  <TopRatedCourses />
+                 <ChooseUs />
+                 <Features />
+                 <Testimonials/>
                  <Footer />
             </Fragment>
                
