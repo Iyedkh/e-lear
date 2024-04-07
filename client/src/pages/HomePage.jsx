@@ -9,7 +9,7 @@ import ChooseUs from "../components/Choose-us/ChooseUs";
 import Features from "../components/Feature-section/Features";
 import TopRatedCourses from '../components/TopRated/TopRatedCourses';
 import Testimonials from "../components/Testimonial/Testimonials";
-import CoursesByCategory from '../components/CoursesByCategory';
+import Work from '../components/work/Work';
 import Footer from "../components/Footer/Footer";
 const HomePage = () => {
    
@@ -17,7 +17,8 @@ const HomePage = () => {
             <>
             <Fragment>
                  <NavBar />
-                 <HeroSection />
+                  <HeroSection />
+                 <Work />
                  <AboutUs />
                  <TopRatedCourses />
                  <ChooseUs />
