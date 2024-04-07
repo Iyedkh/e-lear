@@ -29,7 +29,7 @@ const Courses = () => {
         <section>
             <Container>
                 <Row>
-                    <Col lg="12" className="mb-5">
+                    <Col lg="12" className="mb-5 ">
                         <div className="course__top d-flex justify-content-between align-items-center">
                             <div className="course__top__left w-50">
                                 <h2>Our Top Rated Courses</h2>
@@ -40,14 +40,14 @@ const Courses = () => {
                                 </p>
                             </div>
 
-                            <div className="w-50 text-end">
+                            <div className="w-50   text-end">
                                 <a href="/course">
                                     <button className="btn">See All</button>
                                 </a>
                             </div>
                         </div>
                     </Col>
-                    <div className="container">
+                    <div className="container mt-2">
                         <Swiper
                             breakpoints={{
                                 // when window width is >= 320px
@@ -71,7 +71,7 @@ const Courses = () => {
                             navigation
                             pagination={{ clickable: true }}
                             scrollbar={{ draggable: true }}
-                            loop={true}
+                            
                         >
                             {topRatedCourses.map(course => (
                                 <SwiperSlide key={course._id}>

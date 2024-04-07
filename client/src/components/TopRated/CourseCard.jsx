@@ -1,10 +1,10 @@
 import React from "react";
-
+import './CourseCard.css';
 const CourseCard = ({ course }) => { // Change 'item' to 'course'
     const { title, lesson, students, rating, description, category, videoUrl, imageUrl } = course;
 
     return (
-        <div className="single__course__item">
+        <div className="course-card" >
             <div className="course__img">
                 <img src={`http://localhost:3000${imageUrl}`} alt={title} className="w-100" />
             </div>
