@@ -11,6 +11,7 @@ import TopRatedCourses from '../components/TopRated/TopRatedCourses';
 import Testimonials from "../components/Testimonial/Testimonials";
 import Work from '../components/work/Work';
 import Footer from "../components/Footer/Footer";
+import Faq from "../components/faq/FaqComponent";
 const HomePage = () => {
    
         return (
@@ -24,6 +25,7 @@ const HomePage = () => {
                  <ChooseUs />
                  <Features />
                  <Testimonials/>
+                 <Faq/>
                  <Footer />
             </Fragment>
                

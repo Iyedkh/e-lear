@@ -31,11 +31,7 @@ const SearchedCoursesPage = () => {
     <section>
       <Container>
       <NavBar />
-        <Row>
-          <Col>
-            <h2>Search Results for "{query}"</h2>
-          </Col>
-        </Row>
+       
         <Row>
           {searchResults.map(course => (
             <Col key={course._id} lg="4" md="6" sm="12">
