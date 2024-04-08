@@ -1,43 +1,41 @@
 const express = require('express');
 const router = express.Router();
-const Quiz = require('../models/Quiz');
+const quizData = require('../data/quiz.json');
 
-// Route to fetch quiz questions
-router.get('/quiz', async (req, res) => {
-    try {
-        // Fetch quiz questions from the database
-        const questions = await Quiz.find();
-        res.json(questions);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+// Route to get all quiz questions
+router.get('/', (req, res) => {
+  res.json(quizData);
 });
 
-// Route to submit quiz answers
-router.post('/quiz/submit', async (req, res) => {
-    try {
-        const answers = req.body.answers; // Assuming answers are sent in the request body
-        // Logic to process submitted answers and calculate results
-        // Update database if necessary
-
-        // For now, just send a success message
-        res.json({ message: 'Answers submitted successfully!' });
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
+// Route to get a specific quiz question by ID
+router.get('/:id', (req, res) => {
+  const id = req.params.id;
+  const question = quizData[id];
+  if (!question) {
+    return res.status(404).json({ error: 'Question not found' });
+  }
+  res.json(question);
 });
 
-// Route to get quiz results
-router.get('/quiz/results', async (req, res) => {
-    try {
-        // Logic to fetch quiz results from the database
-        // Return quiz results
+// Route to submit an answer to a specific quiz question
+router.post('/:id/submit', (req, res) => {
+  const id = req.params.id;
+  const { answer } = req.body;
 
-        // For now, just send a dummy response
-        res.json({ message: 'Quiz results' });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+  if (!answer) {
+    return res.status(400).json({ error: 'Answer is required' });
+  }
+
+  const question = quizData[id];
+  if (!question) {
+    return res.status(404).json({ error: 'Question not found' });
+  }
+
+  if (question.correctAnswer === answer) {
+    res.json({ correct: true, message: 'Correct answer!' });
+  } else {
+    res.json({ correct: false, message: 'Incorrect answer. Try again!' });
+  }
 });
 
 module.exports = router;

@@ -15,13 +15,14 @@ const courseRouter = require('./routes/courseRouter');
 const certificateRoutes = require('./routes/certificateRoutes');
 const progressRoutes = require('./routes/progressRoutes');
 const rankRoutes = require('./routes/rankRoutes');
-
+const quizData = require('./routes/quizRoutes');
 const discussionRoutes = require('./routes/discussionRoutes'); // Import discussion routes
 const postRoutes = require('./routes/postRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
 const communityChaptersRoutes = require('./routes/communityChaptersRoutes');
 const signInRoute = require('./routes/signinRoute'); 
 const saveCourseRoute = require('./routes/save');
+
 const multer = require('multer');
 
 
@@ -60,6 +61,7 @@ app.use('/recommendations', recommendationRoutes);
 app.use('/community-chapters', communityChaptersRoutes);
 app.use('/api/auth', signInRoute);
 app.use('/api/savecourse', saveCourseRoute);
+app.use('/quiz', quizData);
 
 
 // Serve static files from the 'uploads' directory
