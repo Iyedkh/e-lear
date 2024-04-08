@@ -1,40 +1,55 @@
+// routes/quiz.js
+
 const express = require('express');
 const router = express.Router();
-const quizData = require('../data/quiz.json');
+const Quiz = require('../models/Quiz');
+
+// Route to create a new quiz
+router.post('/create', async (req, res) => {
+    try {
+        const { question, choices, correctAnswer } = req.body;
+        const newQuiz = new Quiz({
+            question,
+            choices,
+            correctAnswer
+        });
+        await newQuiz.save();
+        res.status(201).json(newQuiz);
+    } catch (error) {
+        console.error('Error creating quiz:', error);
+        res.status(500).json({ error: 'Failed to create quiz' });
+    }
+});
+
+// Route to pass the quiz and get result
+router.post('/pass', async (req, res) => {
+    try {
+        const { answers } = req.body;
+        const quiz = await Quiz.find(); // Assuming all quizzes are passed in one request for simplicity
+        let correct = 0;
+        let incorrect = 0;
+        for (let i = 0; i < quiz.length; i++) {
+            if (quiz[i].correctAnswer === answers[i]) {
+                correct++;
+            } else {
+                incorrect++;
+            }
+        }
+        res.status(200).json({ correct, incorrect });
+    } catch (error) {
+        console.error('Error passing quiz:', error);
+        res.status(500).json({ error: 'Failed to pass quiz' });
+    }
+});
 
 // Route to get all quiz questions
-router.get('/', (req, res) => {
-  res.json(quizData);
-});
-
-// Route to get a specific quiz question by ID
-router.get('/:id', (req, res) => {
-  const id = req.params.id;
-  const question = quizData[id];
-  if (!question) {
-    return res.status(404).json({ error: 'Question not found' });
-  }
-  res.json(question);
-});
-
-// Route to submit an answer to a specific quiz question
-router.post('/:id/submit', (req, res) => {
-  const id = req.params.id;
-  const { answer } = req.body;
-
-  if (!answer) {
-    return res.status(400).json({ error: 'Answer is required' });
-  }
-
-  const question = quizData[id];
-  if (!question) {
-    return res.status(404).json({ error: 'Question not found' });
-  }
-
-  if (question.correctAnswer === answer) {
-    res.json({ correct: true, message: 'Correct answer!' });
-  } else {
-    res.json({ correct: false, message: 'Incorrect answer. Try again!' });
+router.get('/', async (req, res) => {
+  try {
+      const quizzes = await Quiz.find();
+      res.status(200).json(quizzes);
+  } catch (error) {
+      console.error('Error fetching quiz questions:', error);
+      res.status(500).json({ error: 'Failed to fetch quiz questions' });
   }
 });
 

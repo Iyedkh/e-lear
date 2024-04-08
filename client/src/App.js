@@ -5,7 +5,8 @@ import CourseDetailsPage from './pages/CourseDetailsPage';
 import CreateCoursePage from './pages/CreateCoursePage';
 import EditCoursePage from './pages/EditCoursePage';
 import SearchedCoursesPage from './pages/SearchedCoursesPage'; 
-import QuizPage from './pages/quizPage';
+import QuizPage from './pages/PassQuizPage';
+import QuizCreate from './pages/CreateQuiz';
 import './index.css'
 import CourseListPage from './components/CourseList';
 
@@ -19,7 +20,8 @@ function App() {
         <Route path="/create-course" element={<CreateCoursePage />} />
         <Route path="/edit-course/:id" element={<EditCoursePage />} />
         <Route path="/search/:query" element={<SearchedCoursesPage />} />
-        <Route path="/quiz" element={<QuizPage />} />
+        <Route path="/quiz/create" element={<QuizCreate />} />
+        <Route path="/quiz/pass" element={<QuizPage />} />
       </Routes>
     </Router>
   );
