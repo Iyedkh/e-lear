@@ -14,13 +14,14 @@ const CourseCard = ({ course }) => { // Change 'item' to 'course'
 
                 <div className=" d-flex justify-content-between align-items-center">
                     <p className="category d-flex align-items-center gap-1">
-                         {category}
+                        category: {category}
                     </p>
                 </div>
 
                 <div className=" d-flex justify-content-between align-items-center">
                     <p className="lesson d-flex align-items-center gap-1">
-                        <i className="ri-book-open-line"></i> {lesson} Lessons
+                        <i className="ri-book-open-line"></i> Description:  
+                        {description}    
                     </p>
 
                     <p className="students d-flex align-items-center gap-1">
@@ -30,7 +31,7 @@ const CourseCard = ({ course }) => { // Change 'item' to 'course'
 
                 <div className=" d-flex justify-content-between align-items-center">
                     <p className="rating d-flex align-items-center gap-1">
-                        <i className="ri-star-fill"></i> {rating.join(', ')}
+                        <i className="ri-star-fill"></i> Rating: {rating.join(', ')}
                     </p>
 
                     <p className="enroll d-flex align-items-center gap-1">

@@ -54,10 +54,10 @@ i {
   margin-bottom: 500px;
 }
 
-.work .heading {
+.work .heading ,h1 ,h3{
   text-align: center;
   color: #fff;
-  padding: 50px 0;
+  padding: 10px 0;
 }
 .work .content {
   display: grid;
@@ -127,6 +127,7 @@ i {
 }
 .overlay h2 {
   font-weight: 500;
+  color: #fff;
 }
 .work .box:hover .overlay {
   opacity: 1;
