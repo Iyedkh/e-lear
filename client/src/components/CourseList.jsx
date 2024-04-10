@@ -137,7 +137,7 @@ const CourseList = () => {
         display: block;
         width: fit-content;
         padding: 10px 20px;
-        background-color: rgb(100, 100, 200);
+        background-color: #17bf9e;
         color: white;
         text-decoration: none;
         border-radius: 5px;
@@ -174,13 +174,13 @@ const CourseList = () => {
         color: #fff;
         text-decoration: none;
         border: none;
-        border-radius: 5px;
+        border-radius: 26px;
         cursor: pointer;
         transition: background-color 0.3s ease;
     }
 
     .link:hover {
-        background-color: rgb(80, 80, 180);
+        background-color: #2e7d32;
     }
 
     .watch-button:hover {
@@ -207,7 +207,10 @@ const CourseList = () => {
             <NavBar />
             <style>{styles}</style>
             <div className="title">Courses Page</div>
+            <div className='d-flex justify-content-evenly align-items-center gap-1'>
             <Link to="/create-course" className="link">Create New Course</Link>
+            <Link to="/dash" className="link">Dashboard</Link>
+            </div>
             <div className="containere">
                 {courses.map(course => (
                     <Card key={course._id} className="card">

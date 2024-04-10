@@ -9,7 +9,7 @@ import QuizPage from './pages/PassQuizPage';
 import QuizCreate from './pages/CreateQuiz';
 import './index.css'
 import CourseListPage from './components/CourseList';
-
+import Dash from './pages/DashPage';
 function App() {
   return (
     <Router>
@@ -22,6 +22,7 @@ function App() {
         <Route path="/search/:query" element={<SearchedCoursesPage />} />
         <Route path="/quiz/create" element={<QuizCreate />} />
         <Route path="/quiz/pass" element={<QuizPage />} />
+        <Route path="/dash" element={<Dash />} />
       </Routes>
     </Router>
   );
