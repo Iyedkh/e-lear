@@ -79,17 +79,36 @@ router.get('/top-rated', async (req, res) => {
 
 
 // Route to update a course
-router.put('/:id', async (req, res) => {
-    try {
-        const updatedCourse = await CourseModel.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
-        );
-        res.status(200).json(updatedCourse);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
+router.put('/:id', (req, res) => {
+    upload(req, res, async (err) => {
+        if (err) {
+            return res.status(400).json({ error: err });
+        }
+
+        try {
+            const updatedFields = {
+                title: req.body.title,
+                rating: req.body.rating,
+                description: req.body.description,
+                category: req.body.category,
+                videoUrl: req.body.videoUrl
+            };
+
+            if (req.file) {
+                updatedFields.imageUrl = '/uploads/' + req.file.filename;
+            }
+
+            const updatedCourse = await CourseModel.findByIdAndUpdate(
+                req.params.id,
+                updatedFields,
+                { new: true }
+            );
+
+            res.status(200).json(updatedCourse);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    });
 });
 
 // Route to delete a course

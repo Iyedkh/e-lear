@@ -1,63 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import NavBar from '../Header/Header';
-import '../courseForum/forum.css';
 
-const EditForum = () => {
-    const [editCourse, setEditCourse] = useState(null);
-    const [editedTitle, setEditedTitle] = useState('');
-    const [editedRating, setEditedRating] = useState('');
-    const [editedDescription, setEditedDescription] = useState('');
+const EditCourse = ({ courseId }) => {
+  const [course, setCourse] = useState({
+    title: '',
+    rating: 0,
+    description: ''
+  });
 
-    const handleEditCourse = (course) => {
-        setEditCourse(course);
-        setEditedTitle(course.title);
-        setEditedRating(course.rating);
-        setEditedDescription(course.description);
-    };
+  useEffect(() => {
+    fetchCourse(courseId);
+  }, [courseId]);
 
-    const handleUpdateCourse = async () => {
-        try {
-            const updatedCourse = await axios.put(`http://localhost:3000/courses/${editCourse._id}`, {
-                title: editedTitle,
-                rating: editedRating,
-                description: editedDescription
-            });
-            console.log('Updated course:', updatedCourse.data);
-            // Clear edit form
-            setEditCourse(null);
-            setEditedTitle('');
-            setEditedRating('');
-            setEditedDescription('');
-            window.location.reload(); // This line might not be necessary if you're using React Router for navigation
-        } catch (error) {
-            console.error('Error updating course:', error);
-        }
-    };
+  const fetchCourse = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/courses/${id}`);
+      if (response.status === 200) {
+        setCourse(response.data);
+      } else {
+        console.error('Failed to fetch course:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching course:', error);
+    }
+  };
 
-    return (
-        <>
-            <NavBar />
-            <div className="container">
-                <h2>Edit Course</h2>
-                <form onSubmit={handleUpdateCourse}>
-                    <div className="form-group">
-                        <label>Title:</label>
-                        <input type="text" name="title" value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Rating:</label>
-                        <input type="number" name="rating" value={editedRating} onChange={(e) => setEditedRating(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Description:</label>
-                        <textarea name="description" value={editedDescription} onChange={(e) => setEditedDescription(e.target.value)}></textarea>
-                    </div>
-                    <button type="submit">Submit</button>
-                </form>
-            </div>
-        </>
-    );
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCourse({ ...course, [name]: value });
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`http://localhost:3000/courses/${courseId}`, course);
+      if (response.status === 200) {
+        console.log('Course updated successfully');
+        // Redirect to another page or display a success message
+      } else {
+        console.error('Failed to update course:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error updating course:', error);
+    }
+  };
+
+  return (
+    <div>
+      <h2>Edit Course</h2>
+      <form onSubmit={handleFormSubmit}>
+        <div>
+          <label>Title:</label>
+          <input type="text" name="title" value={course.title} onChange={handleInputChange} />
+        </div>
+        <div>
+          <label>Rating:</label>
+          <input type="number" name="rating" value={course.rating} onChange={handleInputChange} />
+        </div>
+        <div>
+          <label>Description:</label>
+          <textarea name="description" value={course.description} onChange={handleInputChange}></textarea>
+        </div>
+        <button type="submit">Update</button>
+      </form>
+    </div>
+  );
 };
 
-export default EditForum;
+export default EditCourse;
