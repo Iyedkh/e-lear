@@ -7,9 +7,13 @@ import EditCoursePage from './pages/EditCoursePage';
 import SearchedCoursesPage from './pages/SearchedCoursesPage'; 
 import QuizPage from './pages/PassQuizPage';
 import QuizCreate from './pages/CreateQuiz';
-import './index.css'
 import CourseListPage from './components/CourseList';
 import Dash from './pages/DashPage';
+import UserCourse from './pages/UserCourse';
+
+
+import './index.css'
+
 function App() {
   return (
     <Router>
@@ -23,6 +27,7 @@ function App() {
         <Route path="/quiz/create" element={<QuizCreate />} />
         <Route path="/quiz/pass" element={<QuizPage />} />
         <Route path="/dash" element={<Dash />} />
+        <Route path="/userC" element={<UserCourse />} />
       </Routes>
     </Router>
   );
