@@ -140,7 +140,7 @@ const CourseList = () => {
         background-color: #17bf9e;
         color: white;
         text-decoration: none;
-        border-radius: 5px;
+        border-radius: 26px;
         text-align: center;
     }
 
@@ -166,6 +166,7 @@ const CourseList = () => {
     }
 
     .watch-button {
+        margin-top:9px;
         display: block;
         width: 100%;
         padding: 10px 0;
@@ -174,7 +175,7 @@ const CourseList = () => {
         color: #fff;
         text-decoration: none;
         border: none;
-        border-radius: 26px;
+        border-radius: 16px;
         cursor: pointer;
         transition: background-color 0.3s ease;
     }
