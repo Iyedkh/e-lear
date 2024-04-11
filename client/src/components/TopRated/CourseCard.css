@@ -10,3 +10,17 @@
     transform: translateY(-5px);
 }
 
+.course__img {
+    position: relative;
+  }
+  
+  .icon {
+    position: absolute;
+    right:20px;
+    top: 20px;
+    font-size: 30px; /* Adjust icon size as needed */
+    z-index: 100;
+  }
+  .icon:hover{
+    color:#17bf9e ;
+  }

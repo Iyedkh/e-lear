@@ -60,7 +60,7 @@ app.use('/api', postRoutes);
 app.use('/recommendations', recommendationRoutes);
 app.use('/community-chapters', communityChaptersRoutes);
 app.use('/api/auth', signInRoute);
-app.use('/api/savecourse', saveCourseRoute);
+app.use('/savecourse', saveCourseRoute);
 app.use('/quiz', quizData);
 
 

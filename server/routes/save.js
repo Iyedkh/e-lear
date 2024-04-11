@@ -2,26 +2,55 @@ const express = require('express');
 const router = express.Router();
 const SavedCourse = require('../models/SavedCourse');
 
-// Endpoint to save a course for a user
-router.post('/save', async (req, res) => {
+// Create a saved course
+router.post('/', async (req, res) => {
     try {
-        const { userId, courseId } = req.body;
-        const savedCourse = new SavedCourse({ userId, courseId });
-        await savedCourse.save();
-        res.status(201).json(savedCourse);
+        const { courseId } = req.body;
+        const savedCourse = new SavedCourse({ courseId });
+        const result = await savedCourse.save();
+        res.status(201).json(result);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
     }
 });
 
-// Endpoint to retrieve saved courses for a user
-router.get('/user/:userId', async (req, res) => {
+// Get all saved courses
+router.get('/', async (req, res) => {
     try {
-        const userId = req.params.userId;
-        const savedCourses = await SavedCourse.find({ userId }).populate('courseId');
+        const savedCourses = await SavedCourse.find();
         res.json(savedCourses);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+// Get a saved course by ID
+router.get('/:id', async (req, res) => {
+    try {
+        const savedCourse = await SavedCourse.findById(req.params.id);
+        if (!savedCourse) {
+            return res.status(404).json({ message: 'Saved course not found' });
+        }
+        res.json(savedCourse);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+// Delete a saved course by ID
+router.delete('/:id', async (req, res) => {
+    try {
+        const savedCourse = await SavedCourse.findByIdAndDelete(req.params.id);
+        if (!savedCourse) {
+            return res.status(404).json({ message: 'Saved course not found' });
+        }
+        res.json({ message: 'Saved course deleted' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
     }
 });
 

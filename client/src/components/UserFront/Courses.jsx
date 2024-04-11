@@ -9,6 +9,7 @@ import 'swiper/css'; // Import Swiper CSS
 
 const Courses = () => {
     const [courses, setCourses] = useState([]);
+    const [savedCourses, setSavedCourses] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
@@ -24,8 +25,22 @@ const Courses = () => {
                 console.error('Error fetching courses:', error);
             }
         };
+        
+        const fetchSavedCourses = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/savecourse');
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch saved courses: ${response.status} ${response.statusText}`);
+                }
+                const data = await response.json();
+                setSavedCourses(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
         fetchCourses();
+        fetchSavedCourses();
     }, []);
 
     const handleMenuOpen = (event) => {
@@ -42,21 +57,9 @@ const Courses = () => {
             <div className="container ">
                 <Swiper
                     breakpoints={{
-                        // when window width is >= 320px
-                        320: {
-                            slidesPerView: 1.5,
-                            spaceBetween: 50
-                        },
-                        // when window width is >= 480px
-                        480: {
-                            slidesPerView: 1.5,
-                            spaceBetween: 50
-                        },
-                        // when window width is >= 640px
-                        640: {
-                            slidesPerView: 4.4,
-                            spaceBetween: 40
-                        }
+                        320: { slidesPerView: 1.5, spaceBetween: 50 },
+                        480: { slidesPerView: 1.5, spaceBetween: 50 },
+                        640: { slidesPerView: 4.4, spaceBetween: 40 }
                     }}
                     navigation
                     pagination={{ clickable: true }}
@@ -64,7 +67,26 @@ const Courses = () => {
                 >
                     {courses.map(course => (
                         <SwiperSlide key={course._id}>
-                            <Card course={course} /> {/* Pass the 'course' object as a prop */}
+                            <Card course={course} />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </div>
+            <div className="container ">
+                <h1>Your Saved Courses</h1>
+                <Swiper
+                    breakpoints={{
+                        320: { slidesPerView: 1.5, spaceBetween: 50 },
+                        480: { slidesPerView: 1.5, spaceBetween: 50 },
+                        640: { slidesPerView: 4.4, spaceBetween: 40 }
+                    }}
+                    navigation
+                    pagination={{ clickable: true }}
+                    scrollbar={{ draggable: true }}
+                >
+                    {savedCourses.map(savedCourse => (
+                        <SwiperSlide key={savedCourse._id}>
+                            <Card course={savedCourse} />
                         </SwiperSlide>
                     ))}
                 </Swiper>
