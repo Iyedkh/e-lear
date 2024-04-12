@@ -525,3 +525,102 @@ i {
   }
 }
 /************** DASHBOARD END ************/
+/************** Enroll page start *************/
+/* EnrollPage.css */
+
+.enroll-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.video-player {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.sidebar {
+  flex: 0 0 250px;
+}
+
+.comment-form {
+  flex: 1;
+}
+
+/* VideoPlayer.css */
+
+.video-player {
+  width: 100%;
+}
+
+/* Sidebar.css */
+
+.sidebar {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.sidebar h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  cursor: pointer;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+}
+
+.sidebar li:hover {
+  background-color: #e0e0e0;
+}
+
+.sidebar .active {
+  background-color: #cceeff;
+}
+
+/* CommentForm.css */
+
+.comment-form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.comment-form h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.comment-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-form textarea {
+  height: 100px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.comment-form button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.comment-form button:hover {
+  background-color: #0056b3;
+}

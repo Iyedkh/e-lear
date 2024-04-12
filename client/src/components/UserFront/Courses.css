@@ -36,4 +36,24 @@
   .course__top__left h2 {
     font-weight: 600;
   }
+  .search-container {
+    width: 320px;
+    margin-bottom: 20px;
+    border: 1px solid #17bf9e;
+    border-radius: 26px;
+  }
+  .search-input {
+    width: 100%;
+    font-size: 16px;  
+    outline: none;
+    border: 1px solid #17bf9e;
+    border-radius: 26px;
+  }
   
+  .search-input::placeholder {
+    color: #999;
+  }
+  
+  .search-input:focus {
+    border-color: #17bf9e;
+  }

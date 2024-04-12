@@ -1,6 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import { BsSave2Fill } from 'react-icons/bs';
+import { Link } from "react-router-dom";
 import './Card.css';
 
 const Card = ({ course }) => {
@@ -48,7 +49,7 @@ const Card = ({ course }) => {
                     </p>
 
                     <p className="enroll d-flex align-items-center gap-1">
-                        <a href={videoUrl}>Enroll Now</a>
+                        <Link to={`/enroll/${_id}`}>Enroll Now</Link>
                     </p>
                 </div>
             </div>

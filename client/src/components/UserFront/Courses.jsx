@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import NavBar from '../Header/Header.jsx';
 import Footer from "../Footer/Footer.jsx";
@@ -10,7 +9,8 @@ import 'swiper/css'; // Import Swiper CSS
 
 const Courses = () => {
     const [courses, setCourses] = useState([]);
-    const [anchorEl, setAnchorEl] = useState(null);
+    const [filteredCourses, setFilteredCourses] = useState([]);
+    const [searchInput, setSearchInput] = useState('');
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -18,6 +18,7 @@ const Courses = () => {
                 const response = await axios.get('http://localhost:3000/courses');
                 if (response.status === 200) {
                     setCourses(response.data);
+                    setFilteredCourses(response.data); // Initialize filteredCourses with all courses
                 } else {
                     console.error('Failed to fetch courses:', response.status, response.statusText);
                 }
@@ -29,18 +30,32 @@ const Courses = () => {
         fetchCourses();
     }, []);
 
-    const handleMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
+    // Function to handle search input change
+    const handleSearchInputChange = (event) => {
+        setSearchInput(event.target.value);
+        filterCourses(event.target.value); // Filter courses based on search input
     };
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
+    // Function to filter courses based on search input
+    const filterCourses = (query) => {
+        const filtered = courses.filter(course => course.category.toLowerCase().includes(query.toLowerCase()));
+        setFilteredCourses(filtered);
     };
 
     return (
         <>
             <NavBar />
-            <div className="container ">
+            <div className="container">
+                {/* Search bar */}
+                <div className="search-container">
+                    <input
+                        type="text"
+                        className="search-input"
+                        placeholder="Search by category"
+                        value={searchInput}
+                        onChange={handleSearchInputChange}
+                    />
+                </div>
                 <Swiper
                     breakpoints={{
                         // when window width is >= 320px
@@ -63,9 +78,9 @@ const Courses = () => {
                     pagination={{ clickable: true }}
                     scrollbar={{ draggable: true }}
                 >
-                    {courses.map(courseId => (
-                        <SwiperSlide key={courseId._id}>
-                            <Card course={courseId} /> {/* Pass the 'course' object as a prop */}
+                    {filteredCourses.map(course => (
+                        <SwiperSlide key={course._id}>
+                            <Card course={course} /> {/* Pass the 'course' object as a prop */}
                         </SwiperSlide>
                     ))}
                 </Swiper>

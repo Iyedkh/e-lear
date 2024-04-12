@@ -12,6 +12,7 @@ import Dash from './pages/DashPage';
 import UserCourse from './pages/UserCourse';
 import Save from './pages/SavedPage';
 import Quiz from './pages/QuizListPage';
+import Enroll from './components/EnrollPage/EnrollPage';
 import './index.css'
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/userC" element={<UserCourse />} />
         <Route path="/saved" element={<Save/>} />
         <Route path="/quiz" element={<Quiz/>} />
+        <Route path="/enroll/:courseId" element={<Enroll/>} />
 
       </Routes>
     </Router>

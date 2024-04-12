@@ -22,6 +22,7 @@ const recommendationRoutes = require('./routes/recommendationRoutes');
 const communityChaptersRoutes = require('./routes/communityChaptersRoutes');
 const signInRoute = require('./routes/signinRoute'); 
 const saveCourseRoute = require('./routes/save');
+const category = require('./routes/categoryFilter');
 
 const multer = require('multer');
 
@@ -46,10 +47,11 @@ const storage = multer.diskStorage({
 io.on('connection', sockets);
 
 // Routes
+app.use('/category', category);
 app.use('/rate-course', ratingRoutes);
 app.use('/search', searchRoutes);
 app.use('/message', messagingRoutes);
-app.use('/comment-course', commentingRoutes);
+app.use('/comment', commentingRoutes);
 app.use('/courses', courseRouter);
 app.use('/api/faq', faqRouter);
 app.use('/certificates', certificateRoutes);

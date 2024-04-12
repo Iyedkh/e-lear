@@ -69,6 +69,7 @@ router.get('/', async (req, res) => {
     }
 });
 
+
 router.get('/top-rated', async (req, res) => {
     try {
         const courses = await CourseModel.find({ rating: { $gt: 3 } }).exec();
@@ -121,10 +122,10 @@ router.delete('/:id', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
-router.get('/courses/category/:category', async (req, res) => {
+router.get('/category/:category', async (req, res) => {
     try {
         const category = req.params.category;
-        const courses = await Course.find({ category: category });
+        const courses = await CourseModel.find({ category: category });
         res.json(courses);
     } catch (error) {
         console.error(error);

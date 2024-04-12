@@ -38,7 +38,7 @@ const HeroSection = () => {
               </div>
             </div>
           </Col>
-          {/* Add your image here */}
+          
           <Col lg="6" md="6">
           <img src={heroImg} alt="" className="w-100 hero__img" />
           </Col>
