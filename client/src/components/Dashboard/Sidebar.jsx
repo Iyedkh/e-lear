@@ -37,7 +37,7 @@ function Sidebar({openSidebarToggle, OpenSidebar}) {
                 </a>
             </li>
             <li className='sidebar-list-item'>
-                <a href="">
+                <a href="/quiz">
                     <BsListCheck className='icon'/> Quiz
                 </a>
             </li>

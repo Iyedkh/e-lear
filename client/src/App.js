@@ -11,14 +11,14 @@ import CourseListPage from './components/CourseList';
 import Dash from './pages/DashPage';
 import UserCourse from './pages/UserCourse';
 import Save from './pages/SavedPage';
-
+import Quiz from './pages/QuizListPage';
 import './index.css'
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} /> {/* Render the HeroSection component */}
+        <Route path="/" element={<HomePage />} /> 
         <Route path="/course" element={<CourseListPage />} />
         <Route path="/course/:id" element={<CourseDetailsPage />} />
         <Route path="/create-course" element={<CreateCoursePage />} />
@@ -29,6 +29,8 @@ function App() {
         <Route path="/dash" element={<Dash />} />
         <Route path="/userC" element={<UserCourse />} />
         <Route path="/saved" element={<Save/>} />
+        <Route path="/quiz" element={<Quiz/>} />
+
       </Routes>
     </Router>
   );
