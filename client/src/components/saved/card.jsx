@@ -1,29 +1,17 @@
 import React from "react";
-import axios from 'axios';
-import { BsSave2Fill } from 'react-icons/bs';
 import './Card.css';
 
-const Card = ({ course }) => {
+const Card = ({ savedCourse }) => {
+    // Check if savedCourse and courseId exist and are populated
+    if (!savedCourse || !savedCourse.courseId || !savedCourse.courseId.title) {
+        return <div>Error: Course data is incomplete</div>;
+    }
 
-    const { _id, title, description, category, rating, videoUrl, imageUrl } = course;
-
-    const saveCourse = async () => {
-        try {
-            const response = await axios.post('http://localhost:3000/courses/save', {
-                courseId: _id,
-            });
-            console.log(response.data);
-            // You can add logic here to show a success message or update UI if needed
-        } catch (error) {
-            console.error('Error saving course:', error);
-            // You can add logic here to show an error message or handle the error in UI
-        }
-    };
+    const { title, description, category, rating, videoUrl, imageUrl } = savedCourse.courseId;
 
     return (
         <div className="course-card">
             <div className="course__img">
-            <BsSave2Fill className="icon" onClick={saveCourse} />
                 <img src={`http://localhost:3000${imageUrl}`} alt={title} className="w-100" />
             </div>
 

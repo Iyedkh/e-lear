@@ -4,10 +4,13 @@ import axios from 'axios';
 import { BsSave2Fill } from 'react-icons/bs';
 
 const CourseCard = ({ course }) => { // Change 'item' to 'course'
-    const { _id, title, lesson, students, rating, description, category, videoUrl, imageUrl } = course;
+    const { _id, title, category, rating, description, students, videoUrl, imageUrl } = course;
     const saveCourse = async () => {
         try {
-          const response = await axios.post('http://localhost:3000/savecourse', { courseId: _id });
+          const response = await axios.post('http://localhost:3000/courses/save', { 
+            courseId: _id, // Send courseId instead of other course attributes
+            
+          });
           console.log(response.data);
           // You can add logic here to show a success message or update UI if needed
         } catch (error) {

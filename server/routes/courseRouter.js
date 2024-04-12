@@ -3,6 +3,7 @@ const router = express.Router();
 const CourseModel = require('../models/course');
 const multer = require('multer');
 const path = require('path');
+const SavedCourse = require('../models/savedCourse'); 
 
 // Multer storage configuration
 const storage = multer.diskStorage({
@@ -128,6 +129,37 @@ router.get('/courses/category/:category', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+router.post('/save', async (req, res) => {
+    try {
+        const { courseId } = req.body;
+
+        // Check if courseId is provided
+        if (!courseId) {
+            return res.status(400).json({ error: "Course ID is required" });
+        }
+
+        // Here, you can implement the logic to save the courseId to a user's profile or any other storage mechanism
+        // For example, if you have a model named SavedCourse, you can create a new entry for the saved course
+        const SavedCourse = require('../models/savedCourse'); // Import the SavedCourse model
+        const savedCourse = new SavedCourse({ courseId });
+        await savedCourse.save();
+
+        res.status(200).json({ message: 'Course saved successfully' });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+router.get('/saved', async (req, res) => {
+    try {
+        const SavedCourse = require('../models/savedCourse'); // Import the SavedCourse model
+        const savedCourses = await SavedCourse.find().populate('courseId'); // Assuming courseId is a reference to the CourseModel
+        res.status(200).json(savedCourses);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 module.exports = router;

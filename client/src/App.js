@@ -10,7 +10,7 @@ import QuizCreate from './pages/CreateQuiz';
 import CourseListPage from './components/CourseList';
 import Dash from './pages/DashPage';
 import UserCourse from './pages/UserCourse';
-
+import Save from './pages/SavedPage';
 
 import './index.css'
 
@@ -28,6 +28,7 @@ function App() {
         <Route path="/quiz/pass" element={<QuizPage />} />
         <Route path="/dash" element={<Dash />} />
         <Route path="/userC" element={<UserCourse />} />
+        <Route path="/saved" element={<Save/>} />
       </Routes>
     </Router>
   );

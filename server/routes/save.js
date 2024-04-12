@@ -1,17 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const SavedCourse = require('../models/SavedCourse');
+
 
 // Create a saved course
-router.post('/', async (req, res) => {
+router.post('/save', async (req, res) => {
     try {
         const { courseId } = req.body;
-        const savedCourse = new SavedCourse({ courseId });
-        const result = await savedCourse.save();
-        res.status(201).json(result);
+        // Here, you can implement the logic to save the courseId to a user's profile or any other storage mechanism
+        res.status(200).json({ message: 'Course saved successfully' });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server Error' });
+        res.status(400).json({ error: error.message });
     }
 });
 
