@@ -4,7 +4,7 @@ import { Container, Row, Col } from "reactstrap";
 import axios from "axios";
 import chooseImg from "../assests/images/why-choose-us.png";
 import SideBar from './Sidebar';
-
+import Comment from './CommentForm';
 import ReactPlayer from "react-player";
 
 const EnrollPage = () => {
@@ -67,6 +67,7 @@ const EnrollPage = () => {
           <Col lg="4" md="4" sm="12">
             <SideBar/>
           </Col>
+          <Comment/>
         </Row>
       </Container>
     </section>

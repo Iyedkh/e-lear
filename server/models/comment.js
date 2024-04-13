@@ -4,26 +4,26 @@ const mongoose = require('mongoose');
 const commentSchema = new mongoose.Schema({
     courseId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Course', // Assuming you have a Course model
+        ref: 'Course',
         required: true
-    },
-    content: {
+      },
+      content: {
         type: String,
         required: true
-    },
-   /* userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Assuming you have a User model
-        required: true
-    }, */
-    createdAt: {
+      },
+      // userId: {  // Optional, uncomment if you want to associate comments with users
+      //   type: mongoose.Schema.Types.ObjectId,
+      //   ref: 'User',
+      //   required: true
+      // },
+      createdAt: {
         type: Date,
         default: Date.now
-    },
-    likes: {
+      },
+      likes: {
         type: Number,
         default: 0
-    },
+      }
 });
 
 // Create the Comment model

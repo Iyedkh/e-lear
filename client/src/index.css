@@ -555,36 +555,6 @@ i {
 
 /* Sidebar.css */
 
-.sidebar {
-  background-color: #f2f2f2;
-  padding: 20px;
-  border-radius: 5px;
-}
-
-.sidebar h3 {
-  margin-bottom: 10px;
-  font-size: 18px;
-}
-
-.sidebar ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.sidebar li {
-  cursor: pointer;
-  padding: 10px;
-  margin-bottom: 5px;
-  border-radius: 3px;
-}
-
-.sidebar li:hover {
-  background-color: #e0e0e0;
-}
-
-.sidebar .active {
-  background-color: #cceeff;
-}
 
 /* CommentForm.css */
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import './EnrollPage.css';
 const Sidebar = ({ courseId, onSelectCourse }) => {
     const [courses, setCourses] = useState([]);
 

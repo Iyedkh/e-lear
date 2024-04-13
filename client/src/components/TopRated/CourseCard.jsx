@@ -1,10 +1,11 @@
 import React from "react";
 import './CourseCard.css';
 import axios from 'axios';
+import { Link } from "react-router-dom";
 import { BsSave2Fill } from 'react-icons/bs';
 
 const CourseCard = ({ course }) => { // Change 'item' to 'course'
-    const { _id, title, category, rating, description, students, videoUrl, imageUrl } = course;
+    const { _id, title, category, rating, description, students, imageUrl } = course;
     const saveCourse = async () => {
         try {
           const response = await axios.post('http://localhost:3000/courses/save', { 
@@ -51,7 +52,7 @@ const CourseCard = ({ course }) => { // Change 'item' to 'course'
                     </p>
 
                     <p className="enroll d-flex align-items-center gap-1">
-                        <a href="{videoUrl}"> Enroll Now</a>
+                    <Link to={`/enroll/${_id}`}>Enroll Now</Link>
                     </p>
                 </div>
             </div>

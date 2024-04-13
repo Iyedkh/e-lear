@@ -3,13 +3,13 @@ const router = express.Router();
 const Comment = require('../models/comment'); // Assuming you have a Comment model
 
 // Route to create a new comment
-router.post('/comments', async (req, res) => {
+router.post('/add', async (req, res) => {
     try {
         const { courseId, content, userId } = req.body;
         const newComment = new Comment({
             courseId,
             content,
-            userId
+            //userId
         });
         const savedComment = await newComment.save();
         res.status(201).json(savedComment);
