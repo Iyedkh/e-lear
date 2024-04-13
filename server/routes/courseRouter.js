@@ -4,6 +4,7 @@ const CourseModel = require('../models/course');
 const multer = require('multer');
 const path = require('path');
 const SavedCourse = require('../models/savedCourse'); 
+const mongoose = require('mongoose'); // Add this import statement for mongoose
 
 // Multer storage configuration
 const storage = multer.diskStorage({
@@ -59,6 +60,7 @@ router.post('/', (req, res) => {
         }
     });
 });
+
 // Route to get all courses
 router.get('/', async (req, res) => {
     try {
@@ -69,7 +71,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-
 router.get('/top-rated', async (req, res) => {
     try {
         const courses = await CourseModel.find({ rating: { $gt: 3 } }).exec();
@@ -78,7 +79,6 @@ router.get('/top-rated', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
 
 // Route to update a course
 router.put('/:id', (req, res) => {
@@ -122,6 +122,7 @@ router.delete('/:id', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
+
 router.get('/category/:category', async (req, res) => {
     try {
         const category = req.params.category;
@@ -163,4 +164,26 @@ router.get('/saved', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+// Route to get a course by ID
+router.get('/:id', async (req, res) => {
+    try {
+        const courseId = req.params.id;
+
+        // Check if courseId is valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(courseId)) {
+            return res.status(400).json({ message: 'Invalid course ID' });
+        }
+
+        const course = await CourseModel.findById(courseId);
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found' });
+        }
+        res.status(200).json(course);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 module.exports = router;

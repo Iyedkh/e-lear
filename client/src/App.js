@@ -12,7 +12,7 @@ import Dash from './pages/DashPage';
 import UserCourse from './pages/UserCourse';
 import Save from './pages/SavedPage';
 import Quiz from './pages/QuizListPage';
-import Enroll from './components/EnrollPage/EnrollPage';
+import Enroll from './pages/Enroll';
 import './index.css'
 
 function App() {
