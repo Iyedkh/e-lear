@@ -10,7 +10,7 @@ const courseSchema = new mongoose.Schema({
   },
   videoUrl: String,
   imageUrl: {
-    type: String, // Store the URL of the image
+    type: String,
     required: true
   },
   comments: [{
@@ -18,6 +18,17 @@ const courseSchema = new mongoose.Schema({
     ref: 'Comment'
   }] // Reference array to store comment IDs
 });
+
+// Virtual populate for comments (Optional)
+courseSchema.virtual('populatedComments', {
+  ref: 'Comment',
+  localField: 'comments',
+  foreignField: '_id',
+  justOne: false // Set to false to populate an array of comments
+});
+
+courseSchema.set('toJSON', { virtuals: true });
+courseSchema.set('toObject', { virtuals: true });
 
 const CourseModel = mongoose.model('Course', courseSchema);
 

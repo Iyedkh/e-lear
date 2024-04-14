@@ -27,7 +27,7 @@ const EnrollPage = () => {
     };
 
     fetchCourse();
-  }, [courseId]); // Dependency array includes courseId for refetching on ID change
+  }, [courseId]); 
 
   return (
     <section>
@@ -67,7 +67,10 @@ const EnrollPage = () => {
           <Col lg="4" md="4" sm="12">
             <SideBar/>
           </Col>
-          <Comment/>
+          <div className="comment mt-2">
+            <Comment courseId={courseId} /> {/* Pass courseId as prop */}
+          </div>
+          
         </Row>
       </Container>
     </section>

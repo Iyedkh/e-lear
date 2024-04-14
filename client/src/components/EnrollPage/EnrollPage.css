@@ -15,6 +15,7 @@
   
   .comment-form {
     flex: 1;
+    margin-top: 1rem;
    
   }
   .sidebar {
@@ -47,4 +48,15 @@
   .sidebar .active {
     background-color: #cceeff;
   }
+  .edit-comment textarea {
+    width: 100%;
+    margin-bottom: 10px;
+  }
   
+  .error-message {
+    color: red;
+  }
+  
+  .loading-message {
+    color: blue;
+  }

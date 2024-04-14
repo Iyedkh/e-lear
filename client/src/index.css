@@ -594,3 +594,23 @@ i {
 .comment-form button:hover {
   background-color: #0056b3;
 }
+.comment-content{
+  display: flex;
+justify-content: space-between;
+border-bottom: 2px solid #08071c;
+}
+.comment p{
+  color: #08071c;
+}
+.edit-comment textarea {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: red;
+}
+
+.loading-message {
+  color: blue;
+}
