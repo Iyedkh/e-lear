@@ -6,7 +6,7 @@ import chooseImg from "../assests/images/why-choose-us.png";
 import SideBar from './Sidebar';
 import Comment from './CommentForm';
 import ReactPlayer from "react-player";
-
+import './EnrollPage.css';
 const EnrollPage = () => {
   const [course, setCourse] = useState(null);
   const [showVideo, setShowVideo] = useState(false);

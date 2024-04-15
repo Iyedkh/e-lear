@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import EditCommentOverlay from './EditCommentOverlay'; // Import the new component
 
 const CommentForm = ({ courseId }) => {
   const [comment, setComment] = useState('');
-  const [comments, setComments] = useState([]); // Array to store fetched/submitted comments
-  const [isLoading, setIsLoading] = useState(false); // Flag for loading state
-  const [error, setError] = useState(null); // State to store error message
-  const [editingCommentId, setEditingCommentId] = useState(null); // State to track the ID of the comment being edited
-  const [dropdownOpen, setDropdownOpen] = useState([]); // State to track dropdown open/close for each comment
+  const [comments, setComments] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState([]);
+  const commentFormClass = 'comment-form-textarea';
+ 
 
-  // Initialize dropdown state for each comment
   useEffect(() => {
     setDropdownOpen(new Array(comments.length).fill(false));
   }, [comments]);
 
-  // Fetch comments for the course
   const fetchComments = async () => {
     try {
-      setIsLoading(true); // Set loading state to true
+      setIsLoading(true);
       const response = await axios.get(`http://localhost:3000/comment/${courseId}/comments`);
       setComments(response.data);
     } catch (error) {
@@ -30,7 +31,6 @@ const CommentForm = ({ courseId }) => {
   };
 
   useEffect(() => {
-    console.log('Course ID:', courseId); // Add this line for debugging
     fetchComments();
   }, [courseId]);
 
@@ -40,55 +40,49 @@ const CommentForm = ({ courseId }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(null); // Clear any previous error before submitting
+    setError(null);
 
     try {
-      setIsLoading(true); // Set loading state to true
+      setIsLoading(true);
       const response = await axios.post(`http://localhost:3000/comment/${courseId}/comments`, {
-        content: comment // Updated request body, courseId is now part of the URL
+        content: comment
       });
-      console.log('Comment submitted successfully:', response.data);
-
-      // Update comments state to include the new comment (optimistic update)
       setComments([...comments, response.data]);
-
-      // Reset the comment input field after submission
       setComment('');
     } catch (error) {
       console.error('Error submitting comment:', error);
-      setError(error.message); // Set error message in state
+      setError(error.message);
     } finally {
-      setIsLoading(false); // Set loading state to false after submitting or error
+      setIsLoading(false);
     }
   };
 
-  const handleUpdateComment = async (commentId) => {
+  const handleUpdateComment = async (commentId, updatedContent) => {
     try {
-      setIsLoading(true); // Set loading state to true
-      // Send PUT request to update the comment by ID
+      setIsLoading(true);
+
+      // Send PUT request to update comment on the server
       await axios.put(`http://localhost:3000/comment/${courseId}/comments/${commentId}`, {
-        content: comment // Use the updated comment content
+        content: updatedContent
       });
-      // Reset the editing state and clear the comment input field
+
+      // Update comments state with the updated content
+      const updatedComments = comments.map((c) => (c._id === commentId ? { ...c, content: updatedContent } : c));
+      setComments(updatedComments);
+
       setEditingCommentId(null);
-      setComment('');
-      // Refetch comments to display updated data
-      fetchComments();
     } catch (error) {
       console.error('Error updating comment:', error);
       setError(error.message);
     } finally {
-      setIsLoading(false); // Set loading state to false after updating or error
+      setIsLoading(false);
     }
   };
 
   const handleDeleteComment = async (commentId) => {
     try {
-      // Send DELETE request to delete the comment by ID
       await axios.delete(`http://localhost:3000/comment/${courseId}/comments/${commentId}`);
-      // Filter out the deleted comment from the comments array
       const updatedComments = comments.filter((comment) => comment._id !== commentId);
-      // Update the comments state
       setComments(updatedComments);
     } catch (error) {
       console.error('Error deleting comment:', error);
@@ -99,7 +93,7 @@ const CommentForm = ({ courseId }) => {
   const toggleDropdown = (index) => {
     setDropdownOpen((prevState) => {
       const newState = [...prevState];
-      newState[index] = !newState[index]; // Toggle dropdown state for the clicked comment
+      newState[index] = !newState[index];
       return newState;
     });
   };
@@ -113,6 +107,7 @@ const CommentForm = ({ courseId }) => {
           value={comment}
           onChange={handleCommentChange}
           required
+          className={commentFormClass}
         ></textarea>
         <button type="submit" disabled={isLoading}>
           {isLoading ? 'Submitting...' : 'Submit'}
@@ -125,31 +120,22 @@ const CommentForm = ({ courseId }) => {
         <div key={comment._id} className="comment">
           <div className="comment-content">
             <p>{comment.content}</p>
-            {/* Dropdown for edit and delete buttons */}
-          <Dropdown isOpen={dropdownOpen[index]} toggle={() => toggleDropdown(index)}>
-            <DropdownToggle caret>
-              ...
-            </DropdownToggle>
-            <DropdownMenu end>
-              <DropdownItem onClick={() => setEditingCommentId(comment._id)}>Edit</DropdownItem>
-              <DropdownItem onClick={() => handleDeleteComment(comment._id)}>Delete</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+            <Dropdown isOpen={dropdownOpen[index]} toggle={() => toggleDropdown(index)}>
+              <DropdownToggle caret></DropdownToggle>
+              <DropdownMenu end style={{ padding: 0 }}>
+                <DropdownItem onClick={() => setEditingCommentId(comment._id)}>Edit</DropdownItem>
+                <DropdownItem onClick={() => handleDeleteComment(comment._id)}>Delete</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
-
-          
-
-          {/* Conditional rendering for edit comment textarea */}
+          {isLoading && <p>Loading comments...</p>}
           {editingCommentId === comment._id && (
-          <div className="edit-comment">
-             <textarea className='edit'
-              value={comment.content} // Set the textarea value to the content of the comment
-              onChange={handleCommentChange}
-              required
-            ></textarea>
-          <button onClick={() => handleUpdateComment(comment._id)}>Update</button>
-  </div>
-      )}
+            <EditCommentOverlay
+              comment={comment}
+              onUpdate={(updatedContent) => handleUpdateComment(comment._id, updatedContent)}
+              onClose={() => setEditingCommentId(null)}
+            />
+          )}
         </div>
       ))}
 
