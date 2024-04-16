@@ -66,10 +66,7 @@ const CourseForm = () => {
                         <label>Title:</label>
                         <input type="text" name="title" value={formData.title} onChange={handleChange} />
                     </div>
-                    <div className="form-group">
-                        <label>Rating:</label>
-                        <input type="number" name="rating" value={formData.rating} onChange={handleChange} />
-                    </div>
+                   
                     <div className="form-group">
                         <label>Description:</label>
                         <textarea name="description" value={formData.description} onChange={handleChange}></textarea>

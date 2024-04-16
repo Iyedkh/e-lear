@@ -73,8 +73,19 @@ router.get('/', async (req, res) => {
 
 router.get('/top-rated', async (req, res) => {
     try {
-        const courses = await CourseModel.find({ rating: { $gt: 3 } }).exec();
-        res.json(courses);
+        const courses = await CourseModel.find().populate('ratings');
+
+        // Filter courses with an averageRating over 3 stars
+        const topRatedCourses = courses.filter(course => {
+            if (course.ratings.length === 0) return false;
+            
+            const totalRating = course.ratings.reduce((acc, curr) => acc + curr.stars, 0);
+            const avgRating = totalRating / course.ratings.length;
+            
+            return avgRating > 3;
+        });
+
+        res.json(topRatedCourses);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

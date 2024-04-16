@@ -1,8 +1,14 @@
+// models/Course.js
+
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
   title: String,
-  rating: [{ type: Number, min: 1, max: 5 }],
+  ratings: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Rating' // Reference to the Rating model
+  }],
+ 
   description: String,
   category: {
     type: String,

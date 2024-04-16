@@ -5,14 +5,9 @@ const mongoose = require('mongoose');
 const ratingSchema = new mongoose.Schema({
     courseId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Course',
+        ref: 'Course', // Reference to the Course model
         required: true
     },
-   /* userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    }, */
     stars: {
         type: Number,
         required: true,
