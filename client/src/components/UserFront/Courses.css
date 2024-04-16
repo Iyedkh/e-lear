@@ -7,7 +7,24 @@
 .single__course__item {
     padding: 15px;
   }
-  
+  .hi{
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .saved a{
+    padding: 8px 16px;
+    margin-right: 8px;
+    background-color: #17bf9e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .saved a:hover{
+    background-color: #17bf81;
+    color: #fff;
+  }
   .course__img img {
     border-radius: 10px;
     margin-bottom: 20px;

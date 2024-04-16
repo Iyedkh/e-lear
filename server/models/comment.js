@@ -11,11 +11,6 @@ const commentSchema = new mongoose.Schema({
         type: String,
         required: true
       },
-      // userId: {  // Optional, uncomment if you want to associate comments with users
-      //   type: mongoose.Schema.Types.ObjectId,
-      //   ref: 'User',
-      //   required: true
-      // },
       createdAt: {
         type: Date,
         default: Date.now

@@ -3,6 +3,7 @@ import NavBar from '../Header/Header.jsx';
 import Footer from "../Footer/Footer.jsx";
 import axios from 'axios';
 import Card from "./Card";
+import { Link } from "react-router-dom";
 import "./Courses.css";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css'; // Import Swiper CSS
@@ -47,7 +48,8 @@ const Courses = () => {
             <NavBar />
             <div className="container">
                 {/* Search bar */}
-                <div className="search-container">
+                <div className="hi">
+                     <div className="search-container">
                     <input
                         type="text"
                         className="search-input"
@@ -56,6 +58,11 @@ const Courses = () => {
                         onChange={handleSearchInputChange}
                     />
                 </div>
+                     <div className="saved">
+                        <Link to={`/saved`} className="btn">Saved Courses</Link>
+                    </div>
+                </div>
+               
                 <Swiper
                     breakpoints={{
                         // when window width is >= 320px

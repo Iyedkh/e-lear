@@ -8,11 +8,11 @@ const ratingSchema = new mongoose.Schema({
         ref: 'Course',
         required: true
     },
-    userId: {
+   /* userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    },
+    }, */
     stars: {
         type: Number,
         required: true,
