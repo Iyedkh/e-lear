@@ -1,9 +1,7 @@
-// routes/ratings.js
-
 const express = require('express');
 const router = express.Router();
 const Course = require('../models/course');
-const Rating = require('../models/Rating');
+const Rating = require('../models/Rating'); // Corrected model import
 
 // Route to submit a new rating for a course
 router.post('/courses/:courseId/ratings', async (req, res) => {
@@ -51,6 +49,62 @@ router.get('/courses/:courseId/ratings', async (req, res) => {
         res.status(200).json({ ratings: course.ratings });
     } catch (error) {
         console.error('Error getting ratings:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Route to update a rating for a course
+router.put('/courses/:courseId/ratings/:ratingId', async (req, res) => {
+    const courseId = req.params.courseId;
+    const ratingId = req.params.ratingId;
+    const { stars } = req.body;
+
+    try {
+        // Check if the course exists
+        const course = await Course.findById(courseId);
+        if (!course) {
+            return res.status(404).json({ error: 'Course not found' });
+        }
+
+        // Check if the rating exists
+        const rating = await Rating.findById(ratingId);
+        if (!rating) {
+            return res.status(404).json({ error: 'Rating not found' });
+        }
+
+        // Update the rating stars
+        rating.stars = stars;
+        await rating.save();
+
+        res.status(200).json({ message: 'Rating updated successfully', rating: rating });
+    } catch (error) {
+        console.error('Error updating rating:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Route to delete a rating for a course
+router.delete('/courses/:courseId/ratings/:ratingId', async (req, res) => {
+    const courseId = req.params.courseId;
+    const ratingId = req.params.ratingId;
+
+    try {
+        // Check if the course exists
+        const course = await Course.findById(courseId);
+        if (!course) {
+            return res.status(404).json({ error: 'Course not found' });
+        }
+
+        // Remove the rating from the course's ratings array
+        course.ratings.pull(ratingId);
+        await course.save();
+
+        // Delete the rating document
+        await Rating.findByIdAndDelete(ratingId);
+
+        res.status(200).json({ message: 'Rating deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting rating:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });

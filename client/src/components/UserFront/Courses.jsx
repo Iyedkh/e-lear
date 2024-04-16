@@ -87,8 +87,8 @@ const Courses = () => {
                 >
                     {filteredCourses.map(course => (
                         <SwiperSlide key={course._id}>
-                            <Card course={course} /> {/* Pass the 'course' object as a prop */}
-                        </SwiperSlide>
+                        <Card course={course} />
+                    </SwiperSlide>
                     ))}
                 </Swiper>
             </div>

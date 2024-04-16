@@ -6,16 +6,8 @@ const Card = ({ savedCourse }) => {
     if (!savedCourse || !savedCourse.courseId || !savedCourse.courseId.title) {
         return <div>Error: Course data is incomplete</div>;
     }
-    if (!savedCourse || !savedCourse.courseId || savedCourse.courseId.deleted) {
-        return null; // Return null to prevent rendering deleted courses
-    }
-    const calculateAverageRating = () => {
-        if (ratings.length === 0) return 0;
-        
-        const totalRating = ratings.reduce((acc, curr) => acc + curr.stars, 0);
-        return totalRating / ratings.length;
-    };
-    const { title, description, category, ratings, videoUrl, imageUrl } = savedCourse.courseId;
+
+    const { title, description, category, rating, videoUrl, imageUrl } = savedCourse.courseId;
 
     return (
         <div className="course-card">
@@ -38,10 +30,7 @@ const Card = ({ savedCourse }) => {
                     </p>
                 </div>
 
-                <div className="d-flex justify-content-between align-items-center">
-                <p className="rating d-flex align-items-center gap-1">
-                        <i className="ri-star-fill"></i> Average Rating: {calculateAverageRating().toFixed(2)}
-                    </p>
+                <div className="d-flex justify-content-center align-items-center">                 
 
                     <p className="enroll d-flex align-items-center gap-1">
                         <a href={videoUrl}>Enroll Now</a>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './EnrollPage.css';
+import { Link } from 'react-router-dom';
 const Sidebar = ({ courseId, onSelectCourse }) => {
     const [courses, setCourses] = useState([]);
 
@@ -26,8 +27,8 @@ const Sidebar = ({ courseId, onSelectCourse }) => {
             <h3>Course Titles</h3>
             <ul>
                 {courses.map(course => (
-                    <li key={course._id} className={courseId === course._id ? 'active' : ''} onClick={() => onSelectCourse(course._id)}>
-                        {course.title}
+                    <li key={course._id} className={courseId === course._id ? 'active' : ''} >
+                       <Link to={`/enroll/${course._id}`}>{course.title}</Link>
                     </li>
                 ))}
             </ul>

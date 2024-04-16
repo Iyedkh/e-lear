@@ -1,5 +1,3 @@
-// models/Course.js
-
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
@@ -8,7 +6,6 @@ const courseSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Rating' // Reference to the Rating model
   }],
- 
   description: String,
   category: {
     type: String,
@@ -25,16 +22,18 @@ const courseSchema = new mongoose.Schema({
   }] // Reference array to store comment IDs
 });
 
-// Virtual populate for comments (Optional)
-courseSchema.virtual('populatedComments', {
-  ref: 'Comment',
-  localField: 'comments',
-  foreignField: '_id',
-  justOne: false // Set to false to populate an array of comments
+// Virtual property to compute average rating
+courseSchema.virtual('averageRating').get(function() {
+  if (!this.ratings || this.ratings.length === 0) {
+    return 0;
+  }
+
+  const totalRating = this.ratings.reduce((acc, curr) => acc + curr.stars, 0);
+  return totalRating / this.ratings.length;
 });
 
+// Apply virtuals to JSON output
 courseSchema.set('toJSON', { virtuals: true });
-courseSchema.set('toObject', { virtuals: true });
 
 const CourseModel = mongoose.model('Course', courseSchema);
 
