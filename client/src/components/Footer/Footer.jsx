@@ -10,7 +10,7 @@ const footerQuickLinks = [
   },
   {
     display: "About US",
-    url: "#",
+    url: "/About",
   },
 
   {

@@ -13,7 +13,6 @@ import UserCourse from './pages/UserCourse';
 import Save from './pages/SavedPage';
 import Quiz from './pages/QuizListPage';
 import Enroll from './pages/Enroll';
-import Student from './pages/PageStudent';
 import About from './pages/AboutPage';
 import './index.css'
 
@@ -34,7 +33,6 @@ function App() {
         <Route path="/saved" element={<Save/>} />
         <Route path="/quiz" element={<Quiz/>} />
         <Route path="/enroll/:courseId" element={<Enroll/>} />
-        <Route path="/Page" element={<Student/>} />
         <Route path="/About" element={<About/>} />
       </Routes>
     </Router>

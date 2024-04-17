@@ -94,9 +94,7 @@ const EnrollPage = () => {
                     width="100%"
                     height="350px"
                   />
-                  <div>
-                    <p>Average Rating: {averageRating.toFixed(2)} </p>
-                  </div>
+                  
                 </React.Fragment>
               ) : (
                 <img src={chooseImg} alt="" className="w-100" />
@@ -116,7 +114,10 @@ const EnrollPage = () => {
                   <p>Category: {course?.category}</p>
                   <p>Description:  {course?.description}</p>
                 </div>     
-              </div>             
+              </div> 
+                <div>
+                  <p>Average Rating: {averageRating.toFixed(2)} </p>
+                </div>            
             </div>           
           </Col>
 

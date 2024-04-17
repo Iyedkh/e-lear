@@ -5,48 +5,48 @@ import
  import 
  { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } 
  from 'recharts';
-import './dash.css';
+
 function Home() {
 
     const data = [
         {
-          name: 'Course Name 1',
+          name: 'Page A',
           uv: 4000,
           pv: 2400,
           amt: 2400,
         },
         {
-          name: 'Course Name 2',
+          name: 'Page B',
           uv: 3000,
           pv: 1398,
           amt: 2210,
         },
         {
-          name: 'Course Name 3',
+          name: 'Page C',
           uv: 2000,
           pv: 9800,
           amt: 2290,
         },
         {
-          name: 'Course Name 4',
+          name: 'Page D',
           uv: 2780,
           pv: 3908,
           amt: 2000,
         },
         {
-          name: 'Course Name 5',
+          name: 'Page E',
           uv: 1890,
           pv: 4800,
           amt: 2181,
         },
         {
-          name: 'Course Name 6',
+          name: 'Page F',
           uv: 2390,
           pv: 3800,
           amt: 2500,
         },
         {
-          name: 'Course Name 7',
+          name: 'Page G',
           uv: 3490,
           pv: 4300,
           amt: 2100,
@@ -56,14 +56,14 @@ function Home() {
 
   return (
     <main className='main-container'>
-        <div className='main-title  '>
-            <h3> YOUR DASHBOARD</h3>
+        <div className='main-title'>
+            <h3>DASHBOARD</h3>
         </div>
 
         <div className='main-cards'>
-            <div className='card '>
-                <div className='card-inner '>
-                    <h3>Courses</h3>
+            <div className='card'>
+                <div className='card-inner'>
+                    <h3>PRODUCTS</h3>
                     <BsFillArchiveFill className='card_icon'/>
                 </div>
                 <h1>300</h1>
@@ -77,7 +77,7 @@ function Home() {
             </div>
             <div className='card'>
                 <div className='card-inner'>
-                    <h3>Students</h3>
+                    <h3>CUSTOMERS</h3>
                     <BsPeopleFill className='card_icon'/>
                 </div>
                 <h1>33</h1>

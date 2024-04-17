@@ -5,7 +5,7 @@ import
  import './dash.css';
 function Header({OpenSidebar}) {
   return (
-    <header className='header'>
+    <header className='headere'>
         <div className='menu-icon'>
             <BsJustify className='icon' onClick={OpenSidebar}/>
         </div>

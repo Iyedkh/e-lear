@@ -1,29 +1,28 @@
 import React from 'react'
 import 
 {BsCart3, BsGrid1X2Fill, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, 
-  BsListCheck, BsMenuButtonWideFill, BsFillGearFill}from 'react-icons/bs'
- import { BiSolidLogOut } from "react-icons/bi";
-  import './dash.css';
+  BsListCheck, BsMenuButtonWideFill, BsFillGearFill}
+ from 'react-icons/bs'
+
 function Sidebar({openSidebarToggle, OpenSidebar}) {
   return (
-    <aside id="sidebar-dash" className={openSidebarToggle ? "sidebar-responsive": ""}>
+    <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive": ""}>
         <div className='sidebar-title'>
-            <div className='sidebar-brand d-flex align-items-center gap-1'>
-              <i class="ri-pantone-line"></i>
-              <a href="/">INFINITE</a>
+            <div className='sidebar-brand'>
+                <BsCart3  className='icon_header'/> SHOP
             </div>
             <span className='icon close_icon' onClick={OpenSidebar}>X</span>
         </div>
 
         <ul className='sidebar-list'>
             <li className='sidebar-list-item'>
-                <a href="/">
-                    <BsGrid1X2Fill className='icon'/> Home
+                <a href="">
+                    <BsGrid1X2Fill className='icon'/> Dashboard
                 </a>
             </li>
             <li className='sidebar-list-item'>
-                <a href="/course">
-                    <BsFillArchiveFill className='icon'/> Courses
+                <a href="">
+                    <BsFillArchiveFill className='icon'/> Products
                 </a>
             </li>
             <li className='sidebar-list-item'>
@@ -33,12 +32,12 @@ function Sidebar({openSidebarToggle, OpenSidebar}) {
             </li>
             <li className='sidebar-list-item'>
                 <a href="">
-                    <BsPeopleFill className='icon'/> students
+                    <BsPeopleFill className='icon'/> Customers
                 </a>
             </li>
             <li className='sidebar-list-item'>
-                <a href="/quiz">
-                    <BsListCheck className='icon'/> Quiz
+                <a href="">
+                    <BsListCheck className='icon'/> Inventory
                 </a>
             </li>
             <li className='sidebar-list-item'>
@@ -49,11 +48,6 @@ function Sidebar({openSidebarToggle, OpenSidebar}) {
             <li className='sidebar-list-item'>
                 <a href="">
                     <BsFillGearFill className='icon'/> Setting
-                </a>
-            </li>
-            <li className='sidebar-list-item'>
-                <a href="">
-                    <BiSolidLogOut className='icon'/> Logout
                 </a>
             </li>
         </ul>
