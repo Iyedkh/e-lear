@@ -379,3 +379,126 @@ border-bottom: 2px solid #08071c;
 .loading-message {
   color: blue;
 }
+.about {
+  height: 80vh;
+  width: 100%;
+  /* Additional styles if needed */
+}
+.section{
+  height: 100%;
+  width: 100%;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+  place-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.border-container {
+  border-width: 3px;
+  border-style: solid;
+  border-color: teal;
+  border-radius: 0.5rem;
+  height: 100%;
+  width: 100%;
+}
+
+.image {
+  padding: 0.5rem;
+  height: 100%;
+  width: 100%;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.highlight {
+  color: teal;
+}
+
+.description {
+  font-size: 0.875rem;
+  color: #718096;
+  line-height: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.5rem;
+  font-weight: bold;
+}
+
+.contact{
+  height: 100%;
+  width: 100%;
+  background-image: url('./components/assests/images/335.png');
+  padding: 20px;
+}
+.text-center {
+  text-align: center;
+}
+
+.max-w-600 {
+  max-width: 600px;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.title {
+  font-size: 1.5rem; /* Equivalent to sm:text-3xl for small screens */
+  font-weight: bold;
+  margin-bottom: 1.25rem; /* Equivalent to mb-5 */
+  color: teal;
+}
+
+.description {
+  font-size: 1.25rem; /* Equivalent to text-sm */
+  line-height:2rem;
+  color: #000; 
+}
+
+.mt-5 {
+  margin-top: 1.25rem; /* Equivalent to mt-5 */
+  background-color: azure;
+}
+
+.input {
+  padding: 0.5rem; /* Equivalent to sm:p-3 and p-2 */
+  outline: none;
+  font-size: 0.875rem; /* Equivalent to text-sm */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Equivalent to shadow-md */
+  width: 12rem; /* Equivalent to sm:w-72 and w-60 */
+}
+
+.btns {
+  padding: 0.5rem; 
+  font-size: 0.875rem; 
+  font-weight: bold;
+  background-color: teal; 
+  color: white; 
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); 
+  border-radius: 26px;
+}
+.btns:hover{
+  background-color: rgb(16, 154, 154); 
+}
+.features{
+  background-color: #F0F0F0;
+}
+.a-mail{
+  padding-left: 3px;
+  color: #17bf9e;
+  text-decoration: none;
+}
