@@ -1,4 +1,4 @@
-import React from "react";
+import React,  { useState, useEffect } from "react";
 import './CourseCard.css';
 import axios from 'axios';
 import { Link } from "react-router-dom";
@@ -6,7 +6,7 @@ import { BsSave2Fill } from 'react-icons/bs';
 
 const CourseCard = ({ course }) => {
     const { _id, title, category, description, students, imageUrl, ratings } = course;
-
+    const [categories, setCategories] = useState([]);
     // Function to calculate average rating
     const calculateAverageRating = () => {
         if (ratings.length === 0) return 0;
@@ -28,6 +28,27 @@ const CourseCard = ({ course }) => {
             // You can add logic here to show an error message or handle the error in UI
         }
     };
+    
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/categories');
+                if (response.status === 200) {
+                    setCategories(response.data);
+                } else {
+                    console.error('Failed to fetch categories:', response.status, response.statusText);
+                }
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+    const getCategoryName = (categoryId) => {
+        const category = categories.find(cat => cat._id === categoryId);
+        return category ? category.name : '';
+    };
 
     return (
         <div className="course-card">
@@ -41,7 +62,7 @@ const CourseCard = ({ course }) => {
 
                 <div className=" d-flex justify-content-between align-items-center">
                     <p className="category d-flex align-items-center gap-1">
-                        Category: {category}
+                    <p className="category">Category: {getCategoryName(category)}</p>
                     </p>
                 </div>
 

@@ -7,6 +7,7 @@ import { Card, CardContent, Typography, CardMedia, Button, Menu, MenuItem } from
 
 const CourseList = () => {
     const [courses, setCourses] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
@@ -23,7 +24,21 @@ const CourseList = () => {
             }
         };
 
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/categories');
+                if (response.status === 200) {
+                    setCategories(response.data);
+                } else {
+                    console.error('Failed to fetch categories:', response.status, response.statusText);
+                }
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
         fetchCourses();
+        fetchCategories();
     }, []);
 
     const handleDeleteCourse = async (courseId) => {
@@ -48,6 +63,11 @@ const CourseList = () => {
 
     const handleMenuClose = () => {
         setAnchorEl(null);
+    };
+
+    const getCategoryName = (categoryId) => {
+        const category = categories.find(cat => cat._id === categoryId);
+        return category ? category.name : '';
     };
 
     const styles = `
@@ -178,6 +198,7 @@ const CourseList = () => {
             <div className="title">Courses Page</div>
             <div className='d-flex justify-content-evenly align-items-center gap-1'>
                 <Link to="/create-course" className="link">Create New Course</Link>
+                <Link to="/category" className="link">Category</Link>
                 <Link to="/dash" className="link">Dashboard</Link>
             </div>
             <div className="containere">
@@ -199,7 +220,6 @@ const CourseList = () => {
                                 onClose={handleMenuClose}
                             >
                                 <MenuItem component={Link} to={`/edit-course/${course._id}`} onClick={handleMenuClose}>Edit</MenuItem>
-
                                 <MenuItem onClick={() => handleDeleteCourse(course._id)}>Delete</MenuItem>
                             </Menu>
                             <CardMedia
@@ -210,6 +230,9 @@ const CourseList = () => {
                             />
                             <Typography gutterBottom variant="h5" component="div">
                                 {course.title}
+                            </Typography>
+                            <Typography gutterBottom variant="h5" component="div">
+                               Category : {getCategoryName(course.category)}
                             </Typography>
                             <Typography color="textSecondary">
                                 Rating: {course.rating}

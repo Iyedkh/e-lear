@@ -23,6 +23,7 @@ const communityChaptersRoutes = require('./routes/communityChaptersRoutes');
 const signInRoute = require('./routes/signinRoute'); 
 const saveCourseRoute = require('./routes/save');
 const category = require('./routes/categoryFilter');
+const categoryRoutes = require('./routes/categoryRoute');
 
 const multer = require('multer');
 
@@ -64,7 +65,7 @@ app.use('/community-chapters', communityChaptersRoutes);
 app.use('/api/auth', signInRoute);
 app.use('/savecourse', saveCourseRoute);
 app.use('/quiz', quizData);
-
+app.use('/categories', categoryRoutes);
 
 // Serve static files from the 'uploads' directory
 app.use('/uploads', express.static('uploads'));

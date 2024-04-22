@@ -7,10 +7,13 @@ const courseSchema = new mongoose.Schema({
     ref: 'Rating' // Reference to the Rating model
   }],
   description: String,
+  
   category: {
-    type: String,
-    required: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category', // Reference to the Category model
+    required: true,
   },
+
   videoUrl: String,
   imageUrl: {
     type: String,

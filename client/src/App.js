@@ -14,6 +14,9 @@ import Save from './pages/SavedPage';
 import Quiz from './pages/QuizListPage';
 import Enroll from './pages/Enroll';
 import About from './pages/AboutPage';
+import CreateCategory  from './pages/CreateCategory';
+import Category from './pages/CategoryPage';
+import CoursesByCategoryPage from './pages/CoursesByCategoryPage';
 import './index.css'
 
 function App() {
@@ -34,6 +37,9 @@ function App() {
         <Route path="/quiz" element={<Quiz/>} />
         <Route path="/enroll/:courseId" element={<Enroll/>} />
         <Route path="/About" element={<About/>} />
+        <Route path="/create-category" element={<CreateCategory/>} />
+        <Route path="/category" element={<Category/>} />
+        <Route path="/courses/:categoryId" element={<CoursesByCategoryPage/>} />
       </Routes>
     </Router>
   );

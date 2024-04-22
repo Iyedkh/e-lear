@@ -1,10 +1,10 @@
+// courses.js
 const express = require('express');
 const router = express.Router();
 const CourseModel = require('../models/course');
 const multer = require('multer');
 const path = require('path');
-const SavedCourse = require('../models/savedCourse'); 
-const mongoose = require('mongoose'); // Add this import statement for mongoose
+const mongoose = require('mongoose');
 
 // Multer storage configuration
 const storage = multer.diskStorage({
@@ -71,6 +71,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/category/:category', async (req, res) => {
+    try {
+        const category = req.params.category;
+        const courses = await CourseModel.find({ category: category });
+        res.json(courses);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 router.get('/top-rated', async (req, res) => {
     try {
         const courses = await CourseModel.find().populate('ratings');
@@ -131,17 +142,6 @@ router.delete('/:id', async (req, res) => {
         res.status(200).json({ message: 'Course deleted successfully' });
     } catch (error) {
         res.status(400).json({ error: error.message });
-    }
-});
-
-router.get('/category/:category', async (req, res) => {
-    try {
-        const category = req.params.category;
-        const courses = await CourseModel.find({ category: category });
-        res.json(courses);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
     }
 });
 

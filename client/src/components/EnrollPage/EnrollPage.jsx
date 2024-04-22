@@ -17,6 +17,7 @@ const EnrollPage = () => {
   const [rating, setRating] = useState(0); 
   const { courseId } = useParams();
   const [hover, setHover] = useState(0);
+  const [categories, setCategories] = useState([]);
   const fetchCourse = async () => {
     try {
       const response = await axios.get(`http://localhost:3000/courses/${courseId}`);
@@ -80,6 +81,26 @@ const EnrollPage = () => {
     }
     
   };
+  useEffect(() => {
+    const fetchCategories = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/categories');
+            if (response.status === 200) {
+                setCategories(response.data);
+            } else {
+                console.error('Failed to fetch categories:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+        }
+    };
+
+    fetchCategories();
+}, []);
+const getCategoryName = (categoryId) => {
+  const category = categories.find(cat => cat._id === categoryId);
+  return category ? category.name : '';
+};
   return (
     <section>
       <Container>
@@ -111,7 +132,7 @@ const EnrollPage = () => {
               <div className="title mt-2">
                 <h6>{course?.title}</h6>
                 <div className="d-flex justify-content-around">
-                  <p>Category: {course?.category}</p>
+                <p className="category">Category: {getCategoryName(course?.category)}</p>
                   <p>Description:  {course?.description}</p>
                 </div>     
               </div> 
