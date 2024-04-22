@@ -1,13 +1,13 @@
 import React from "react";
 import './Card.css';
-
+import { Link } from "react-router-dom";
 const Card = ({ savedCourse }) => {
     // Check if savedCourse and courseId exist and are populated
     if (!savedCourse || !savedCourse.courseId || !savedCourse.courseId.title) {
-        return <div>Error: Course data is incomplete</div>;
+       return ;
     }
 
-    const { title, description, category, rating, videoUrl, imageUrl } = savedCourse.courseId;
+    const { _id,title, description, category, rating, videoUrl, imageUrl } = savedCourse.courseId;
 
     return (
         <div className="course-card">
@@ -33,7 +33,7 @@ const Card = ({ savedCourse }) => {
                 <div className="d-flex justify-content-center align-items-center">                 
 
                     <p className="enroll d-flex align-items-center gap-1">
-                        <a href={videoUrl}>Enroll Now</a>
+                    <Link to={`/enroll/${_id}`}>Enroll Now</Link>
                     </p>
                 </div>
             </div>

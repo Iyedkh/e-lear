@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Card from '../components/saved/card';
+import NavBar from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css'; // Import Swiper CSS
@@ -30,7 +32,7 @@ const Courses = () => {
 
     return (
         <>
-            
+            <NavBar/>
             <div className="container">
                 
                 <h1>Your Saved Courses</h1>
@@ -51,7 +53,7 @@ const Courses = () => {
                     ))}
                 </Swiper>
             </div>
-        
+        <Footer/>
         </>
     );
 };

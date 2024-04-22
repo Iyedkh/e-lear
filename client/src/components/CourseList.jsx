@@ -3,14 +3,10 @@ import { Link } from 'react-router-dom';
 import NavBar from '../components/Header/Header';
 import Footer from "../components/Footer/Footer";
 import axios from 'axios';
-import { Card, CardContent, Typography, CardMedia, Button, Menu, MenuItem, TextField } from '@mui/material';
+import { Card, CardContent, Typography, CardMedia, Button, Menu, MenuItem } from '@mui/material';
 
 const CourseList = () => {
     const [courses, setCourses] = useState([]);
-    const [editCourse, setEditCourse] = useState(null);
-    const [editedTitle, setEditedTitle] = useState('');
-    const [editedRating, setEditedRating] = useState('');
-    const [editedDescription, setEditedDescription] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
@@ -29,33 +25,6 @@ const CourseList = () => {
 
         fetchCourses();
     }, []);
-
-    const handleEditCourse = (course) => {
-        setEditCourse(course);
-        setEditedTitle(course.title);
-        setEditedRating(course.rating);
-        setEditedDescription(course.description);
-    };
-
-    const handleUpdateCourse = async () => {
-        try {
-            const updatedCourse = await axios.put(`http://localhost:3000/courses/${editCourse._id}`, {
-                title: editedTitle,
-                rating: editedRating,
-                description: editedDescription
-            });
-            console.log('Updated course:', updatedCourse.data);
-            // Clear edit form
-            setEditCourse(null);
-            setEditedTitle('');
-            setEditedRating('');
-            setEditedDescription('');
-            window.location.reload();
-        } catch (error) {
-            console.error('Error updating course:', error);
-        }
-        
-    };
 
     const handleDeleteCourse = async (courseId) => {
         try {
@@ -80,7 +49,6 @@ const CourseList = () => {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
-
 
     const styles = `
     .containere {
@@ -209,8 +177,8 @@ const CourseList = () => {
             <style>{styles}</style>
             <div className="title">Courses Page</div>
             <div className='d-flex justify-content-evenly align-items-center gap-1'>
-            <Link to="/create-course" className="link">Create New Course</Link>
-            <Link to="/dash" className="link">Dashboard</Link>
+                <Link to="/create-course" className="link">Create New Course</Link>
+                <Link to="/dash" className="link">Dashboard</Link>
             </div>
             <div className="containere">
                 {courses.map(course => (
@@ -230,7 +198,8 @@ const CourseList = () => {
                                 open={Boolean(anchorEl)}
                                 onClose={handleMenuClose}
                             >
-                                <MenuItem component={Link}  to={`/edit-course/${course._id}`} onClick={() => handleUpdateCourse(course._id)}>Edit</MenuItem>
+                                <MenuItem component={Link} to={`/edit-course/${course._id}`} onClick={handleMenuClose}>Edit</MenuItem>
+
                                 <MenuItem onClick={() => handleDeleteCourse(course._id)}>Delete</MenuItem>
                             </Menu>
                             <CardMedia
@@ -239,7 +208,6 @@ const CourseList = () => {
                                 image={`http://localhost:3000${course.imageUrl}`}
                                 alt={course.title}
                             />
-                            {editCourse && editCourse._id === course._id }
                             <Typography gutterBottom variant="h5" component="div">
                                 {course.title}
                             </Typography>
@@ -264,9 +232,8 @@ const CourseList = () => {
             </div>
             <br />
             <Footer />
-        </>   
+        </>
     );
-     
 };
 
 export default CourseList;

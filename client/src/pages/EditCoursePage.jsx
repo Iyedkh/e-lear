@@ -7,7 +7,6 @@ const EditCoursePage = () => {
 
   return (
     <div>
-      
       <CourseEdit courseId={id} />
       <Footer />
     </div>
