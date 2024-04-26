@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './EnrollPage.css';
 import { Link } from 'react-router-dom';
-const Sidebar = ({ courseId, onSelectCourse }) => {
+
+const Sidebar = ({ courseId, categoryId }) => {
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/courses');
+                const response = await axios.get(`http://localhost:3000/courses/category/${categoryId}`);
                 if (response.status === 200) {
                     setCourses(response.data);
                 } else {
@@ -20,7 +21,7 @@ const Sidebar = ({ courseId, onSelectCourse }) => {
         };
 
         fetchCourses();
-    }, []);
+    }, [categoryId]);
 
     return (
         <div className="sidebar">

@@ -1,15 +1,13 @@
-// EnrollPage.jsx
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import axios from "axios";
 import chooseImg from "../assests/images/why-choose-us.png";
-import SideBar from './Sidebar';
-import Comment from './CommentForm';
+import SideBar from './Sidebar'; // Update the import path accordingly
+import Comment from './CommentForm'; // Update the import path accordingly
 import ReactPlayer from "react-player";
 import './EnrollPage.css';
 import { FaStar } from "react-icons/fa";
-
 
 const EnrollPage = () => {
   const [course, setCourse] = useState(null);
@@ -18,11 +16,15 @@ const EnrollPage = () => {
   const { courseId } = useParams();
   const [hover, setHover] = useState(0);
   const [categories, setCategories] = useState([]);
+  const [categoryId, setCategoryId] = useState(null); // State to hold the category ID of the current course
+  const [averageRating, setAverageRating] = useState(0); // State to hold the average rating of the course
+
   const fetchCourse = async () => {
     try {
       const response = await axios.get(`http://localhost:3000/courses/${courseId}`);
       if (response.status === 200) {
         setCourse(response.data);
+        setCategoryId(response.data.category); // Set the category ID of the current course
       } else {
         console.error('Failed to fetch course:', response.status, response.statusText);
       }
@@ -35,52 +37,6 @@ const EnrollPage = () => {
     fetchCourse();
   }, [courseId]); 
 
-  const handleRatingSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await axios.post(`http://localhost:3000/rate-course/courses/${courseId}/ratings`, { stars: rating });
-      if (response.status === 201) {
-        console.log('Rating submitted successfully');
-        fetchCourse();
-      } else {
-        console.error('Failed to submit rating:', response.status, response.statusText);
-      }
-    } catch (error) {
-      console.error('Error submitting rating:', error);
-    }
-    window.location.reload();
-  };
-  const [ratings, setRatings] = useState([]);
-  const [averageRating, setAverageRating] = useState(0);
-
-  useEffect(() => {
-    const fetchRatings = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/rate-course/courses/${courseId}/ratings`);
-        if (response.status === 200) {
-          setRatings(response.data.ratings);
-          calculateAverageRating(response.data.ratings);
-        } else {
-          console.error('Failed to fetch ratings:', response.status, response.statusText);
-        }
-      } catch (error) {
-        console.error('Error fetching ratings:', error);
-      }
-    };
-
-    fetchRatings();
-  }, [courseId]);
-  
-  const calculateAverageRating = (ratings) => {
-    if (ratings.length === 0) {
-      setAverageRating(0);
-    } else {
-      const totalRating = ratings.reduce((acc, curr) => acc + curr.stars, 0);
-      const avgRating = totalRating / ratings.length;
-      setAverageRating(avgRating);
-    }
-    
-  };
   useEffect(() => {
     const fetchCategories = async () => {
         try {
@@ -96,11 +52,55 @@ const EnrollPage = () => {
     };
 
     fetchCategories();
-}, []);
-const getCategoryName = (categoryId) => {
-  const category = categories.find(cat => cat._id === categoryId);
-  return category ? category.name : '';
-};
+  }, []);
+
+  const getCategoryName = (categoryId) => {
+    const category = categories.find(cat => cat._id === categoryId);
+    return category ? category.name : '';
+  };
+
+  const calculateAverageRating = (ratings) => {
+    if (ratings.length === 0) {
+      setAverageRating(0);
+    } else {
+      const totalRating = ratings.reduce((acc, curr) => acc + curr.stars, 0);
+      const avgRating = totalRating / ratings.length;
+      setAverageRating(avgRating);
+    }
+  };
+
+  const handleRatingSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post(`http://localhost:3000/rate-course/courses/${courseId}/ratings`, { stars: rating });
+      if (response.status === 201) {
+        console.log('Rating submitted successfully');
+        fetchCourse();
+      } else {
+        console.error('Failed to submit rating:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error submitting rating:', error);
+    }
+    window.location.reload(); // This line may not be necessary
+  };
+  useEffect(() => {
+    const fetchRatings = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/rate-course/courses/${courseId}/ratings`);
+        if (response.status === 200) {
+          setRating(response.data.ratings);
+          calculateAverageRating(response.data.ratings);
+        } else {
+          console.error('Failed to fetch ratings:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('Error fetching ratings:', error);
+      }
+    };
+
+    fetchRatings();
+  }, [courseId]);
   return (
     <section>
       <Container>
@@ -115,7 +115,6 @@ const getCategoryName = (categoryId) => {
                     width="100%"
                     height="350px"
                   />
-                  
                 </React.Fragment>
               ) : (
                 <img src={chooseImg} alt="" className="w-100" />
@@ -132,54 +131,53 @@ const getCategoryName = (categoryId) => {
               <div className="title mt-2">
                 <h6>{course?.title}</h6>
                 <div className="d-flex justify-content-around">
-                <p className="category">Category: {getCategoryName(course?.category)}</p>
+                  <p className="category">Category: {getCategoryName(course?.category)}</p>
                   <p>Description:  {course?.description}</p>
                 </div>     
               </div> 
-                <div>
-                  <p>Average Rating: {averageRating.toFixed(2)} </p>
-                </div>            
+              <div>
+                <p>Average Rating: {averageRating.toFixed(2)} </p>
+              </div>            
             </div>           
           </Col>
 
           <Col lg="4" md="4" sm="12">
-            <SideBar/>
+            <SideBar courseId={courseId} categoryId={categoryId} />
           </Col>
+
           <div className="rating mt-2">
-        <h6>Rate this course</h6>
-        <Form onSubmit={handleRatingSubmit}>
-          <FormGroup tag="fieldset">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <FormGroup check inline key={star}>
-                <Label check>
-                  <Input
-                    type="radio"
-                    name="rating"
-                    value={star}
-                    onChange={() => setRating(star)}
-                    style={{ display: "none" }} // Hide radio button
-                  />
-                  <FaStar
-                    color={star <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
-                    size={25}
-                    style={{ cursor: "pointer" }}
-                    onMouseEnter={() => setHover(star)}
-                    onMouseLeave={() => setHover(0)}
-                  />
-                </Label>
+            <h6>Rate this course</h6>
+            <Form onSubmit={handleRatingSubmit}>
+              <FormGroup tag="fieldset">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <FormGroup check inline key={star}>
+                    <Label check>
+                      <Input
+                        type="radio"
+                        name="rating"
+                        value={star}
+                        onChange={() => setRating(star)}
+                        style={{ display: "none" }} // Hide radio button
+                      />
+                      <FaStar
+                        color={star <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
+                        size={25}
+                        style={{ cursor: "pointer" }}
+                        onMouseEnter={() => setHover(star)}
+                        onMouseLeave={() => setHover(0)}
+                      />
+                    </Label>
+                  </FormGroup>
+                ))}
               </FormGroup>
-            ))}
-          </FormGroup>
-          <Button type="submit" color="primary">Submit Rating</Button>
-        </Form>
-      </div>
-    
- 
+              <Button type="submit" color="primary">Submit Rating</Button>
+            </Form>
+          </div>
+
           <div className="comment mt-2">
             <Comment courseId={courseId} />
           </div>
           
-         
         </Row>
       </Container>
     </section>
