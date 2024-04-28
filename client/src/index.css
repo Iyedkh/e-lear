@@ -502,3 +502,52 @@ border-bottom: 2px solid #08071c;
   color: #17bf9e;
   text-decoration: none;
 }
+
+.job{
+  display: block;
+  background-color: #FFD700;
+  height: 100%;
+  width: 100%;
+}
+.tit{
+  width: 80%;
+  padding: 10px 0 0 20px;
+}
+.tit p{
+  padding: 20px;
+  width: 80%;
+}
+.grid{
+  display: grid;
+  padding: 20px;
+  grid-template-columns: auto auto auto;
+  justify-content: space-between;
+}
+.feature-card {
+
+  text-align: center;
+  padding: 1.5rem; /* Adjust padding as needed */
+  margin-bottom: 1.5rem; /* Adjust margin as needed */
+}
+
+.feature-card__image {
+  max-width: 60px;
+  height: auto;
+  margin-bottom: 1rem; /* Adjust margin as needed */
+}
+
+.btn- {
+  background-color: #1E40AF; /* Blue */
+  color: #FFFFFF; /* White */
+  border: none;
+  padding: 0.75rem 1.5rem; /* Adjust padding as needed */
+  font-size: 1rem; /* Adjust font size as needed */
+  border-radius: 0.25rem; /* Adjust border radius as needed */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-:hover {
+  background-color: #1E3A8A; 
+  
+}
