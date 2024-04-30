@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const quizSchema = new mongoose.Schema({
+const questionSchema = new mongoose.Schema({
     question: {
         type: String,
         required: true
@@ -13,6 +13,14 @@ const quizSchema = new mongoose.Schema({
         type: String,
         required: true
     }
+});
+
+const quizSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    questions: [questionSchema]
 });
 
 const Quiz = mongoose.model('Quiz', quizSchema);

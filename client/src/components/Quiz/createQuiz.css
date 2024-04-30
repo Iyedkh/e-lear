@@ -1,81 +1,82 @@
-.form-container {
-  max-width: 500px;
+/* Styles for Create Quiz Form */
+
+/* Container styles */
+.create-quiz-container {
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
 }
 
-.form-group {
+/* Form styles */
+form {
+  margin-top: 20px;
+}
+
+/* Question styles */
+.question-container {
   margin-bottom: 20px;
-}
-
-.label {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  display: block;
-}
-
-.input-field {
-  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 16px;
 }
 
-.choices-container {
-  margin-bottom: 20px;
+.question-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
-.choice {
+.question-container input[type="text"],
+.question-container select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Choices styles */
+.choices-container ul {
+  list-style-type: none;
+  padding: 0;
   margin-bottom: 10px;
 }
 
-.add-choice-button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
+.choices-container ul li {
+  margin-bottom: 5px;
+}
+
+.choices-container ul li input[type="text"] {
+  width: calc(100% - 40px);
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-.remove-choice-button {
-  background-color: #f44336;
-  color: white;
+.choices-container ul li button {
+  padding: 5px 10px;
   border: none;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
+  background-color: #dc3545;
+  color: #fff;
   border-radius: 5px;
+  cursor: pointer;
 }
 
-.submit-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-top: 20px;
-  cursor: pointer;
-  border-radius: 5px;
+.choices-container ul li button:hover {
+  background-color: #c82333;
 }
 
-.submit-button:hover {
-  background-color: #0056b3;
+/* Correct Answer styles */
+.correct-answer-container select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
+.but{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+

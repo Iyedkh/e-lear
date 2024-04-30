@@ -17,6 +17,7 @@ import About from './pages/AboutPage';
 import CreateCategory  from './pages/CreateCategory';
 import Category from './pages/CategoryPage';
 import CoursesByCategoryPage from './pages/CoursesByCategoryPage';
+import EditQuizPage from './pages/EditQuizPage';
 import './index.css'
 
 function App() {
@@ -30,7 +31,8 @@ function App() {
         <Route path="/edit-course/:id" element={<EditCoursePage />} />
         <Route path="/search/:query" element={<SearchedCoursesPage />} />
         <Route path="/quiz/create" element={<QuizCreate />} />
-        <Route path="/quiz/pass" element={<QuizPage />} />
+        <Route path="/quiz/pass/:quizId" element={<QuizPage />} />
+        <Route path="/edit/:quizId" element={<EditQuizPage/>} />
         <Route path="/dash" element={<Dash />} />
         <Route path="/userC" element={<UserCourse />} />
         <Route path="/saved" element={<Save/>} />

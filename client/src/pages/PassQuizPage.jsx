@@ -1,85 +1,86 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const PassQuizPage = () => {
-  const [quizData, setQuizData] = useState([]);
-  const [quizAnswers, setQuizAnswers] = useState({});
-  const [loading, setLoading] = useState(true);
+    const { quizId } = useParams();
+    const [quiz, setQuiz] = useState(null);
+    const [answers, setAnswers] = useState([]);
+    const [correctCount, setCorrectCount] = useState(0);
+    const [incorrectCount, setIncorrectCount] = useState(0);
+    const [submitted, setSubmitted] = useState(false);
 
-  useEffect(() => {
-    fetchQuizData();
-  }, []);
+    useEffect(() => {
+        fetchQuiz();
+    }, []);
 
-  const fetchQuizData = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/quiz/'); // Adjust the URL accordingly
-      if (response.status === 200) {
-        setQuizData(response.data);
-      } else {
-        console.error('Failed to fetch quiz data:', response.status, response.statusText);
-      }
-    } catch (error) {
-      console.error('Error fetching quiz data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchQuiz = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3000/quiz/${quizId}`);
+            setQuiz(response.data);
+            // Initialize answers array with empty strings
+            setAnswers(Array(response.data.questions.length).fill(''));
+        } catch (error) {
+            console.error('Error fetching quiz:', error);
+        }
+    };
 
-  const handleAnswerChange = (questionId, selectedAnswer) => {
-    setQuizAnswers({ ...quizAnswers, [questionId]: selectedAnswer });
-  };
+    const handleAnswerChange = (e, index) => {
+        const updatedAnswers = [...answers];
+        updatedAnswers[index] = e.target.value;
+        setAnswers(updatedAnswers);
+    };
 
-  const handleQuizSubmit = (e) => {
-    e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`http://localhost:3000/quiz/pass/${quizId}`, { answers });
+            const { correct, incorrect } = response.data;
+            setCorrectCount(correct);
+            setIncorrectCount(incorrect);
+            setSubmitted(true);
+        } catch (error) {
+            console.error('Error passing quiz:', error);
+        }
+    };
 
-    let correctAnswers = 0;
-    const totalQuestions = quizData.length;
-
-    quizData.forEach(question => {
-      const selectedAnswer = quizAnswers[question._id];
-      if (selectedAnswer === question.correctAnswer) {
-        correctAnswers++;
-      }
-    });
-
-    const incorrectAnswers = totalQuestions - correctAnswers;
-    const message = `You got ${correctAnswers} correct answer(s) and ${incorrectAnswers} incorrect answer(s).`;
-
-    alert(message);
-  };
-
-  if (loading) {
-    return <p>Loading quiz...</p>;
-  }
-
-  return (
-    <div>
-      <h1>Pass Quiz</h1>
-      <form onSubmit={handleQuizSubmit}>
-        {quizData.map(question => (
-          <div key={question._id}>
-            <h3>{question.question}</h3>
-            <ul>
-              {question.choices.map((choice, index) => (
-                <li key={index}>
-                  <label>
-                    <input
-                      type="radio"
-                      name={question._id}
-                      value={choice}
-                      onChange={(e) => handleAnswerChange(question._id, e.target.value)}
-                    />
-                    {choice}
-                  </label>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  );
+    return (
+        <div>
+            {quiz && (
+                <div>
+                    <h1>Pass Quiz: {quiz.title}</h1>
+                    <form onSubmit={handleSubmit}>
+                        {quiz.questions.map((question, index) => (
+                            <div key={index}>
+                                <p>{question.question}</p>
+                                {question.choices.map((choice, choiceIndex) => (
+                                    <div key={choiceIndex}>
+                                        <input
+                                            type="radio"
+                                            id={`choice${index}${choiceIndex}`}
+                                            name={`question${index}`}
+                                            value={choice}
+                                            checked={answers[index] === choice}
+                                            onChange={(e) => handleAnswerChange(e, index)}
+                                        />
+                                        <label htmlFor={`choice${index}${choiceIndex}`}>{choice}</label>
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
+                        <button type="submit">Submit Answers</button>
+                    </form>
+                    {submitted && (
+                        <div>
+                            <h2>Quiz Results</h2>
+                            <p>Correct Answers: {correctCount}</p>
+                            <p>Incorrect Answers: {incorrectCount}</p>
+                        </div>
+                    )}
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default PassQuizPage;
