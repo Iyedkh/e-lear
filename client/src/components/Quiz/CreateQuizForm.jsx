@@ -33,7 +33,8 @@ const CreateQuizForm = () => {
         try {
             const quizData = { title, questions }; // Include title along with questions
             const response = await axios.post('http://localhost:3000/quiz/create', quizData);
-            console.log('Quiz created successfully:', response.data);
+            window.alert('Quiz created successfully:', response.data);
+            
             // Optionally, you can redirect the user or display a success message
         } catch (error) {
             console.error('Error creating quiz:', error);

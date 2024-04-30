@@ -36,7 +36,7 @@ const QuizListPage = () => {
         try {
             // Make an HTTP DELETE request to delete the quiz by its ID
             const response = await axios.delete(`http://localhost:3000/quiz/${quizId}`);
-            console.log('Quiz deleted successfully:', response.data);
+            window.alert('Quiz deleted successfully:', response.data);
             // Handle success response
         } catch (error) {
             console.error('Error deleting quiz:', error);
