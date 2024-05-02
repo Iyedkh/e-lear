@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '../components/Header/Header';
-import Footer from "../components/Footer/Footer";
 import axios from 'axios';
-import { Card, CardContent, Typography, CardMedia, Button, Menu, MenuItem } from '@mui/material';
+import { Button, Menu, MenuItem } from '@mui/material';
+
 
 const CourseList = () => {
     const [courses, setCourses] = useState([]);
@@ -71,54 +71,29 @@ const CourseList = () => {
     };
 
     const styles = `
-    .containere {
-        background-color: aqua;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        padding: 20px;
+    .container {
         margin-top: 20px;
     }
 
-    .card {
-        width: calc(33.33% - 20px);
-        margin-bottom: 20px;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-        position: relative;
+    table {
+        width: 100%;
+        border-collapse: collapse;
     }
 
-    .ellipsis-button {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background-color: transparent;
-        color: #000000;
-        padding: 0;
-        min-width: auto;
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
     }
 
-    .edit-fields {
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .action-buttons {
         display: flex;
-        flex-direction: column;
         gap: 10px;
     }
-
-    .edit-field {
-        width: 100%;
-    }
-
-    .title {
-        font-size: 24px;
-        text-align: center;
-        margin-bottom: 20px;
-        padding: 10px;
-        background-color: rgb(240, 240, 240);
-        width: 100%;
-    }
-
     .link {
         font-size: 18px;
         margin-bottom: 20px;
@@ -131,130 +106,47 @@ const CourseList = () => {
         border-radius: 26px;
         text-align: center;
     }
-
-    .card:hover {
-        transform: translateY(-5px);
-    }
-
-    .card-content {
-        padding: 20px;
-    }
-
-    .card-title {
-        font-size: 20px;
-        margin-bottom: 10px;
-    }
-
-    .rating {
-        margin-bottom: 10px;
-    }
-
-    .description {
-        margin-bottom: 20px;
-    }
-
-    .watch-button {
-        margin-top:9px;
-        display: block;
-        width: 100%;
-        padding: 10px 0;
+    .Title{
         text-align: center;
-        background-color: #007bff;
-        color: #fff;
-        text-decoration: none;
-        border: none;
-        border-radius: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+        margin-bottom: 15px;
+        font-family: Courier, monospace;
     }
-
-    .link:hover {
-        background-color: #2e7d32;
-    }
-
-    .watch-button:hover {
-        background-color: #0056b3;
-    }
-
-    @media screen and (max-width: 767px) {
-        .card {
-            width: 100%; 
-        }
-    }
-
-    @media screen and (min-width: 768px) {
-        .container {
-            width: 100%; 
-            justify-content: space-around; 
-        }
-    }
-    
     `;
 
     return (
         <>
             <NavBar />
             <style>{styles}</style>
-            <div className="title">Courses Page</div>
-            <div className='d-flex justify-content-evenly align-items-center gap-1'>
+            <div className="container">
+                <h2 className='Title'>Courses Page</h2>
+                <div className='d-flex justify-content-evenly align-items-center gap-1'>
                 <Link to="/create-course" className="link">Create New Course</Link>
                 <Link to="/category" className="link">Category</Link>
-                <Link to="/dash" className="link">Dashboard</Link>
             </div>
-            <div className="containere">
-                {courses.map(course => (
-                    <Card key={course._id} className="card">
-                        <CardContent>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleMenuOpen}
-                                className="ellipsis-button"
-                            >
-                                ...
-                            </Button>
-                            <Menu
-                                id="course-menu"
-                                anchorEl={anchorEl}
-                                open={Boolean(anchorEl)}
-                                onClose={handleMenuClose}
-                            >
-                                <MenuItem component={Link} to={`/edit-course/${course._id}`} onClick={handleMenuClose}>Edit</MenuItem>
-                                <MenuItem onClick={() => handleDeleteCourse(course._id)}>Delete</MenuItem>
-                            </Menu>
-                            <CardMedia
-                                component="img"
-                                height="140"
-                                image={`http://localhost:3000${course.imageUrl}`}
-                                alt={course.title}
-                            />
-                            <Typography gutterBottom variant="h5" component="div">
-                                {course.title}
-                            </Typography>
-                            <Typography gutterBottom variant="h5" component="div">
-                               Category : {getCategoryName(course.category)}
-                            </Typography>
-                            <Typography color="textSecondary">
-                                Rating: {course.rating}
-                            </Typography>
-                            <Typography variant="body2" component="p">
-                                {course.description}
-                            </Typography>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                href={course.videoUrl}
-                                target="_blank"
-                                className="watch-button"
-                            >
-                                Watch Now
-                            </Button>
-                        </CardContent>
-                    </Card>
-                ))}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {courses.map(course => (
+                            <tr key={course._id}>
+                                <td>{course.title}</td>
+                                <td>{getCategoryName(course.category)}</td>
+                                <td className="action-buttons">
+                                    <Button component={Link} to={`/enroll/${course._id}`} variant="contained" color="primary">Enroll</Button>
+                                    <Button component={Link} to={`/edit-course/${course._id}`} variant="contained">Update</Button>
+                                    <Button onClick={() => handleDeleteCourse(course._id)} variant="contained" color="error">Delete</Button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
-            <br />
-            <Footer />
+            
         </>
     );
 };

@@ -39,6 +39,12 @@ const EditQuizPage = () => {
         setQuestions(updatedQuestions);
     };
 
+    const handleCorrectAnswerChange = (e, questionIndex) => {
+        const updatedQuestions = [...questions];
+        updatedQuestions[questionIndex].correctAnswer = e.target.value;
+        setQuestions(updatedQuestions);
+    };
+
     const handleAddQuestion = () => {
         setQuestions([...questions, { question: '', choices: ['', ''], correctAnswer: '' }]);
     };
@@ -51,8 +57,18 @@ const EditQuizPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:3000/quiz/${quizId}`, { title, questions });
+            // Include correct answers in the questions array
+            const updatedQuestions = questions.map(question => ({
+                ...question,
+                correctAnswer: question.correctAnswer, // Include the correct answer in each question
+            }));
+            
+            await axios.put(`http://localhost:3000/quiz/${quizId}`, { title, questions: updatedQuestions });
             window.alert('Quiz updated successfully'); // Alert for successful update
+            
+            // Log the updated quiz data
+            console.log('Updated Quiz Data:', { title, questions: updatedQuestions });
+    
             // Optionally, you can redirect the user or display a success message
         } catch (error) {
             console.error('Error updating quiz:', error);
@@ -60,7 +76,7 @@ const EditQuizPage = () => {
             // Handle error
         }
     };
-
+    
     return (
         <div>
             <h1>Edit Quiz</h1>
@@ -89,9 +105,23 @@ const EditQuizPage = () => {
                                 </li>
                             ))}
                         </ul>
+                        <label>Correct Answer:</label>
+                        <select
+                            value={question.correctAnswer}
+                            onChange={(e) => handleCorrectAnswerChange(e, index)}
+                            required
+                        >
+                            <option value="">Select Correct Answer</option>
+                            {question.choices.map((choice, choiceIndex) => (
+                                <option key={choiceIndex} value={choice}>
+                                    {choice}
+                                </option>
+                            ))}
+                        </select>
                         <button type="button" onClick={() => handleRemoveQuestion(index)}>Remove Question</button>
                     </div>
                 ))}
+                
                 <button type="button" onClick={handleAddQuestion}>Add Question</button>
                 <button type="submit">Update Quiz</button>
             </form>
