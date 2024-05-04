@@ -113,21 +113,7 @@ const Enroll = () => {
         </Row>
       </Container>
         </section>
-
-        <div class="contact" id="contact">
-        <div class="text-center max-w-600 mx-auto">
-            <div class="title" >
-                 Subscribe Newsletter
-             </div>
-        <p class="description">
-             Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum autem minus doloribus voluptatem illo velit quia eum aperiam! Repudiandae, tempore. Lorem ipsum dolor sit amet.
-        </p>
-    <form class="mt-5">
-      <input type="text" placeholder="Enter your email address" class="input" />
-      <button class="btns">Subscribe</button>
-    </form>
-  </div>
-        </div>
+        
         <div className="job">
           <div className="tit">
             <h2>Get job-ready</h2>
@@ -160,7 +146,22 @@ const Enroll = () => {
             </div>
           </div>
           
-        </div>  
+        </div> 
+        <div class="contact" id="contact">
+        <div class="text-center max-w-600 mx-auto">
+            <div class="title" >
+                 Subscribe Newsletter
+             </div>
+        <p class="description">
+             Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum autem minus doloribus voluptatem illo velit quia eum aperiam! Repudiandae, tempore. Lorem ipsum dolor sit amet.
+        </p>
+    <form class="mt-5">
+      <input type="text" placeholder="Enter your email address" class="input" />
+      <button class="btns">Subscribe</button>
+    </form>
+  </div>
+        </div>
+         
         <Footer/>
        
       </div>

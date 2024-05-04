@@ -147,14 +147,14 @@ i {
 .work .box:nth-child(4)::after,
 .work .box:nth-child(3)::after,
 .work .box:nth-child(2)::after {
-  width: 380px;
-  height: 550px;
+  width: 100%;
+  height: 100%;
   background: rgba(18, 22, 25, 0.925);
 }
 .work .box:nth-child(6)::after,
 .work .box:nth-child(1)::after {
-  width: 758px;
-  height: 550px;
+  width: 100%;
+  height: 100%;
   background: rgba(18, 22, 25, 0.925);
 }
 .work .box:hover::after {
@@ -506,6 +506,7 @@ border-bottom: 2px solid #08071c;
 .job{
   display: block;
   background-color: #FFD700;
+  background-image: url('./components/assests/images/335.png');
   height: 100%;
   width: 100%;
 }

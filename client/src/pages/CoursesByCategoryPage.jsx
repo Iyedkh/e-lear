@@ -29,12 +29,27 @@ const CoursesByCategoryPage = () => {
         fetchCoursesByCategory();
     }, [categoryId]);
 
+    const styles = `
+    .cat {
+        font-size: 18px;
+        margin-bottom: 20px;
+        display: block;
+        width: fit-content;
+        padding: 10px;
+        background-color: #17bf9e;
+        color: white;
+        text-decoration: none;
+        border-radius: 26px;
+        text-align: center;
+    }`;
     return (
         <>
             <NavBar />
+           
             <div className="container">
+                 <style>{styles}</style>
                 <h2>Courses in this Category</h2>
-                <Link to="/">Back to Categories</Link>
+                <a className="cat" href="/category">Back to Categories</a>
                 <Swiper
                     breakpoints={{
                         320: {

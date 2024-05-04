@@ -4,11 +4,11 @@ import NavBar from '../components/Header/Header';
 import axios from 'axios';
 import { Button, Menu, MenuItem } from '@mui/material';
 
-
 const CourseList = () => {
     const [courses, setCourses] = useState([]);
     const [categories, setCategories] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState('');
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -65,19 +65,28 @@ const CourseList = () => {
         setAnchorEl(null);
     };
 
+    const handleCategorySelect = (categoryId) => {
+        setSelectedCategory(categoryId);
+        setAnchorEl(null); // Close the menu after selecting category
+    };
+
     const getCategoryName = (categoryId) => {
         const category = categories.find(cat => cat._id === categoryId);
         return category ? category.name : '';
     };
-
     const styles = `
     .container {
         margin-top: 20px;
     }
-
+    .h2{
+        margin-bottom: 20px;
+        text-align: center;
+        font-family: Courier, monospace;
+    }
     table {
         width: 100%;
         border-collapse: collapse;
+        margin-bottom: 20px;
     }
 
     th, td {
@@ -93,6 +102,7 @@ const CourseList = () => {
     .action-buttons {
         display: flex;
         gap: 10px;
+        justify-content: space-around;
     }
     .link {
         font-size: 18px;
@@ -115,14 +125,38 @@ const CourseList = () => {
 
     return (
         <>
-            <NavBar />
             <style>{styles}</style>
+            <NavBar />
             <div className="container">
-                <h2 className='Title'>Courses Page</h2>
+                <h2 className='h2'>Courses Page</h2>
                 <div className='d-flex justify-content-evenly align-items-center gap-1'>
-                <Link to="/create-course" className="link">Create New Course</Link>
-                <Link to="/category" className="link">Category</Link>
-            </div>
+                    <Link to="/create-course" className="link">Create New Course</Link>
+                    <Link to="/category" className="link">Category</Link>
+                    <Link to="/quiz" className="link">Quiz</Link>
+                    <Link to="#" className="link">Dashboard</Link>
+                </div>
+                <div>
+                <Button
+                    onClick={handleMenuOpen}
+                        style={{
+                            backgroundColor: '#17bf9e',
+                            color: 'white',
+                            padding: '10px 20px',
+                            textTransform: 'none'  }}>
+                Filter by Category</Button>
+
+                    <Menu
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleMenuClose}
+                    >
+                        {categories.map(category => (
+                            <MenuItem key={category._id} onClick={() => handleCategorySelect(category._id)}>
+                                {category.name}
+                            </MenuItem>
+                        ))}
+                    </Menu>
+                </div>
                 <table>
                     <thead>
                         <tr>
@@ -133,6 +167,7 @@ const CourseList = () => {
                     </thead>
                     <tbody>
                         {courses.map(course => (
+                            (!selectedCategory || course.category === selectedCategory) && // Filter courses by selected category
                             <tr key={course._id}>
                                 <td>{course.title}</td>
                                 <td>{getCategoryName(course.category)}</td>
@@ -146,7 +181,6 @@ const CourseList = () => {
                     </tbody>
                 </table>
             </div>
-            
         </>
     );
 };
