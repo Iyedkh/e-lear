@@ -10,6 +10,7 @@ import { CgMail } from "react-icons/cg";
 import career from '../components/assests/images/Career_Center.png';
 import career2 from '../components/assests/images/Career_Center_portfolio.png';
 import career3 from '../components/assests/images/Career_Center_Professional_certifications__.png';
+import Faq from "../components/faq/FaqComponent";
 const Enroll = () => {
     return (
       <div>
@@ -145,8 +146,9 @@ const Enroll = () => {
               </div>
             </div>
           </div>
-          
+
         </div> 
+        <Faq/>
         <div class="contact" id="contact">
         <div class="text-center max-w-600 mx-auto">
             <div class="title" >

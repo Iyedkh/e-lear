@@ -108,4 +108,34 @@ router.delete('/:courseId/comments/:commentId', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
+// Route to post a like for a comment
+router.post('/:courseId/comments/:commentId/like', async (req, res) => {
+    try {
+        const commentId = req.params.commentId;
+
+        // Check if commentId is valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(commentId)) {
+            return res.status(400).json({ message: 'Invalid comment ID' });
+        }
+
+        // Find the comment by ID
+        const comment = await CommentModel.findById(commentId);
+
+        if (!comment) {
+            return res.status(404).json({ message: 'Comment not found' });
+        }
+
+        // Increment the like count
+        comment.likes += 1;
+
+        // Save the updated comment
+        await comment.save();
+
+        res.status(201).json({ message: 'Liked comment successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 module.exports = router;

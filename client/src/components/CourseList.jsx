@@ -167,7 +167,7 @@ const CourseList = () => {
                     </thead>
                     <tbody>
                         {courses.map(course => (
-                            (!selectedCategory || course.category === selectedCategory) && // Filter courses by selected category
+                            (!selectedCategory || course.category === selectedCategory) && 
                             <tr key={course._id}>
                                 <td>{course.title}</td>
                                 <td>{getCategoryName(course.category)}</td>

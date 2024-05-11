@@ -1,5 +1,6 @@
 .footer {
     background: rgba(139, 234, 234, 0.664);
+    border-radius: 26px 26px 0 0;
   }
   
   .follows span a {

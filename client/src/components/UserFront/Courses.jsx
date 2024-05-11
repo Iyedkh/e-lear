@@ -6,63 +6,130 @@ import Card from "./Card";
 import { Link } from "react-router-dom";
 import "./Courses.css";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css'; // Import Swiper CSS
+import 'swiper/css'; 
+import { Button, Menu, MenuItem } from '@mui/material';
 
 const Courses = () => {
     const [courses, setCourses] = useState([]);
     const [filteredCourses, setFilteredCourses] = useState([]);
     const [searchInput, setSearchInput] = useState('');
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        const fetchCourses = async () => {
+        const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/courses');
-                if (response.status === 200) {
-                    setCourses(response.data);
-                    setFilteredCourses(response.data); // Initialize filteredCourses with all courses
+                const categoriesResponse = await axios.get('http://localhost:3000/categories');
+                const coursesResponse = await axios.get('http://localhost:3000/courses');
+                if (categoriesResponse.status === 200 && coursesResponse.status === 200) {
+                    setCategories(categoriesResponse.data);
+                    setCourses(coursesResponse.data);
+                    setFilteredCourses(coursesResponse.data); // Initialize filteredCourses with all courses
                 } else {
-                    console.error('Failed to fetch courses:', response.status, response.statusText);
+                    console.error('Failed to fetch data');
                 }
             } catch (error) {
-                console.error('Error fetching courses:', error);
+                console.error('Error fetching data:', error);
             }
         };
-
-        fetchCourses();
+        fetchData();
     }, []);
 
     // Function to handle search input change
     const handleSearchInputChange = (event) => {
         setSearchInput(event.target.value);
-        filterCourses(event.target.value); // Filter courses based on search input
+        filterCourses(event.target.value, selectedCategory); // Filter courses based on search input and selected category
     };
 
-    // Function to filter courses based on search input
-    const filterCourses = (query) => {
-        const filtered = courses.filter(course => course.category.toLowerCase().includes(query.toLowerCase()));
+    // Function to filter courses based on search input and selected category
+    const filterCourses = (query, category) => {
+        let filtered = courses;
+
+        // Filter by title
+        if (query) {
+            filtered = filtered.filter(course => 
+                course.title.toLowerCase().includes(query.toLowerCase())
+            );
+        }
+
+        // Filter by category
+        if (category && category !== 'all') {
+            filtered = filtered.filter(course => 
+                course.category === category
+            );
+        }
+
         setFilteredCourses(filtered);
+    };
+
+    // Function to handle category select
+    const handleCategorySelect = (categoryId) => {
+        setSelectedCategory(categoryId);
+        setAnchorEl(null); // Close the menu after selecting category
+        filterCourses(searchInput, categoryId); // Filter courses based on search input and selected category
+    };
+
+    // Function to handle menu open
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    // Function to handle menu close
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    // Function to get category name by ID
+    const getCategoryName = (categoryId) => {
+        const category = categories.find(cat => cat._id === categoryId);
+        return category ? category.name : '';
     };
 
     return (
         <>
             <NavBar />
             <div className="container">
-                {/* Search bar */}
                 <div className="hi">
-                     <div className="search-container">
-                    <input
-                        type="text"
-                        className="search-input"
-                        placeholder="Search by category"
-                        value={searchInput}
-                        onChange={handleSearchInputChange}
-                    />
-                </div>
-                     <div className="saved">
+                    <div>
+                        <Button
+                            onClick={handleMenuOpen}
+                            style={{
+                                backgroundColor: '#17bf9e',
+                                color: 'white',
+                                padding: '10px 20px',
+                                textTransform: 'none'
+                            }}
+                        >
+                            Filter by Category
+                        </Button>
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={handleMenuClose}
+                        >
+                            <MenuItem key="all" onClick={() => handleCategorySelect('')}>All</MenuItem>
+                            {categories.map(category => (
+                                <MenuItem key={category._id} onClick={() => handleCategorySelect(category._id)}>
+                                    {category.name}
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </div>
+                    <div className="search-container">
+                        <input
+                            type="text"
+                            className="search-input"
+                            placeholder="Search by Title"
+                            value={searchInput}
+                            onChange={handleSearchInputChange}
+                        />
+                    </div>
+                    <div className="saved">
                         <Link to={`/saved`} className="btn">Saved Courses</Link>
                     </div>
                 </div>
-               
+                
                 <Swiper
                     breakpoints={{
                         // when window width is >= 320px
@@ -87,8 +154,8 @@ const Courses = () => {
                 >
                     {filteredCourses.map(course => (
                         <SwiperSlide key={course._id}>
-                        <Card course={course} />
-                    </SwiperSlide>
+                            <Card course={course} />
+                        </SwiperSlide>
                     ))}
                 </Swiper>
             </div>

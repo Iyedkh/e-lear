@@ -74,3 +74,10 @@
     color: blue;
   }
  
+.comment-form .like-icon {
+  color: #333; /* Default color */
+}
+
+.comment-form .like-icon.liked {
+  color: #00f; /* Color when the comment is liked */
+}

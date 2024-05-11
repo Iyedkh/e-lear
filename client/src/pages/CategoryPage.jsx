@@ -1,4 +1,3 @@
-// CategoryPage.js
 import React, { useState, useEffect } from 'react';
 import NavBar from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
@@ -42,11 +41,26 @@ const CategoryPage = () => {
         setFilteredCategories(filtered);
     };
 
+    // Define onDelete function to handle category deletion
+    const handleDelete = async (categoryId) => {
+        try {
+            await axios.delete(`http://localhost:3000/categories/${categoryId}`);
+            // After successful deletion, update the state to reflect the changes
+            setCategories(categories.filter(category => category._id !== categoryId));
+            setFilteredCategories(filteredCategories.filter(category => category._id !== categoryId));
+        } catch (error) {
+            console.error('Error deleting category:', error);
+        }
+    };
+    
+
     return (
         <>
             <NavBar />
             <div className="container">
+
                 <div className="hi">
+                
                     <div className="search-container">
                         <input
                             type="text"
@@ -56,6 +70,7 @@ const CategoryPage = () => {
                             onChange={handleSearchInputChange}
                         />
                     </div>
+
                     <div className="saved">
                         <Link to={`/create-category`} className="btn">Create Category</Link>
                     </div>
@@ -82,9 +97,9 @@ const CategoryPage = () => {
                 >
                     {filteredCategories.map(category => (
                         <SwiperSlide key={category._id}>
-                            <Link to={`/courses/${category._id}`}>
-                                <CategoryCard category={category} />
-                            </Link>
+                           <Link to={`/courses/${category._id}`}>
+                            <CategoryCard category={category} onDelete={handleDelete} />
+                           </Link>                          
                         </SwiperSlide>
                     ))}
                 </Swiper>
