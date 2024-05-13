@@ -133,7 +133,7 @@ const CourseList = () => {
                     <Link to="/create-course" className="link">Create New Course</Link>
                     <Link to="/category" className="link">Category</Link>
                     <Link to="/quiz" className="link">Quiz</Link>
-                    <Link to="#" className="link">Dashboard</Link>
+                    <Link to="/dash" className="link">Dashboard</Link>
                 </div>
                 <div>
                 <Button

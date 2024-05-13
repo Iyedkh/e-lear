@@ -7,9 +7,7 @@ const categorySchema = new mongoose.Schema({
     unique: true, // Ensures no duplicate category names
   },
   description: String,
-  image: { // Optional image for the category
-    type: String,
-  },
+  image: String, // Assuming image will be a string representing the image URL
 });
 
 module.exports = mongoose.model('Category', categorySchema);

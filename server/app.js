@@ -1,5 +1,5 @@
 const express = require('express');
-const http = require('http');
+const http = require('http'); 
 //DATABASE
 require('./config/connect');
 //Njyb Fl Routes
@@ -24,7 +24,7 @@ const signInRoute = require('./routes/signinRoute');
 const saveCourseRoute = require('./routes/save');
 const category = require('./routes/categoryFilter');
 const categoryRoutes = require('./routes/categoryRoute');
-
+const etlScript = require('./etlScript');
 const multer = require('multer');
 
 
@@ -66,6 +66,20 @@ app.use('/api/auth', signInRoute);
 app.use('/savecourse', saveCourseRoute);
 app.use('/quiz', quizData);
 app.use('/categories', categoryRoutes);
+
+
+app.get('/transformed-data', async (req, res) => {
+  try {
+      // Call the etl function to perform ETL and get the transformed data
+      const transformedData = await etlScript.etl();
+
+      // Send the transformed data as a JSON response
+      res.json(transformedData);
+  } catch (error) {
+      console.error('Error fetching transformed data:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 // Serve static files from the 'uploads' directory
 app.use('/uploads', express.static('uploads'));
