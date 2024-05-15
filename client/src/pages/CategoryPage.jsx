@@ -65,7 +65,7 @@ const CategoryPage = () => {
                         <input
                             type="text"
                             className="search-input"
-                            placeholder="Search by category"
+                            placeholder="Search for category"
                             value={searchInput}
                             onChange={handleSearchInputChange}
                         />

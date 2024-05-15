@@ -25,6 +25,7 @@ const saveCourseRoute = require('./routes/save');
 const category = require('./routes/categoryFilter');
 const categoryRoutes = require('./routes/categoryRoute');
 const etlScript = require('./etlScript');
+const averageRatings = require('./routes/averageRating');
 const multer = require('multer');
 
 
@@ -66,7 +67,7 @@ app.use('/api/auth', signInRoute);
 app.use('/savecourse', saveCourseRoute);
 app.use('/quiz', quizData);
 app.use('/categories', categoryRoutes);
-
+app.use('/average', averageRatings); 
 
 app.get('/transformed-data', async (req, res) => {
   try {

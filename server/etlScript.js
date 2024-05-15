@@ -1,5 +1,3 @@
-// etlScript.js
-
 // Import necessary modules and dependencies
 const CourseModel = require('./models/course');
 const CommentModel = require('./models/comment');
@@ -11,7 +9,7 @@ function transformCourses(courses) {
     return courses.map(course => ({
         id: course._id,
         title: course.title,
-        rating: course.rating,
+        averageRating: calculateAverageRating(course.ratings), // Calculate average rating
         description: course.description,
         category: course.category,
         videoUrl: course.videoUrl,
@@ -20,12 +18,36 @@ function transformCourses(courses) {
     }));
 }
 
+function calculateAverageRating(ratings) {
+    if (!ratings || ratings.length === 0) {
+        return 0;
+    }
+
+    const totalRating = ratings.reduce((acc, curr) => acc + curr.stars, 0);
+    return totalRating / ratings.length;
+}
+
 function transformComments(comments) {
     return comments.map(comment => ({
         id: comment._id,
         courseId: comment.courseId,
         content: comment.content,
         // Add more transformations as needed
+    }));
+}
+
+function transformCommentsByCourse(comments) {
+    // Group comments by courseId and count the number of comments for each course
+    const commentsByCourse = comments.reduce((acc, comment) => {
+        acc[comment.courseId] = acc[comment.courseId] || 0;
+        acc[comment.courseId]++;
+        return acc;
+    }, {});
+
+    // Transform the data into an array of objects with courseId and commentCount
+    return Object.entries(commentsByCourse).map(([courseId, commentCount]) => ({
+        courseId,
+        commentCount
     }));
 }
 
@@ -67,6 +89,7 @@ async function etl() {
         // Transform data
         const transformedCourses = transformCourses(courses);
         const transformedComments = transformComments(comments);
+        const transformedCommentsByCourse = transformCommentsByCourse(comments);
         const transformedCategories = transformCategories(categories);
         const transformedQuizzes = transformQuizzes(quizzes);
 
@@ -74,6 +97,7 @@ async function etl() {
         return {
             courses: transformedCourses,
             comments: transformedComments,
+            commentsByCourse: transformedCommentsByCourse,
             categories: transformedCategories,
             quizzes: transformedQuizzes
         };

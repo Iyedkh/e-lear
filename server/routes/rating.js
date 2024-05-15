@@ -3,7 +3,6 @@ const router = express.Router();
 const Course = require('../models/course');
 const Rating = require('../models/Rating'); // Corrected model import
 
-// Route to submit a new rating for a course
 router.post('/courses/:courseId/ratings', async (req, res) => {
     const courseId = req.params.courseId;
     const { stars } = req.body; // Assuming the rating is provided in the request body
@@ -14,16 +13,13 @@ router.post('/courses/:courseId/ratings', async (req, res) => {
         if (!course) {
             return res.status(404).json({ error: 'Course not found' });
         }
-
         // Create a new rating document
         const newRating = new Rating({
             courseId: courseId,
             stars: stars
         });
-
         // Save the new rating
         await newRating.save();
-
         // Add the rating's ObjectId to the course's ratings array
         course.ratings.push(newRating._id);
         await course.save();
@@ -34,6 +30,7 @@ router.post('/courses/:courseId/ratings', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 // Route to get all ratings for a course
 router.get('/courses/:courseId/ratings', async (req, res) => {
