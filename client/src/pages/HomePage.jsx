@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import NavBar from '../components/Header/Header';
 import HeroSection from "../components/Hero-Section/HeroSection";
 import AboutUs from "../components/About-us/AboutUs";
-
+import Categories from '../components/categoryForum/Category';
 import ChooseUs from "../components/Choose-us/ChooseUs";
 import Features from "../components/Feature-section/Features";
 import TopRatedCourses from '../components/TopRated/TopRatedCourses';
@@ -18,8 +18,9 @@ const HomePage = () => {
             <>
             <Fragment>
                  <NavBar />
-                  <HeroSection />
+                 <HeroSection />
                  <Work />
+                 <Categories/>
                  <AboutUs />
                  <TopRatedCourses />
                  <ChooseUs />

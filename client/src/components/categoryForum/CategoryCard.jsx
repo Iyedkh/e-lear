@@ -1,16 +1,12 @@
 import React from 'react';
-import { FaTrash } from 'react-icons/fa';
 import './CategoryCard.css';
 
-const CategoryCard = ({ category, onDelete }) => {
-    const handleDelete = () => {
-        onDelete(category._id); // Call onDelete function with category ID
-    };
+const CategoryCard = ({ category}) => {
+   
 
     return (
         <div className="category-card">
             <div className="category-card__img">
-                <FaTrash className="category-card__delete-icon" onClick={handleDelete} />
                 <img src={`http://localhost:3000${category.image}`} alt="Category" />
             </div>
             <div className="category-card__info">
