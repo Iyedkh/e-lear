@@ -26,20 +26,7 @@ const Categories = () => {
         fetchCategories();
     }, []);
 
-    const handleDeleteCategory = async (categoryId) => {
-        try {
-            const response = await fetch(`http://localhost:3000/categories/${categoryId}`, {
-                method: 'DELETE',
-            });
-            if (!response.ok) {
-                throw new Error(`Failed to delete category: ${response.status} ${response.statusText}`);
-            }
-            // Remove the deleted category from the state
-            setCategories(categories.filter(category => category._id !== categoryId));
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    
 
     return (
         <section>
@@ -90,7 +77,7 @@ const Categories = () => {
                             {categories.map(category => (
                                 <SwiperSlide key={category._id}>
                                     <Link to={`/courses/${category._id}`} className="cat">
-                                        <CategoryCard category={category} onDelete={handleDeleteCategory} />
+                                        <CategoryCard category={category}  />
                                     </Link>
                                 </SwiperSlide>
                             ))}
