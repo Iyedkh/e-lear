@@ -60,10 +60,10 @@ const QuizListPage = () => {
                     {quizzes.map(quiz => (
                         <tr key={quiz._id}>
                             <td>{quiz.title}</td>
-                            <td>
+                            <td className='action-buttons'>
                                 <a href={`/quiz/pass/${quiz._id}`} className='pass'>Pass</a>
                                 <a href={`/edit/${quiz._id}`} className='update' onClick={() => handleUpdateQuiz(quiz._id)}>Edit</a>
-                                <a href="#" className='delete' onClick={() => handleDeleteQuiz(quiz._id)}>Delete</a>
+                                <a href='#' className='delete' onClick={() => handleDeleteQuiz(quiz._id)}>Delete</a>
                             </td>
                         </tr>
                     ))}

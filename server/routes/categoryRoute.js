@@ -3,7 +3,7 @@ const router = express.Router();
 const CategoryModel = require('../models/Category');
 const multer = require('multer');
 const path = require('path');
-
+const mongoose = require('mongoose');
 // Multer storage configuration
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -87,18 +87,33 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-
 // Route to update a category
 router.put('/:id', async (req, res) => {
     try {
+        const categoryId = req.params.id;
+        const { name, description } = req.body;
+
+        // Check if categoryId is valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(categoryId)) {
+            return res.status(400).json({ message: 'Invalid category ID' });
+        }
+
+        // Find the category by ID and update its fields
         const updatedCategory = await CategoryModel.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
+            categoryId,
+            { name, description },
+            { new: true } // To return the updated document
         );
+
+        // Check if category exists
+        if (!updatedCategory) {
+            return res.status(404).json({ message: 'Category not found' });
+        }
+
         res.status(200).json(updatedCategory);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        console.error('Error updating category:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
 

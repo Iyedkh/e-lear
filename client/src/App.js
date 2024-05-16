@@ -18,6 +18,7 @@ import CreateCategory  from './pages/CreateCategory';
 import Category from './pages/CategoryPage';
 import CoursesByCategoryPage from './pages/CoursesByCategoryPage';
 import EditQuizPage from './pages/EditQuizPage';
+
 import './index.css'
 
 function App() {

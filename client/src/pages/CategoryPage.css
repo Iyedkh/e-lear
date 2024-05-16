@@ -1,87 +1,64 @@
-/* No changes needed, keeping the existing styles */
 .container {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px;
+  }
+  
+  .search-container {
+    margin-bottom: 20px;
+  }
+  
+  .search-input {
     width: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-.single__course__item {
-    padding: 15px;
-}
-
-.hi {
-    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .hi {
     display: flex;
     justify-content: space-between;
-}
-
-.saved a {
-    padding: 8px 16px;
-    margin-right: 8px;
-    background-color: #17bf9e;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.saved a:hover {
-    background-color: #17bf81;
-    color: #fff;
-}
-
-.course__img img {
-    border-radius: 10px;
-    margin-bottom: 20px;   
-    max-width: 100%; 
-    height: auto; 
-}
-
-.enroll a {
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #17bf9e;
-}
-
-.category,
-.rating {
-    font-size: 0.9rem;
-    color: #0a2b1e;
-    font-weight: 500;
-}
-
-.rating i {
-    font-weight: 400;
-}
-
-.course__title {
-    line-height: 2rem;
-}
-
-.course__top__left h2 {
-    font-weight: 600;
-}
-
-.search-container {
-    width: 320px;
+    align-items: center;
     margin-bottom: 20px;
-    border: 1px solid #17bf9e;
-    border-radius: 26px;
-}
+  }
+  
+  .saved {
+    display: flex;
+    align-items: center;
+  }
+  
 
-.search-input {
+  
+  table {
     width: 100%;
-    font-size: 16px;
-    outline: none;
-    border: 1px solid #17bf9e;
-    border-radius: 26px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
-.search-input::placeholder {
-    color: #999;
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
 }
 
-.search-input:focus {
-    border-color: #17bf9e;
+th {
+    background-color: #f2f2f2;
 }
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: space-around;
+}
+  
+  .btn2 {
+    background: #17bf9e;
+    color: #fff;
+    padding: 7px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+  }
+  
+ 
