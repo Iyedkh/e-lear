@@ -14,10 +14,13 @@ import Save from './pages/SavedPage';
 import Quiz from './pages/QuizListPage';
 import Enroll from './pages/Enroll';
 import About from './pages/AboutPage';
-import CreateCategory  from './pages/CreateCategory';
+import CreateCategory from './pages/CreateCategory';
 import Category from './pages/CategoryPage';
 import CoursesByCategoryPage from './pages/CoursesByCategoryPage';
 import EditQuizPage from './pages/EditQuizPage';
+import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import './index.css'
 
@@ -25,24 +28,26 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} /> 
+        <Route path="/home" element={<HomePage />} /> 
         <Route path="/course" element={<CourseListPage />} />
         <Route path="/course/:id" element={<CourseDetailsPage />} />
-        <Route path="/create-course" element={<CreateCoursePage />} />
-        <Route path="/edit-course/:id" element={<EditCoursePage />} />
+        <Route path="/create-course" element={<ProtectedRoute element={CreateCoursePage} />} />
+        <Route path="/edit-course/:id" element={<ProtectedRoute element={EditCoursePage} />} />
         <Route path="/search/:query" element={<SearchedCoursesPage />} />
-        <Route path="/quiz/create" element={<QuizCreate />} />
-        <Route path="/quiz/pass/:quizId" element={<QuizPage />} />
-        <Route path="/edit/:quizId" element={<EditQuizPage/>} />
-        <Route path="/dash" element={<Dash />} />
-        <Route path="/userC" element={<UserCourse />} />
-        <Route path="/saved" element={<Save/>} />
-        <Route path="/quiz" element={<Quiz/>} />
-        <Route path="/enroll/:courseId" element={<Enroll/>} />
-        <Route path="/About" element={<About/>} />
-        <Route path="/create-category" element={<CreateCategory/>} />
-        <Route path="/category" element={<Category/>} />
-        <Route path="/courses/:categoryId" element={<CoursesByCategoryPage/>} />
+        <Route path="/quiz/create" element={<ProtectedRoute element={QuizCreate} />} />
+        <Route path="/quiz/pass/:quizId" element={<ProtectedRoute element={QuizPage} />} />
+        <Route path="/edit/:quizId" element={<ProtectedRoute element={EditQuizPage} />} />
+        <Route path="/dash" element={<ProtectedRoute element={Dash} />} />
+        <Route path="/userC" element={<ProtectedRoute element={UserCourse} />} />
+        <Route path="/saved" element={<ProtectedRoute element={Save} />} />
+        <Route path="/quiz" element={<ProtectedRoute element={Quiz} />} />
+        <Route path="/enroll/:courseId" element={<ProtectedRoute element={Enroll} />} />
+        <Route path="/About" element={<About />} />
+        <Route path="/create-category" element={<ProtectedRoute element={CreateCategory} />} />
+        <Route path="/category" element={<Category />} />
+        <Route path="/courses/:categoryId" element={<ProtectedRoute element={CoursesByCategoryPage} />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
       </Routes>
     </Router>
   );
