@@ -51,6 +51,7 @@ const SignUpPage = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
+                    <p><span className='span'>*</span>Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, and one number.</p>
                 </div>
                 <div>
                     <label>Username:</label>

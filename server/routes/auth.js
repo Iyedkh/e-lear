@@ -6,9 +6,18 @@ const router = express.Router();
 
 const JWT_SECRET = 'test';
 
+// Define a simplified regex pattern for password validation
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
 // Register route
 router.post('/register', async (req, res) => {
     const { email, password, username, city, role } = req.body;
+
+    // Validate password format
+    if (!PASSWORD_REGEX.test(password)) {
+        return res.status(400).json({ error: 'Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, and one number.' });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
@@ -35,7 +44,14 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token });
+
+    res.json({
+        token,
+        username: user.username,
+        email: user.email,
+        city: user.city,
+        role: user.role
+    });
 });
 
 module.exports = router;

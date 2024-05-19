@@ -1,5 +1,7 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Container } from "reactstrap";
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../utils/auth';
 import "./header.css";
 
 const navLinks = [
@@ -11,7 +13,6 @@ const navLinks = [
     display: "About",
     url: "/About",
   },
-
   {
     display: "Courses",
     url: "/course",
@@ -27,6 +28,21 @@ const navLinks = [
 ];
 
 const Header = () => {
+  const [username, setUsername] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    console.log('Stored username:', storedUsername);
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    logout(navigate);
+  };
+
   const menuRef = useRef();
 
   const menuToggle = () => menuRef.current.classList.toggle("active__menu");
@@ -37,7 +53,7 @@ const Header = () => {
         <div className="navigation d-flex align-items-center justify-content-between">
           <div className="logo">
             <h2 className=" d-flex align-items-center gap-1">
-              <i class="ri-pantone-line"></i> Infinite.
+              <i className="ri-pantone-line"></i> Infinite.
             </h2>
           </div>
 
@@ -54,14 +70,20 @@ const Header = () => {
 
             <div className="nav__right">
               <p className="mb-0 d-flex align-items-center gap-2">
-                <i class="ri-phone-line"></i> +216 93 117 612
+                <i className="ri-phone-line"></i> +216 93 117 612
               </p>
             </div>
+            <div className="nav__user">
+              <p className="mb-0 d-flex align-items-center gap-2">
+                <i className="ri-user-line"></i> {username || 'Guest'}
+              </p>
+            </div>
+            <button className="btn" onClick={handleLogout}>Logout</button>
           </div>
 
           <div className="mobile__menu">
             <span>
-              <i class="ri-menu-line" onClick={menuToggle}></i>
+              <i className="ri-menu-line" onClick={menuToggle}></i>
             </span>
           </div>
         </div>

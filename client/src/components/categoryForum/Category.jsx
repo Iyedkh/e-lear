@@ -44,7 +44,7 @@ const Categories = () => {
                             </div>
 
                             <div className="w-50   text-end">
-                                <Link to="/courses">
+                                <Link to="/Category">
                                     <button className="btn">See All</button>
                                 </Link>
                             </div>

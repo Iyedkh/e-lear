@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Bar, Pie, Scatter, Line } from 'react-chartjs-2';
+import { Bar, Pie } from 'react-chartjs-2';
 import 'chart.js/auto';
 import '../components/Dashboard/dash.css';
 import NavBar from '../components/Header/Header';
@@ -8,7 +8,6 @@ import NavBar from '../components/Header/Header';
 const Dashboard = () => {
   const [transformedData, setTransformedData] = useState(null);
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,7 +27,6 @@ const Dashboard = () => {
 
     fetchData();
   }, []);
-
 
   return (
     <div className="dashboard">
@@ -67,7 +65,7 @@ const Dashboard = () => {
               <div className="chart-container">
                 <h2 className="chart-title">Pie Chart for Courses by Category</h2>
                 <Pie
-                  className='pie-chart'
+                  className="pie-chart"
                   data={{
                     labels: transformedData.categories.map(category => category.name),
                     datasets: [{
@@ -95,8 +93,8 @@ const Dashboard = () => {
                     datasets: [{
                       label: 'Quizzes by Course',
                       data: transformedData.quizzes.map(quiz => ({
-                        x: quiz.title, // Assuming quiz ID as x-axis data
-                        y: quiz.questions.length // Number of questions as y-axis data
+                        x: quiz.title,
+                        y: quiz.questions.length
                       })),
                       backgroundColor: 'rgba(255, 99, 132, 0.6)',
                       borderColor: 'rgba(255, 99, 132, 1)',
@@ -109,7 +107,7 @@ const Dashboard = () => {
                         type: 'category',
                         title: {
                           display: true,
-                          text: 'Quiz ID'
+                          text: 'Quiz Title'
                         }
                       },
                       y: {
@@ -123,27 +121,28 @@ const Dashboard = () => {
                   }}
                 />
               </div>
-              <div className="chart-container">
-                <h2 className="chart-title">Line Chart for Average Ratings Over Time</h2>
-                <Line
-                data={{
-                  labels: transformedData.courses.map(course => course.title), // Use course titles as labels
-                  datasets: [{
-                    label: 'Average Rating',
-                    data: transformedData.courses.map(course => course.averageRating), // Use average ratings as data
-                    fill: false,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                  }]
-                }}
-                options={{
-                  scales: {
-                    y: {
-                      beginAtZero: true
-                    }
-                  }
-                }}
-              />
+              <div className="user-list-container">
+                <h2 className="user-list-title">User List</h2>
+                <table className="user-list-table">
+                  <thead>
+                    <tr>
+                      <th>Username</th>
+                      <th>Email</th>
+                      <th>City</th>
+                      <th>Role</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {transformedData.users.map(user => (
+                      <tr key={user.id}>
+                        <td>{user.username}</td>
+                        <td>{user.email}</td>
+                        <td>{user.city}</td>
+                        <td>{user.role}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </>
           ) : (

@@ -1,8 +1,8 @@
-// Import necessary modules and dependencies
 const CourseModel = require('./models/course');
 const CommentModel = require('./models/comment');
 const CategoryModel = require('./models/Category');
 const QuizModel = require('./models/Quiz');
+const UserModel = require('./models/User');
 
 // Define transformation functions
 function transformCourses(courses) {
@@ -70,19 +70,31 @@ function transformQuizzes(quizzes) {
     }));
 }
 
+function transformUsers(users) {
+    return users.map(user => ({
+        id: user._id,
+        email: user.email,
+        username: user.username,
+        city: user.city,
+        role: user.role,
+        // Add more transformations as needed
+    }));
+}
+
 // Define the etl function to perform ETL
 async function etl() {
     try {
         // Extract data from MongoDB
-        const [courses, comments, categories, quizzes] = await Promise.all([
+        const [courses, comments, categories, quizzes, users] = await Promise.all([
             CourseModel.find(),
             CommentModel.find(),
             CategoryModel.find(),
-            QuizModel.find()
+            QuizModel.find(),
+            UserModel.find()
         ]);
 
         // Check if data is extracted successfully
-        if (!courses || !comments || !categories || !quizzes) {
+        if (!courses || !comments || !categories || !quizzes || !users) {
             throw new Error('Data not found');
         }
 
@@ -92,6 +104,7 @@ async function etl() {
         const transformedCommentsByCourse = transformCommentsByCourse(comments);
         const transformedCategories = transformCategories(categories);
         const transformedQuizzes = transformQuizzes(quizzes);
+        const transformedUsers = transformUsers(users);
 
         // Return the transformed data
         return {
@@ -99,7 +112,8 @@ async function etl() {
             comments: transformedComments,
             commentsByCourse: transformedCommentsByCourse,
             categories: transformedCategories,
-            quizzes: transformedQuizzes
+            quizzes: transformedQuizzes,
+            users: transformedUsers
         };
 
     } catch (error) {

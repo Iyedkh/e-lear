@@ -17,12 +17,59 @@
   margin: 10px;
 }
 
-
 .chart-title {
   text-align: center;
 }
+
 .pie-chart {
   height: 350px !important;
   width: 400px !important;
   margin-left: 70px;
+}
+
+/* New styles for the user list table */
+.user-list-container {
+  width: 100%;
+  margin: 20px 0; /* Adjust the margin as needed */
+}
+
+.user-list-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.user-list-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto; /* Center the table */
+}
+
+.user-list-table th,
+.user-list-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.user-list-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  text-align: center; /* Center align header text */
+}
+
+.user-list-table td {
+  text-align: center; /* Center align cell text */
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    width: 100%; /* Full width on small screens */
+  }
+
+  .pie-chart {
+    width: 100% !important;
+    height: auto !important;
+    margin-left: 0;
+  }
 }
