@@ -4,38 +4,21 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from '../utils/auth';
 import "./header.css";
 
-const navLinks = [
-  {
-    display: "Home",
-    url: "/home",
-  },
-  {
-    display: "About",
-    url: "/About",
-  },
-  {
-    display: "Courses",
-    url: "/course",
-  },
-  {
-    display: "Pages",
-    url: "#",
-  },
-  {
-    display: "Blog",
-    url: "#",
-  },
-];
-
 const Header = () => {
   const [username, setUsername] = useState('');
+  const [role, setRole] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
+    const storedRole = localStorage.getItem('role'); // Assuming role is stored in local storage
     console.log('Stored username:', storedUsername);
+    console.log('Stored role:', storedRole);
     if (storedUsername) {
       setUsername(storedUsername);
+    }
+    if (storedRole) {
+      setRole(storedRole);
     }
   }, []);
 
@@ -46,6 +29,29 @@ const Header = () => {
   const menuRef = useRef();
 
   const menuToggle = () => menuRef.current.classList.toggle("active__menu");
+
+  const navLinks = [
+    {
+      display: "Home",
+      url: "/home",
+    },
+    {
+      display: "About",
+      url: "/About",
+    },
+    {
+      display: "Courses",
+      url: role === 'admin' ? "/course" : "/userC",
+    },
+    {
+      display: "Pages",
+      url: "#",
+    },
+    {
+      display: "Blog",
+      url: "#",
+    },
+  ];
 
   return (
     <header className="header">

@@ -30,14 +30,14 @@ function App() {
     <Router>
       <Routes>
         <Route path="/home" element={<ProtectedRoute element={HomePage} />} /> 
-        <Route path="/course" element={<ProtectedRoute element={CourseListPage} />} />
+        <Route path="/course" element={<AdminRoute element={CourseListPage} />} />
         <Route path="/course/:id" element={<ProtectedRoute element={CourseDetailsPage} />} />
         <Route path="/create-course" element={<ProtectedRoute element={CreateCoursePage} />} />
         <Route path="/edit-course/:id" element={<ProtectedRoute element={EditCoursePage} />} />
         <Route path="/search/:query" element={<ProtectedRoute element={SearchedCoursesPage} />} />
-        <Route path="/quiz/create" element={<ProtectedRoute element={QuizCreate} />} />
+        <Route path="/quiz/create" element={<AdminRoute element={QuizCreate} />} />
         <Route path="/quiz/pass/:quizId" element={<ProtectedRoute element={QuizPage} />} />
-        <Route path="/edit/:quizId" element={<ProtectedRoute element={EditQuizPage} />} />
+        <Route path="/edit/:quizId" element={<AdminRoute element={EditQuizPage} />} />
         <Route path="/dash" element={<AdminRoute element={Dash} />} />
         <Route path="/userC" element={<ProtectedRoute element={UserCourse} />} />
         <Route path="/saved" element={<ProtectedRoute element={Save} />} />
