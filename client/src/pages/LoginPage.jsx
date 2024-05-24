@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -54,7 +54,11 @@ const LoginPage = () => {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <div className="sign">
+           <button type="submit">Login</button>
+        <Link className='btn2' to={'/signup'}>Sign up</Link>
+        </div>
+       
       </form>
     </div>
   );

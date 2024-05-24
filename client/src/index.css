@@ -559,6 +559,11 @@ border-bottom: 2px solid #08071c;
 .span{
   color: red;
 }
+.sign{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
 
 .login-page, .signup-page {

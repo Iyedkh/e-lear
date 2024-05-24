@@ -5,7 +5,8 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     username: { type: String, required: true, unique: true },
     city: { type: String, required: false },
-    role: { type: String, required: true }
+    role: { type: String, required: true },
+    registrationDate: { type: Date, default: Date.now } // New field for registration date
 });
 
 const User = mongoose.model('User', userSchema);

@@ -13,7 +13,39 @@
 }
 
 .chart-container {
-  width: 45%; /* Adjust the width as needed */
+  width: 45%; 
+  margin: 10px;
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  width: 30%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.card h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 24px;
+  margin: 0;
+}
+
+.chart-container {
+  width: 45%; 
   margin: 10px;
 }
 
@@ -30,7 +62,7 @@
 /* New styles for the user list table */
 .user-list-container {
   width: 100%;
-  margin: 20px 0; /* Adjust the margin as needed */
+  margin: 20px 0; 
 }
 
 .user-list-title {
@@ -42,7 +74,7 @@
 .user-list-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 0 auto; /* Center the table */
+  margin: 0 auto; 
 }
 
 .user-list-table th,
@@ -55,21 +87,31 @@
 .user-list-table th {
   background-color: #f2f2f2;
   font-weight: bold;
-  text-align: center; /* Center align header text */
+  text-align: center; 
 }
 
 .user-list-table td {
-  text-align: center; /* Center align cell text */
+  text-align: center; 
 }
 
 @media (max-width: 768px) {
   .chart-container {
-    width: 100%; /* Full width on small screens */
+    width: 100%; 
   }
 
   .pie-chart {
     width: 100% !important;
     height: auto !important;
     margin-left: 0;
+  }
+
+  .card-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 80%;
+    margin-bottom: 10px;
   }
 }

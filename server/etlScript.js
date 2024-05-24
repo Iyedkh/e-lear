@@ -4,7 +4,7 @@ const CategoryModel = require('./models/Category');
 const QuizModel = require('./models/Quiz');
 const UserModel = require('./models/User');
 
-// Define transformation functions
+// Define transformation functions (existing functions remain unchanged)
 function transformCourses(courses) {
     return courses.map(course => ({
         id: course._id,
@@ -77,6 +77,7 @@ function transformUsers(users) {
         username: user.username,
         city: user.city,
         role: user.role,
+        registrationDate: user.registrationDate // Include registration date in transformation
         // Add more transformations as needed
     }));
 }
@@ -106,14 +107,19 @@ async function etl() {
         const transformedQuizzes = transformQuizzes(quizzes);
         const transformedUsers = transformUsers(users);
 
-        // Return the transformed data
+        // Return the transformed data with counts
         return {
             courses: transformedCourses,
             comments: transformedComments,
             commentsByCourse: transformedCommentsByCourse,
             categories: transformedCategories,
             quizzes: transformedQuizzes,
-            users: transformedUsers
+            users: transformedUsers,
+            counts: {
+                userCount: users.length,
+                courseCount: courses.length,
+                categoryCount: categories.length
+            }
         };
 
     } catch (error) {
