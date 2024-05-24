@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 const router = express.Router();
 
 const JWT_SECRET = 'test';
@@ -28,7 +29,6 @@ router.post('/register', async (req, res) => {
     }
 });
 
-
 // Login route
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -54,4 +54,57 @@ router.post('/login', async (req, res) => {
     });
 });
 
+// Protect all routes below with authMiddleware
+router.use(authMiddleware);
+
+// Update user route (admin only)
+router.put('/:id', adminMiddleware, async (req, res) => {
+    const { id } = req.params;
+    const { email, password, username, city, role } = req.body;
+
+    try {
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Update fields only if provided in the request body
+        if (email) user.email = email;
+        if (password) user.password = await bcrypt.hash(password, 10);
+        if (username) user.username = username;
+        if (city) user.city = city;
+        if (role) user.role = role;
+
+        await user.save();
+        res.json(user);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+
+
+// Delete user route (admin only)
+router.delete('/:id', adminMiddleware, async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        console.log('Received DELETE request for user deletion'); // Debug point 1
+
+        const user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        console.log('User found:', user); // Debug point 2
+
+        await User.findByIdAndDelete(id);
+
+        res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        res.status(400).json({ error: 'An error occurred during deletion' });
+    }
+});
 module.exports = router;

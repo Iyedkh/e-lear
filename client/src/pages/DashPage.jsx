@@ -5,15 +5,22 @@ import 'chart.js/auto';
 import '../components/Dashboard/dash.css';
 import NavBar from '../components/Header/Header';
 import 'chartjs-adapter-date-fns';
+import { GoChevronRight , GoChevronLeft  } from "react-icons/go";
+const USERS_PER_PAGE = 10;
 
 const Dashboard = () => {
   const [transformedData, setTransformedData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/transformed-data');
+        const response = await axios.get('http://localhost:3000/transformed-data', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
         if (response && response.data) {
           setTransformedData(response.data);
         } else {
@@ -55,6 +62,66 @@ const Dashboard = () => {
     return cumulativeGrowth;
   };
 
+  const handleChangeRole = async (userId, newRole) => {
+    try {
+      await axios.put(`http://localhost:3000/auth/${userId}`, { role: newRole }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      // Refresh data
+      const response = await axios.get('http://localhost:3000/transformed-data', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      setTransformedData(response.data);
+    } catch (error) {
+      console.error('Error changing user role:', error);
+    }
+  };
+
+  const handleDeleteUser = async (userId) => {
+    try {
+      const response = await axios.delete(`http://localhost:3000/auth/${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      if (response.status === 200) {
+        // User deleted successfully
+        window.alert('User deleted successfully!');
+        // Remove the deleted user from the state
+        setTransformedData(prevData => ({
+          ...prevData,
+          users: prevData.users.filter(user => user.id !== userId)
+        }));
+      } else {
+        throw new Error(`Error deleting user: ${response.statusText}`); // Handle specific error
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      // Display user-friendly error message based on the error type
+    }
+  };
+   // Function to handle pagination buttons (previous and next)
+   const handlePageChange = (direction) => {
+    if (direction === 'previous') {
+      setCurrentPage(Math.max(currentPage - 1, 1)); // Prevent going below page 1
+    } else if (direction === 'next') {
+      const totalPages = Math.ceil(transformedData?.users.length / USERS_PER_PAGE);
+      setCurrentPage(Math.min(currentPage + 1, totalPages)); // Prevent going beyond last page
+    }
+  };
+
+  // Function to get users for the current page
+  const getUsersForCurrentPage = () => {
+    const startIndex = (currentPage - 1) * USERS_PER_PAGE;
+    const endIndex = startIndex + USERS_PER_PAGE;
+    return transformedData?.users.slice(startIndex, endIndex) || [];
+  };
   return (
     <div className="dashboard">
       <NavBar />
@@ -200,28 +267,58 @@ const Dashboard = () => {
               />
             </div>
             <div className="user-list-container">
-              <h2 className="user-list-title">User List</h2>
-              <table className="user-list-table">
-                <thead>
-                  <tr>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>City</th>
-                    <th>Role</th>
+            <h2 className="user-list-title">User List</h2>
+            <table className="user-list-table">
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>City</th>
+                  <th>Role</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {getUsersForCurrentPage().map(user => (
+                  <tr key={user.id}>
+                    <td>{user.username}</td>
+                    <td>{user.email}</td>
+                    <td>{user.city}</td>
+                    <td>{user.role}</td>
+                    <td className="action-buttons">
+                      <button
+                        className="role"
+                        onClick={() =>
+                          handleChangeRole(user.id, user.role === 'user' ? 'admin' : 'user')
+                        }
+                      >
+                        {user.role === 'user' ? 'Promote to Admin' : 'Demote to User'}
+                      </button>
+                      <button className="adminDelete" onClick={() => handleDeleteUser(user.id)}>
+                        Delete
+                      </button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {transformedData.users.map(user => (
-                    <tr key={user.id}>
-                      <td>{user.username}</td>
-                      <td>{user.email}</td>
-                      <td>{user.city}</td>
-                      <td>{user.role}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
+            <div className="pagination-buttons">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => handlePageChange('previous')}
+                >
+                  <GoChevronLeft / >
+                </button>
+                <span className="page-number">{currentPage}</span> {/* Display current page number */}
+                <button
+                  disabled={currentPage === Math.ceil(transformedData?.users.length / USERS_PER_PAGE)} // Disable next button on last page
+                  onClick={() => handlePageChange('next')}
+                >
+                  <GoChevronRight />
+                </button>
+              </div>
+          </div>
+  
           </div>
         </>
       )}

@@ -93,7 +93,24 @@
 .user-list-table td {
   text-align: center; 
 }
+.user-list-table .action-buttons .role {
+  background-color: #4CAF50; /* Green for promote/demote actions */
+  color: white;
+}
 
+.user-list-table .action-buttons .adminDelete {
+  background-color: #f44336; /* Red for delete actions */
+  color: white;
+}
+
+.user-list-table .action-buttons button:hover {
+  opacity: 0.8; /* Slight opacity change on hover */
+}
+.pagination-buttons{
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-around;
+}
 @media (max-width: 768px) {
   .chart-container {
     width: 100%; 
@@ -114,4 +131,5 @@
     width: 80%;
     margin-bottom: 10px;
   }
+  
 }

@@ -12,8 +12,7 @@ const Header = () => {
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
     const storedRole = localStorage.getItem('role'); // Assuming role is stored in local storage
-    console.log('Stored username:', storedUsername);
-    console.log('Stored role:', storedRole);
+    
     if (storedUsername) {
       setUsername(storedUsername);
     }
