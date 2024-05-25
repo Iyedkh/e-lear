@@ -32,8 +32,8 @@ function App() {
         <Route path="/home" element={<ProtectedRoute element={HomePage} />} /> 
         <Route path="/course" element={<AdminRoute element={CourseListPage} />} />
         <Route path="/course/:id" element={<ProtectedRoute element={CourseDetailsPage} />} />
-        <Route path="/create-course" element={<ProtectedRoute element={CreateCoursePage} />} />
-        <Route path="/edit-course/:id" element={<ProtectedRoute element={EditCoursePage} />} />
+        <Route path="/create-course" element={<AdminRoute element={CreateCoursePage} />} />
+        <Route path="/edit-course/:id" element={<AdminRoute element={EditCoursePage} />} />
         <Route path="/search/:query" element={<ProtectedRoute element={SearchedCoursesPage} />} />
         <Route path="/quiz/create" element={<AdminRoute element={QuizCreate} />} />
         <Route path="/quiz/pass/:quizId" element={<ProtectedRoute element={QuizPage} />} />

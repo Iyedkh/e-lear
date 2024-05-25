@@ -1,76 +1,111 @@
-/* No changes needed, keeping the existing styles */
-.container{
-    width: 100%;
-    margin: 0;
-    padding: 0;
+.container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
+
+.hi {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.saved a {
+  padding: 8px 16px;
+  margin-right: 8px;
+  background-color: #17bf9e;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.saved a:hover {
+  background-color: #17bf81;
+  color: #fff;
+}
+
+.course__img img {
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.enroll a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #17bf9e;
+}
+
+.category,
+.rating {
+  font-size: 0.9rem;
+  color: #0a2b1e;
+  font-weight: 500;
+}
+
+.rating i {
+  font-weight: 400;
+}
+
+.course__title {
+  line-height: 2rem;
+}
+
+.course__top__left h2 {
+  font-weight: 600;
+}
+
+.search-container {
+  width: 320px;
+  margin-bottom: 20px;
+  border: 1px solid #17bf9e;
+  border-radius: 26px;
+}
+
+.search-input {
+  width: 100%;
+  font-size: 16px;
+  outline: none;
+  border: 1px solid #17bf9e;
+  border-radius: 26px;
+  padding: 10px 20px;
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+.search-input:focus {
+  border-color: #17bf9e;
+}
+
+/* Display four cards per row on desktop */
+.card-list-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
 .single__course__item {
-    padding: 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination span {
+  margin: 0 10px;
+}
+
+@media (max-width: 767px) {
+  /* Change to two cards per row on mobile */
+  .card-list-container {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .hi{
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .saved a{
-    padding: 8px 16px;
-    margin-right: 8px;
-    background-color: #17bf9e;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .saved a:hover{
-    background-color: #17bf81;
-    color: #fff;
-  }
-  .course__img img {
-    border-radius: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .enroll a {
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #17bf9e;
-  }
-  .category,
-  .rating {
-    font-size: 0.9rem;
-    color: #0a2b1e;
-    font-weight: 500;
-  }
-  .rating i {
-    font-weight: 400;
-  }
-  
-  .course__title {
-    line-height: 2rem;
-  }
-  
-  .course__top__left h2 {
-    font-weight: 600;
-  }
-  .search-container {
-    width: 320px;
-    margin-bottom: 20px;
-    border: 1px solid #17bf9e;
-    border-radius: 26px;
-  }
-  .search-input {
-    width: 100%;
-    font-size: 16px;  
-    outline: none;
-    border: 1px solid #17bf9e;
-    border-radius: 26px;
-  }
-  
-  .search-input::placeholder {
-    color: #999;
-  }
-  
-  .search-input:focus {
-    border-color: #17bf9e;
-  }
+}

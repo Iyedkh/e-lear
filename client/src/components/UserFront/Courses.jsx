@@ -5,10 +5,8 @@ import axios from 'axios';
 import Card from "./Card";
 import { Link } from "react-router-dom";
 import "./Courses.css";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css'; 
 import { Button, Menu, MenuItem } from '@mui/material';
-
+import Category from "../categoryForum/Category.jsx";
 const Courses = () => {
     const [courses, setCourses] = useState([]);
     const [filteredCourses, setFilteredCourses] = useState([]);
@@ -16,6 +14,8 @@ const Courses = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [categories, setCategories] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const coursesPerPage = 12; // 3 rows * 4 cards per row
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,24 +36,20 @@ const Courses = () => {
         fetchData();
     }, []);
 
-    // Function to handle search input change
     const handleSearchInputChange = (event) => {
         setSearchInput(event.target.value);
-        filterCourses(event.target.value, selectedCategory); // Filter courses based on search input and selected category
+        filterCourses(event.target.value, selectedCategory);
     };
 
-    // Function to filter courses based on search input and selected category
     const filterCourses = (query, category) => {
         let filtered = courses;
 
-        // Filter by title
         if (query) {
             filtered = filtered.filter(course => 
                 course.title.toLowerCase().includes(query.toLowerCase())
             );
         }
 
-        // Filter by category
         if (category && category !== 'all') {
             filtered = filtered.filter(course => 
                 course.category === category
@@ -61,30 +57,38 @@ const Courses = () => {
         }
 
         setFilteredCourses(filtered);
+        setCurrentPage(1); // Reset to first page after filtering
     };
 
-    // Function to handle category select
     const handleCategorySelect = (categoryId) => {
         setSelectedCategory(categoryId);
-        setAnchorEl(null); // Close the menu after selecting category
-        filterCourses(searchInput, categoryId); // Filter courses based on search input and selected category
+        setAnchorEl(null);
+        filterCourses(searchInput, categoryId);
     };
 
-    // Function to handle menu open
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
-    // Function to handle menu close
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
 
-    // Function to get category name by ID
     const getCategoryName = (categoryId) => {
         const category = categories.find(cat => cat._id === categoryId);
         return category ? category.name : '';
     };
+
+    const handleNextPage = () => {
+        setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(filteredCourses.length / coursesPerPage)));
+    };
+
+    const handlePrevPage = () => {
+        setCurrentPage(prevPage => Math.max(prevPage - 1, 1));
+    };
+
+    const startIndex = (currentPage - 1) * coursesPerPage;
+    const currentCourses = filteredCourses.slice(startIndex, startIndex + coursesPerPage);
 
     return (
         <>
@@ -130,35 +134,19 @@ const Courses = () => {
                     </div>
                 </div>
                 
-                <Swiper
-                    breakpoints={{
-                        // when window width is >= 320px
-                        320: {
-                            slidesPerView: 1.5,
-                            spaceBetween: 50
-                        },
-                        // when window width is >= 480px
-                        480: {
-                            slidesPerView: 1.5,
-                            spaceBetween: 50
-                        },
-                        // when window width is >= 640px
-                        640: {
-                            slidesPerView: 4.4,
-                            spaceBetween: 40
-                        }
-                    }}
-                    navigation
-                    pagination={{ clickable: true }}
-                    scrollbar={{ draggable: true }}
-                >
-                    {filteredCourses.map(course => (
-                        <SwiperSlide key={course._id}>
-                            <Card course={course} />
-                        </SwiperSlide>
+                <div className="card-list-container">
+                    {currentCourses.map(course => (
+                        <Card key={course._id} course={course} />
                     ))}
-                </Swiper>
+                </div>
+
+                <div className="pagination">
+                    <Button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</Button>
+                    <span>Page {currentPage} of {Math.ceil(filteredCourses.length / coursesPerPage)}</span>
+                    <Button onClick={handleNextPage} disabled={currentPage === Math.ceil(filteredCourses.length / coursesPerPage)}>Next</Button>
+                </div>
             </div>
+            <Category/>
             <Footer />
         </>
     );
