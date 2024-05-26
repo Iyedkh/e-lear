@@ -7,17 +7,23 @@ import "./header.css";
 const Header = () => {
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('');
+  const [image, setImage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
-    const storedRole = localStorage.getItem('role'); // Assuming role is stored in local storage
-    
+    const storedRole = localStorage.getItem('role');
+    const storedImage = localStorage.getItem('image');
+
+
     if (storedUsername) {
       setUsername(storedUsername);
     }
     if (storedRole) {
       setRole(storedRole);
+    }
+    if (storedImage) {
+      setImage(`http://localhost:3000/${storedImage.replace(/\\/g, '/')}`); // Ensure correct path
     }
   }, []);
 
@@ -42,14 +48,7 @@ const Header = () => {
       display: "Courses",
       url: role === 'admin' ? "/course" : "/userC",
     },
-    {
-      display: "Pages",
-      url: "#",
-    },
-    {
-      display: "Blog",
-      url: "#",
-    },
+    
   ];
 
   return (
@@ -57,14 +56,14 @@ const Header = () => {
       <Container>
         <div className="navigation d-flex align-items-center justify-content-between">
           <div className="logo">
-            <h2 className=" d-flex align-items-center gap-1">
+            <h2 className="d-flex align-items-center gap-2">
               <i className="ri-pantone-line"></i> Infinite.
             </h2>
           </div>
 
-          <div className="nav d-flex align-items-center gap-5">
+          <div className="nav d-flex align-items-center ">
             <div className="nav__menu" ref={menuRef} onClick={menuToggle}>
-              <ul className="nav__list">
+              <ul className="nav__list gap-5">
                 {navLinks.map((item, index) => (
                   <li key={index} className="nav__item">
                     <a href={item.url}>{item.display}</a>
@@ -73,19 +72,15 @@ const Header = () => {
               </ul>
             </div>
 
-            <div className="nav__right">
-              <p className="mb-0 d-flex align-items-center gap-2">
-                <i className="ri-phone-line"></i> +216 93 117 612
-              </p>
-            </div>
-            <div className="nav__user">
-              <p className="mb-0 d-flex align-items-center gap-2">
-                <i className="ri-user-line"></i> {username || 'Guest'}
-              </p>
-            </div>
-            <button className="btn" onClick={handleLogout}>Logout</button>
+            
+            
           </div>
-
+          <div className="nav__user d-flex align-items-center gap-4">
+              {image && <img src={image} alt="User" className="user-image" />}
+              <span>{username || 'Guest'}</span>
+              <button className="btn" onClick={handleLogout}>Logout</button>
+            </div>
+            
           <div className="mobile__menu">
             <span>
               <i className="ri-menu-line" onClick={menuToggle}></i>

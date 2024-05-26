@@ -19,7 +19,7 @@ const HomePage = () => {
             <Fragment>
                  <NavBar />
                  <HeroSection />
-                 <Work />
+                 
                  <Categories/>
                  <AboutUs />
                  <TopRatedCourses />

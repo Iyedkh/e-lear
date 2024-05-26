@@ -1,6 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const path = require('path');
 const User = require('../models/User');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 const router = express.Router();
@@ -10,8 +12,20 @@ const JWT_SECRET = 'test';
 // Define a simplified regex pattern for password validation
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Add a unique timestamp to the filename
+    }
+});
+
+const upload = multer({ storage: storage });
+
 // Register route
-router.post('/register', async (req, res) => {
+router.post('/register', upload.single('image'), async (req, res) => {
     const { email, password, username, city, role } = req.body;
 
     if (!PASSWORD_REGEX.test(password)) {
@@ -19,9 +33,10 @@ router.post('/register', async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const imagePath = req.file ? req.file.path : null;
 
     try {
-        const user = new User({ email, password: hashedPassword, username, city, role });
+        const user = new User({ email, password: hashedPassword, username, city, role, image: imagePath });
         await user.save();
         res.status(201).json(user);
     } catch (error) {
@@ -50,7 +65,8 @@ router.post('/login', async (req, res) => {
         username: user.username,
         email: user.email,
         city: user.city,
-        role: user.role
+        role: user.role,
+        image: user.image
     });
 });
 
@@ -58,9 +74,10 @@ router.post('/login', async (req, res) => {
 router.use(authMiddleware);
 
 // Update user route (admin only)
-router.put('/:id', adminMiddleware, async (req, res) => {
+router.put('/:id', adminMiddleware, upload.single('image'), async (req, res) => {
     const { id } = req.params;
     const { email, password, username, city, role } = req.body;
+    const imagePath = req.file ? req.file.path : null;
 
     try {
         const user = await User.findById(id);
@@ -74,6 +91,7 @@ router.put('/:id', adminMiddleware, async (req, res) => {
         if (username) user.username = username;
         if (city) user.city = city;
         if (role) user.role = role;
+        if (imagePath) user.image = imagePath;
 
         await user.save();
         res.json(user);
@@ -81,8 +99,6 @@ router.put('/:id', adminMiddleware, async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
-
-
 
 // Delete user route (admin only)
 router.delete('/:id', adminMiddleware, async (req, res) => {
@@ -107,4 +123,5 @@ router.delete('/:id', adminMiddleware, async (req, res) => {
         res.status(400).json({ error: 'An error occurred during deletion' });
     }
 });
+
 module.exports = router;
