@@ -123,5 +123,21 @@ router.delete('/:id', adminMiddleware, async (req, res) => {
         res.status(400).json({ error: 'An error occurred during deletion' });
     }
 });
-
+router.get('/user', authMiddleware, (req, res) => {
+    try {
+      // Access the user object from the request (assuming it's set by the authentication middleware)
+      const user = req.user;
+  
+      // Respond with the user information
+      res.status(200).json({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        // Add other user properties as needed
+      });
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  });
 module.exports = router;

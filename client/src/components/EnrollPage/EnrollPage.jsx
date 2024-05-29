@@ -1,10 +1,11 @@
+// EnrollPage.jsx
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import axios from "axios";
 import chooseImg from "../assests/images/why-choose-us.png";
-import SideBar from './Sidebar'; // Update the import path accordingly
-import Comment from './CommentForm'; // Update the import path accordingly
+import SideBar from './Sidebar';
+import CommentForm from './CommentForm';
 import ReactPlayer from "react-player";
 import './EnrollPage.css';
 import { FaStar } from "react-icons/fa";
@@ -12,19 +13,33 @@ import { FaStar } from "react-icons/fa";
 const EnrollPage = () => {
   const [course, setCourse] = useState(null);
   const [showVideo, setShowVideo] = useState(false);
-  const [rating, setRating] = useState(0); 
+  const [rating, setRating] = useState(0);
   const { courseId } = useParams();
   const [hover, setHover] = useState(0);
   const [categories, setCategories] = useState([]);
-  const [categoryId, setCategoryId] = useState(null); // State to hold the category ID of the current course
-  const [averageRating, setAverageRating] = useState(0); // State to hold the average rating of the course
+  const [categoryId, setCategoryId] = useState(null);
+  const [averageRating, setAverageRating] = useState(0);
+  const [userId, setUserId] = useState(""); // State to hold the user ID
+
+  const fetchUserId = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/auth/user');
+      if (response.status === 200) {
+        setUserId(response.data.userId);
+      } else {
+        console.error('Failed to fetch user ID:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching user ID:', error);
+    }
+  };
 
   const fetchCourse = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/courses/${courseId}`);
+      const response = await axios.get(`http://localhost:3000/courses/${courseId}?userId=${userId}`);
       if (response.status === 200) {
         setCourse(response.data);
-        setCategoryId(response.data.category); // Set the category ID of the current course
+        setCategoryId(response.data.category);
       } else {
         console.error('Failed to fetch course:', response.status, response.statusText);
       }
@@ -34,21 +49,25 @@ const EnrollPage = () => {
   };
 
   useEffect(() => {
+    fetchUserId();
+  }, []);
+
+  useEffect(() => {
     fetchCourse();
-  }, [courseId]); 
+  }, [courseId, userId]);
 
   useEffect(() => {
     const fetchCategories = async () => {
-        try {
-            const response = await axios.get('http://localhost:3000/categories');
-            if (response.status === 200) {
-                setCategories(response.data);
-            } else {
-                console.error('Failed to fetch categories:', response.status, response.statusText);
-            }
-        } catch (error) {
-            console.error('Error fetching categories:', error);
+      try {
+        const response = await axios.get('http://localhost:3000/categories');
+        if (response.status === 200) {
+          setCategories(response.data);
+        } else {
+          console.error('Failed to fetch categories:', response.status, response.statusText);
         }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
     };
 
     fetchCategories();
@@ -82,8 +101,8 @@ const EnrollPage = () => {
     } catch (error) {
       console.error('Error submitting rating:', error);
     }
-    window.location.reload(); // This line may not be necessary
   };
+
   useEffect(() => {
     const fetchRatings = async () => {
       try {
@@ -101,6 +120,7 @@ const EnrollPage = () => {
 
     fetchRatings();
   }, [courseId]);
+
   return (
     <section>
       <Container>
@@ -133,12 +153,12 @@ const EnrollPage = () => {
                 <div className="d-flex justify-content-around">
                   <p className="category">Category: {getCategoryName(course?.category)}</p>
                   <p>Description:  {course?.description}</p>
-                </div>     
-              </div> 
+                </div>
+              </div>
               <div>
                 <p>Average Rating: {averageRating.toFixed(2)} </p>
-              </div>            
-            </div>           
+              </div>
+            </div>
           </Col>
 
           <Col lg="4" md="4" sm="12">
@@ -157,7 +177,7 @@ const EnrollPage = () => {
                         name="rating"
                         value={star}
                         onChange={() => setRating(star)}
-                        style={{ display: "none" }} // Hide radio button
+                        style={{ display: "none" }}
                       />
                       <FaStar
                         color={star <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
@@ -175,7 +195,7 @@ const EnrollPage = () => {
           </div>
 
           <div className="comment mt-2">
-            <Comment courseId={courseId} />
+            <CommentForm courseId={courseId} userId={userId} />
           </div>
           
         </Row>

@@ -2,23 +2,31 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const CourseModel = require('../models/course');
-const CommentModel = require('../models/comment'); // Import the Comment model
+const CommentModel = require('../models/comment'); 
+const UserModel = require('../models/User'); 
+const { authMiddleware } = require('../middleware/auth');
 
 // Route to post a comment for a course
-router.post('/:courseId/comments', async (req, res) => {
+router.post('/:courseId/comments', authMiddleware, async (req, res) => {
     try {
         const courseId = req.params.courseId;
         const { content } = req.body;
+        const userId = req.user.userId;
 
         // Check if courseId is valid ObjectId
         if (!mongoose.Types.ObjectId.isValid(courseId)) {
             return res.status(400).json({ message: 'Invalid course ID' });
         }
 
+        const user = await UserModel.findById(userId);
+
         // Create a new comment
         const newComment = new CommentModel({
             courseId: courseId,
-            content: content
+            content: content,
+            user: userId,
+            username: user.username,
+            image: user.image
         });
 
         // Save the comment
@@ -45,7 +53,13 @@ router.get('/:courseId/comments', async (req, res) => {
         }
 
         // Find the course and populate its comments
-        const course = await CourseModel.findById(courseId).populate('comments');
+        const course = await CourseModel.findById(courseId).populate({
+            path: 'comments',
+            populate: {
+                path: 'user',
+                select: 'username image'
+            }
+        });
 
         if (!course) {
             return res.status(404).json({ message: 'Course not found' });

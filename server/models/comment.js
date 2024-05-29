@@ -6,19 +6,32 @@ const commentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course',
         required: true
-      },
-      content: {
+    },
+    content: {
         type: String,
         required: true
-      },
-      createdAt: {
+    },
+    createdAt: {
         type: Date,
         default: Date.now
-      },
-      likes: {
+    },
+    likes: {
         type: Number,
         default: 0
-      }
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        required: false
+    }
 });
 
 // Create the Comment model

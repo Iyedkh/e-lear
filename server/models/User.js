@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
         default: Date.now
     },
     image: {
-        type: String, // URL of the user's profile image
+        type: String, 
         required: false
     }
 });
