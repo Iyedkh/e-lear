@@ -52,7 +52,7 @@ const Footer = () => {
         <Row>
           <Col lg="3" md="6" className="mb-4">
             <h2 className=" d-flex align-items-center gap-1">
-              <i class="ri-pantone-line"></i> Infinite.
+              <i class="ri-pantone-line"></i> Infinity.
             </h2>
 
             <div className="follows">

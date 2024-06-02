@@ -42,7 +42,7 @@ const LoginPage = () => {
    
       <form className='logfor' onSubmit={handleLogin}>
       <div className="Titl">
-         <i className="ri-pantone-line"></i> Infinite.
+         <i className="ri-pantone-line"></i> Infinity.
       </div>
       
         {error && <p>{error}</p>}
