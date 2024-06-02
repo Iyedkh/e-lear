@@ -8,21 +8,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const SimpleNavbar = () => {
-    return (
-      <header className="hdr">
-        <div className='logh'>
-          <div className="navigation d-flex align-items-center justify-content-between">
-            <div className="logo">
-              <h2 className="d-flex align-items-center gap-1">
-                <i className="ri-pantone-line"></i> Infinite.
-              </h2>
-            </div>
-          </div>
-        </div>
-      </header>
-    );
-  };
+  
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -50,34 +36,45 @@ const LoginPage = () => {
 
   return (
     <>
-      <SimpleNavbar />
+      
     <div className="login-page">
-      <form onSubmit={handleLogin}>
-        <h2>Login</h2>
+      
+   
+      <form className='logfor' onSubmit={handleLogin}>
+      <div className="Titl">
+         <i className="ri-pantone-line"></i> Infinite.
+      </div>
+      
         {error && <p>{error}</p>}
         <div>
           <label>Email:</label>
-          <input
+          <div className="inp">
+            <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          </div>
+          
         </div>
         <div>
           <label>Password:</label>
-          <input
+          <div className="inp">
+             <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          </div>
+         
         </div>
         <div className="sign">
-           <button type="submit">Login</button>
-        <Link className='btn2' to={'/signup'}>Sign up</Link>
+           <button className='loginB' type="submit">Login</button>
+
         </div>
-       
+        <Link  to={'/signup'}>you don't have account? <br />Register now.</Link>
       </form>
     </div>
     </>

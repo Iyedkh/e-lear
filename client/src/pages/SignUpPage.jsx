@@ -13,21 +13,7 @@ const SignUpPage = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const SimpleNavbar = () => {
-    return (
-      <header className="hdr">
-        <div className='logh'>
-          <div className="navigation d-flex align-items-center justify-content-between">
-            <div className="logo">
-              <h2 className="d-flex align-items-center gap-1">
-                <i className="ri-pantone-line"></i> Infinite.
-              </h2>
-            </div>
-          </div>
-        </div>
-      </header>
-    );
-  };
+
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -57,9 +43,9 @@ const SignUpPage = () => {
 
   return (
     <>
-      <SimpleNavbar />
+     
       <div className="signup-page">
-        <form onSubmit={handleSignUp} encType="multipart/form-data">
+        <form onSubmit={handleSignUp} encType="multipart/form-data" className='SignF'>
           <h2>Sign Up</h2>
           {error && <p>{error}</p>}
           <div>

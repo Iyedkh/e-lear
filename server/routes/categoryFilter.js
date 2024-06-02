@@ -1,4 +1,4 @@
-// routes/courses.js
+// routes/category filter
 const express = require('express');
 const router = express.Router();
 const filterMiddleware = require('../middleware/filterMiddleware');

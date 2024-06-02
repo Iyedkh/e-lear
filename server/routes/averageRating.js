@@ -1,4 +1,4 @@
-// Assuming you have a 'Course' and 'Rating' model
+// averageRating.js route
 const express = require('express');
 const CourseModel = require('../models/course');
 const Rating = require('../models/Rating');
