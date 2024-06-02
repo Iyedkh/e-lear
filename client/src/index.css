@@ -581,7 +581,7 @@ border-bottom: 2px solid #08071c;
   background-image: url('./components/assests/images/335.png');
 }
 .signup-page{
-  height: 100%;
+  height: 100vh;
 }
 
 .Titl{
@@ -604,7 +604,7 @@ form {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .logfor input{
-  width: 50%;
+  width: 80%;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -614,7 +614,7 @@ form {
   justify-content: center;
 }
 .SignF{
-  height: 100%;
+  height: fit-content;
   background: #fff;
   padding: 2rem;
   border-radius: 20px;

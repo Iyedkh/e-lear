@@ -9,6 +9,9 @@ const CourseList = () => {
     const [categories, setCategories] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const coursesPerPage = 10;
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -74,53 +77,73 @@ const CourseList = () => {
         const category = categories.find(cat => cat._id === categoryId);
         return category ? category.name : '';
     };
+
+    const handleNextPage = () => {
+        setCurrentPage(prevPage => prevPage + 1);
+    };
+
+    const handlePreviousPage = () => {
+        setCurrentPage(prevPage => (prevPage > 1 ? prevPage - 1 : 1));
+    };
+
+    const filteredCourses = selectedCategory 
+        ? courses.filter(course => course.category === selectedCategory)
+        : courses;
+
+    const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
+    const currentCourses = filteredCourses.slice((currentPage - 1) * coursesPerPage, currentPage * coursesPerPage);
+
     const styles = `
-    .container {
-        margin-top: 20px;
-    }
-    .h2{
-        margin-bottom: 20px;
-        text-align: center;
-        font-family: Courier, monospace;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-    }
-
-    th, td {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-
-    th {
-        background-color: #f2f2f2;
-    }
-
-    .action-buttons {
-        display: flex;
-        gap: 10px;
-        justify-content: space-around;
-    }
-    .link {
-        font-size: 18px;
-        margin-bottom: 20px;
-        display: block;
-        width: fit-content;
-        padding: 10px 20px;
-        background-color: #17bf9e;
-        color: white;
-        text-decoration: none;
-        border-radius: 26px;
-        text-align: center;
-    }
-    .Title{
-        text-align: center;
-        margin-bottom: 15px;
-        font-family: Courier, monospace;
-    }
+        .container {
+            margin-top: 20px;
+        }
+        .h2{
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: Courier, monospace;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: space-around;
+        }
+        .link {
+            font-size: 18px;
+            margin-bottom: 20px;
+            display: block;
+            width: fit-content;
+            padding: 10px 20px;
+            background-color: #17bf9e;
+            color: white;
+            text-decoration: none;
+            border-radius: 26px;
+            text-align: center;
+        }
+        .Title{
+            text-align: center;
+            margin-bottom: 15px;
+            font-family: Courier, monospace;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
     `;
 
     return (
@@ -136,14 +159,16 @@ const CourseList = () => {
                     <Link to="/dash" className="link">Dashboard</Link>
                 </div>
                 <div>
-                <Button
-                    onClick={handleMenuOpen}
+                    <Button
+                        onClick={handleMenuOpen}
                         style={{
                             backgroundColor: '#17bf9e',
                             color: 'white',
                             padding: '10px 20px',
-                            textTransform: 'none'  }}>
-                Filter by Category</Button>
+                            textTransform: 'none'
+                        }}>
+                        Filter by Category
+                    </Button>
 
                     <Menu
                         anchorEl={anchorEl}
@@ -160,15 +185,16 @@ const CourseList = () => {
                 <table>
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Title</th>
                             <th>Category</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {courses.map(course => (
-                            (!selectedCategory || course.category === selectedCategory) && 
+                        {currentCourses.map((course, index) => (
                             <tr key={course._id}>
+                                <td>{(currentPage - 1) * coursesPerPage + index + 1}</td>
                                 <td>{course.title}</td>
                                 <td>{getCategoryName(course.category)}</td>
                                 <td className="action-buttons">
@@ -180,6 +206,15 @@ const CourseList = () => {
                         ))}
                     </tbody>
                 </table>
+                <div className="pagination">
+                    <Button variant="contained" disabled={currentPage === 1} onClick={handlePreviousPage}>
+                        Previous
+                    </Button>
+                    <span>Page {currentPage} of {totalPages}</span>
+                    <Button variant="contained" disabled={currentPage === totalPages} onClick={handleNextPage}>
+                        Next
+                    </Button>
+                </div>
             </div>
         </>
     );
