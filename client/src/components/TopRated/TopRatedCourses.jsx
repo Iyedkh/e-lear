@@ -41,7 +41,7 @@ const Courses = () => {
                             </div>
 
                             <div className="w-50   text-end">
-                                <a href="/course">
+                                <a href="/userC">
                                     <button className="btn">See All</button>
                                 </a>
                             </div>

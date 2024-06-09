@@ -43,11 +43,7 @@ const Categories = () => {
                                 </p>
                             </div>
 
-                            <div className="w-50   text-end">
-                                <Link to="/Category">
-                                    <button className="btn">See All</button>
-                                </Link>
-                            </div>
+                            
                         </div>
                     </Col>
                     <div className="container mt-2">

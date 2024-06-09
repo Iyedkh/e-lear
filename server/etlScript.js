@@ -9,7 +9,6 @@ function transformCourses(courses) {
     return courses.map(course => ({
         id: course._id,
         title: course.title,
-        averageRating: calculateAverageRating(course.ratings), // Calculate average rating
         description: course.description,
         category: course.category,
         videoUrl: course.videoUrl,
@@ -18,14 +17,7 @@ function transformCourses(courses) {
     }));
 }
 
-function calculateAverageRating(ratings) {
-    if (!ratings || ratings.length === 0) {
-        return 0;
-    }
 
-    const totalRating = ratings.reduce((acc, curr) => acc + curr.stars, 0);
-    return totalRating / ratings.length;
-}
 
 function transformComments(comments) {
     return comments.map(comment => ({

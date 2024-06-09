@@ -37,10 +37,10 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  const getUserGrowthData = () => {
-    if (!transformedData || !transformedData.users) return [];
+  const getUserGrowthData = (users) => {
+    if (!users) return [];
 
-    const registrationDates = transformedData.users.map(user => new Date(user.registrationDate));
+    const registrationDates = users.map(user => new Date(user.registrationDate));
     registrationDates.sort((a, b) => a - b);
 
     const growthData = registrationDates.reduce((acc, date) => {
@@ -95,9 +95,10 @@ const Dashboard = () => {
         // User deleted successfully
         window.alert('User deleted successfully!');
         // Remove the deleted user from the state
+        const updatedUsers = transformedData.users.filter(user => user.id !== userId);
         setTransformedData(prevData => ({
           ...prevData,
-          users: prevData.users.filter(user => user.id !== userId)
+          users: updatedUsers
         }));
       } else {
         throw new Error(`Error deleting user: ${response.statusText}`); // Handle specific error
@@ -238,7 +239,7 @@ const Dashboard = () => {
                   data={{
                     datasets: [{
                       label: 'User Growth',
-                      data: getUserGrowthData(),
+                      data: getUserGrowthData(transformedData.users),
                       backgroundColor: 'rgba(54, 162, 235, 0.6)',
                       borderColor: 'rgba(54, 162, 235, 1)',
                       borderWidth: 1,
@@ -335,4 +336,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

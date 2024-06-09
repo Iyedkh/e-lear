@@ -6,7 +6,7 @@ import "./footer.css";
 const footerQuickLinks = [
   {
     display: "Home",
-    url: "/",
+    url: "/home",
   },
   {
     display: "About US",
