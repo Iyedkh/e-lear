@@ -49,7 +49,7 @@ const CoursesByCategoryPage = () => {
             <div className="container">
                  <style>{styles}</style>
                 <h2>Courses in this Category</h2>
-                <a className="cat" href="/category">Back to Categories</a>
+               
                 <Swiper
                     breakpoints={{
                         320: {

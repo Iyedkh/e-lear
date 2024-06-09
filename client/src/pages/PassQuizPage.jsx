@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-
+import './PassQuizPage.css';
 const PassQuizPage = () => {
     const { quizId } = useParams();
     const [quiz, setQuiz] = useState(null);
@@ -48,7 +48,7 @@ const PassQuizPage = () => {
         <div>
             {quiz && (
                 <div>
-                    <h1>Pass Quiz: {quiz.title}</h1>
+                    <h1>{quiz.title}</h1>
                     <form onSubmit={handleSubmit}>
                         {quiz.questions.map((question, index) => (
                             <div key={index}>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import inf from "../components/assests/images/infinity.png";
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,7 +42,8 @@ const LoginPage = () => {
    
       <form className='logfor' onSubmit={handleLogin}>
       <div className="Titl">
-         <i className="ri-pantone-line"></i> Infinity.
+         <img className='infimg' src={inf} /> 
+         <h2>Infinity.</h2>
       </div>
       
         {error && <p>{error}</p>}
@@ -74,7 +75,9 @@ const LoginPage = () => {
            <button className='loginB' type="submit">Login</button>
 
         </div>
-        <Link  to={'/signup'}>you don't have account? <br />Register now.</Link>
+
+        <p>you don't have account? <Link  to={'/signup'}>Register now.</Link> </p>
+        
       </form>
     </div>
     </>

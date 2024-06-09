@@ -101,6 +101,7 @@ const EnrollPage = () => {
     } catch (error) {
       console.error('Error submitting rating:', error);
     }
+    window.location.reload();
   };
 
   useEffect(() => {

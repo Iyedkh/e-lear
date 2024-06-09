@@ -66,6 +66,7 @@ const CommentForm = ({ courseId }) => {
     } finally {
       setIsLoading(false);
     }
+    window.location.reload();
   };
 
   const handleLikeComment = async (commentId) => {

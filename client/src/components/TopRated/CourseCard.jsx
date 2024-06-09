@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { BsSave2Fill } from 'react-icons/bs';
 
 const CourseCard = ({ course }) => {
-    const { _id, title, category, description, students, imageUrl, ratings } = course;
+    const { _id, title, category, description, imageUrl, ratings } = course;
     const [categories, setCategories] = useState([]);
     // Function to calculate average rating
     const calculateAverageRating = () => {
@@ -72,9 +72,7 @@ const CourseCard = ({ course }) => {
                         {description}    
                     </p>
 
-                    <p className="students d-flex align-items-center gap-1">
-                        <i className="ri-user-line"></i> {students}K
-                    </p>
+                    
                 </div>
 
                 <div className=" d-flex justify-content-between align-items-center">

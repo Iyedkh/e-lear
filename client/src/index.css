@@ -588,7 +588,12 @@ border-bottom: 2px solid #08071c;
   font-size: 40px;
   display: flex;
   justify-content: center;
+  align-items: center;
   font-family: 'Times New Roman', Times, serif;
+}
+.infimg{
+  height: 100px;
+  width: 100px;
 }
 form {
   background: #fff;
