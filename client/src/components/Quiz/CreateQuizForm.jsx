@@ -31,14 +31,13 @@ const CreateQuizForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const quizData = { title, questions }; // Include title along with questions
+            const quizData = { title, questions }; 
             const response = await axios.post('http://localhost:3000/quiz/create', quizData);
             window.alert('Quiz created successfully:', response.data);
             
-            // Optionally, you can redirect the user or display a success message
+         
         } catch (error) {
             console.error('Error creating quiz:', error);
-            // Handle error
         }
     };
 

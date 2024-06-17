@@ -20,27 +20,20 @@ const QuizListPage = () => {
 
     const handleUpdateQuiz = async (quizId) => {
         try {
-            // Make an HTTP PUT request to update the quiz by its ID
             const response = await axios.put(`http://localhost:3000/quiz/${quizId}`, {
-                // Provide updated quiz data
             });
             console.log('Quiz updated successfully:', response.data);
-            // Handle success response
         } catch (error) {
             console.error('Error updating quiz:', error);
-            // Handle error
         }
     };
 
     const handleDeleteQuiz = async (quizId) => {
         try {
-            // Make an HTTP DELETE request to delete the quiz by its ID
             const response = await axios.delete(`http://localhost:3000/quiz/${quizId}`);
             window.alert('Quiz deleted successfully:', response.data);
-            // Handle success response
         } catch (error) {
             console.error('Error deleting quiz:', error);
-            // Handle error
         }
         window.location.reload();
     };

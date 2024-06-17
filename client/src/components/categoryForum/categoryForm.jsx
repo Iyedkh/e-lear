@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import NavBar from '../Header/Header';
-import '../categoryForum/forum.css'; // Assuming you have CSS styles for the form
+import '../categoryForum/forum.css';
 
 const CategoryForm = () => {
     const [formData, setFormData] = useState({

@@ -23,7 +23,7 @@ const Header = () => {
       setRole(storedRole);
     }
     if (storedImage) {
-      setImage(`http://localhost:3000/${storedImage.replace(/\\/g, '/')}`); // Ensure correct path
+      setImage(`http://localhost:3000/${storedImage.replace(/\\/g, '/')}`); 
     }
   }, []);
 

@@ -6,8 +6,6 @@ import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css'; // Import Swiper CSS
 const Courses = () => {
-    // State variables
-   
     const [savedCourses, setSavedCourses] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
 

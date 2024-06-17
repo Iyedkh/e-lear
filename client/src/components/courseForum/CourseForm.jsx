@@ -8,7 +8,7 @@ const CourseForm = () => {
         title: '',
         rating: '',
         description: '',
-        category: '', // Updated to store category ID
+        category: '',
         videoUrl: '',
         image: null
     });
@@ -56,7 +56,7 @@ const CourseForm = () => {
                 title: '',
                 rating: '',
                 description: '',
-                category: '', // Reset category after submission
+                category: '', 
                 videoUrl: '',
                 image: null
             });

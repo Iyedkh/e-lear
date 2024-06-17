@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "reactstrap";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css'; // Import Swiper CSS
-import { Link } from "react-router-dom"; // Import Link from React Router
+import { Link } from "react-router-dom"; 
 import CategoryCard from "./CategoryCard";
 
 

@@ -1,6 +1,4 @@
 // sockets.js
-
-// Sample data (can be replaced with a database)
 let users = [];
 
 module.exports = function(io) {

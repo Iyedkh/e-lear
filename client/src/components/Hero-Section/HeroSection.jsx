@@ -6,11 +6,10 @@ import heroImg from "../assests/images/hero-img1.png";
 
 const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const navigate = useNavigate(); // Use useNavigate hook instead of useHistory
+  const navigate = useNavigate(); 
 
   const handleSearch = () => {
-    // Navigate to the search results page with the search query
-    navigate(`/search/${searchQuery}`); // Use navigate instead of history.push
+    navigate(`/search/${searchQuery}`); 
   };
 
   return (

@@ -151,7 +151,7 @@ const Dashboard = () => {
 
             <div className="dashboard-content">
               <div className="chart-container">
-                <h2 className="chart-title">Bar Chart for Category Counts</h2>
+                <h2 className="chart-title">Courses by Category</h2>
                 <Bar
                   data={{
                     labels: transformedData.categories.map(category => category.name),
@@ -175,7 +175,7 @@ const Dashboard = () => {
                 />
               </div>
               <div className="chart-container">
-                <h2 className="chart-title">Pie Chart for Courses by Category</h2>
+                <h2 className="chart-title"> Courses by Category</h2>
                 <Pie
                   className="pie-chart"
                   data={{
@@ -199,7 +199,7 @@ const Dashboard = () => {
                 />
               </div>
               <div className="chart-container">
-                <h2 className="chart-title">Bar Chart for Quizzes by Course</h2>
+                <h2 className="chart-title"> Number of Question By Quizz </h2>
                 <Bar
                   data={{
                     datasets: [{
@@ -234,7 +234,7 @@ const Dashboard = () => {
                 />
               </div>
               <div className="chart-container">
-                <h2 className="chart-title">Line Chart for User Growth Over Time</h2>
+                <h2 className="chart-title"> User Growth Over Time</h2>
                 <Line
                   data={{
                     datasets: [{

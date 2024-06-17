@@ -2,12 +2,12 @@ import React from "react";
 import './Card.css';
 import { Link } from "react-router-dom";
 const Card = ({ savedCourse }) => {
-    // Check if savedCourse and courseId exist and are populated
+    
     if (!savedCourse || !savedCourse.courseId || !savedCourse.courseId.title) {
        return ;
     }
 
-    const { _id,title, description, category, rating, videoUrl, imageUrl } = savedCourse.courseId;
+    const { _id,title, description, imageUrl } = savedCourse.courseId;
 
     return (
         <div className="course-card">
@@ -24,11 +24,7 @@ const Card = ({ savedCourse }) => {
                     </p>
                 </div>
 
-                <div className="d-flex justify-content-between align-items-center">
-                    <p className="category d-flex align-items-center gap-1">
-                        Category: {category ? category : "Unknown"}
-                    </p>
-                </div>
+                
 
                 <div className="d-flex justify-content-center align-items-center">                 
 

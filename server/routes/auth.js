@@ -106,7 +106,7 @@ router.delete('/:id', adminMiddleware, async (req, res) => {
     const { id } = req.params;
 
     try {
-        console.log('Received DELETE request for user deletion'); // Debug point 1
+        console.log('Received DELETE request for user deletion'); 
 
         const user = await User.findById(id);
 
@@ -114,7 +114,7 @@ router.delete('/:id', adminMiddleware, async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        console.log('User found:', user); // Debug point 2
+        console.log('User found:', user); 
 
         await User.findByIdAndDelete(id);
 
@@ -126,15 +126,12 @@ router.delete('/:id', adminMiddleware, async (req, res) => {
 });
 router.get('/user', authMiddleware, (req, res) => {
     try {
-      // Access the user object from the request (assuming it's set by the authentication middleware)
       const user = req.user;
-  
-      // Respond with the user information
       res.status(200).json({
         id: user.id,
         username: user.username,
         email: user.email,
-        // Add other user properties as needed
+    
       });
     } catch (error) {
       console.error('Error fetching user:', error);

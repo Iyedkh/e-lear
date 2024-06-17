@@ -60,7 +60,7 @@ const EditQuizPage = () => {
             // Include correct answers in the questions array
             const updatedQuestions = questions.map(question => ({
                 ...question,
-                correctAnswer: question.correctAnswer, // Include the correct answer in each question
+                correctAnswer: question.correctAnswer, 
             }));
             
             await axios.put(`http://localhost:3000/quiz/${quizId}`, { title, questions: updatedQuestions });
@@ -69,11 +69,10 @@ const EditQuizPage = () => {
             // Log the updated quiz data
             console.log('Updated Quiz Data:', { title, questions: updatedQuestions });
     
-            // Optionally, you can redirect the user or display a success message
+            
         } catch (error) {
             console.error('Error updating quiz:', error);
             window.alert('Failed to update quiz'); // Alert for failed update
-            // Handle error
         }
     };
     

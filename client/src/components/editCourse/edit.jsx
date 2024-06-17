@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './edit.css';
 const EditCourse = () => {
-  const { id } = useParams(); // This retrieves the course ID from the URL
+  const { id } = useParams(); 
   const [course, setCourse] = useState({
     title: '',
     category: '',

@@ -13,7 +13,6 @@ function transformCourses(courses) {
         category: course.category,
         videoUrl: course.videoUrl,
         imageUrl: course.imageUrl
-        // Add more transformations as needed
     }));
 }
 
@@ -24,7 +23,6 @@ function transformComments(comments) {
         id: comment._id,
         courseId: comment.courseId,
         content: comment.content,
-        // Add more transformations as needed
     }));
 }
 
@@ -49,7 +47,6 @@ function transformCategories(categories) {
         name: category.name,
         description: category.description,
         image: category.image
-        // Add more transformations as needed
     }));
 }
 
@@ -69,8 +66,8 @@ function transformUsers(users) {
         username: user.username,
         city: user.city,
         role: user.role,
-        registrationDate: user.registrationDate // Include registration date in transformation
-        // Add more transformations as needed
+        registrationDate: user.registrationDate 
+        
     }));
 }
 

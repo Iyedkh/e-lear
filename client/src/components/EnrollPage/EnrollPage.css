@@ -10,7 +10,7 @@
   }
   
   .sidebar {
-    flex: 0 0 250px; /* Fixed width sidebar */
+    flex: 0 0 250px;
   }
   
   .comment-form {
@@ -75,9 +75,9 @@
   }
  
 .comment-form .like-icon {
-  color: #333; /* Default color */
+  color: #333; 
 }
 
 .comment-form .like-icon.liked {
-  color: #00f; /* Color when the comment is liked */
+  color: #00f; 
 }

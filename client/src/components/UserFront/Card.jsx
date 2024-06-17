@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { BsSave2Fill } from 'react-icons/bs';
 
 const Card = ({ course, averageRating }) => {
-    const { _id, title, category, description, students, imageUrl, ratings = [] } = course; // Ensure ratings is always an array
+    const { _id, title, category, description, students, imageUrl, ratings = [] } = course; 
     const [categories, setCategories] = useState([]);
 
     // Function to save course

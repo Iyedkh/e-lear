@@ -19,7 +19,7 @@ const EnrollPage = () => {
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState(null);
   const [averageRating, setAverageRating] = useState(0);
-  const [userId, setUserId] = useState(""); // State to hold the user ID
+  const [userId, setUserId] = useState("");
 
   const fetchUserId = async () => {
     try {

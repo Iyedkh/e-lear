@@ -29,6 +29,8 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/home" element={<ProtectedRoute element={HomePage} />} /> 
         <Route path="/course" element={<AdminRoute element={CourseListPage} />} />
         <Route path="/course/:id" element={<ProtectedRoute element={CourseDetailsPage} />} />
@@ -47,8 +49,6 @@ function App() {
         <Route path="/create-category" element={<AdminRoute element={CreateCategory} />} />
         <Route path="/category" element={<ProtectedRoute element={Category} />} />
         <Route path="/courses/:categoryId" element={<ProtectedRoute element={CoursesByCategoryPage} />} />
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
       </Routes>
     </Router>
   );

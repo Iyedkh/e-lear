@@ -22,10 +22,8 @@ const CourseCard = ({ course }) => {
                 courseId: _id,
             });
             console.log(response.data);
-            // You can add logic here to show a success message or update UI if needed
         } catch (error) {
             console.error('Error saving course:', error);
-            // You can add logic here to show an error message or handle the error in UI
         }
     };
     

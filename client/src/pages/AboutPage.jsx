@@ -1,6 +1,6 @@
 import React, { useState }  from 'react';
 import { Container, Row, Col } from "reactstrap";
-import { useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
+import { useNavigate } from 'react-router-dom'; 
 import about from "../components/assests/images/About.jpg";
 import heroImg from "../components/assests/images/hero.png";
 import features from "../components/assests/images/courses8.jpg";

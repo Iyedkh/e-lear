@@ -25,7 +25,7 @@ const Courses = () => {
                 if (categoriesResponse.status === 200 && coursesResponse.status === 200) {
                     setCategories(categoriesResponse.data);
                     setCourses(coursesResponse.data);
-                    setFilteredCourses(coursesResponse.data); // Initialize filteredCourses with all courses
+                    setFilteredCourses(coursesResponse.data); 
                 } else {
                     console.error('Failed to fetch data');
                 }
@@ -57,7 +57,7 @@ const Courses = () => {
         }
 
         setFilteredCourses(filtered);
-        setCurrentPage(1); // Reset to first page after filtering
+        setCurrentPage(1); 
     };
 
     const handleCategorySelect = (categoryId) => {
