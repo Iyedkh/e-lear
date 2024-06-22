@@ -140,3 +140,12 @@
   gap: 10px;
   margin-top: 20px;
 }
+.time-unit-buttons {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.time-unit-buttons button {
+  margin-right: 5px;
+}

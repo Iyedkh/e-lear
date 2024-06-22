@@ -55,7 +55,7 @@ function transformQuizzes(quizzes) {
         id: quiz._id,
         title: quiz.title,
         questions: quiz.questions
-        // Add more transformations as needed
+       
     }));
 }
 
