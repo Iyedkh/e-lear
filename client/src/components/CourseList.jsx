@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import NavBar from '../components/Header/Header';
 import axios from 'axios';
 import { Button, Menu, MenuItem } from '@mui/material';
+import PasswordOverlay from './PasswordOverlay';
 
 const CourseList = () => {
     const [courses, setCourses] = useState([]);
@@ -10,7 +11,8 @@ const CourseList = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-
+    const [showPasswordOverlay, setShowPasswordOverlay] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false); // State to track authentication status
     const coursesPerPage = 10;
 
     useEffect(() => {
@@ -70,7 +72,7 @@ const CourseList = () => {
 
     const handleCategorySelect = (categoryId) => {
         setSelectedCategory(categoryId);
-        setAnchorEl(null); // Close the menu after selecting category
+        setAnchorEl(null);
     };
 
     const getCategoryName = (categoryId) => {
@@ -86,7 +88,7 @@ const CourseList = () => {
         setCurrentPage(prevPage => (prevPage > 1 ? prevPage - 1 : 1));
     };
 
-    const filteredCourses = selectedCategory 
+    const filteredCourses = selectedCategory
         ? courses.filter(course => course.category === selectedCategory)
         : courses;
 
@@ -97,7 +99,7 @@ const CourseList = () => {
         .container {
             margin-top: 20px;
         }
-        .h2{
+        .h2 {
             margin-bottom: 20px;
             text-align: center;
             font-family: Courier, monospace;
@@ -132,11 +134,6 @@ const CourseList = () => {
             border-radius: 26px;
             text-align: center;
         }
-        .Title{
-            text-align: center;
-            margin-bottom: 15px;
-            font-family: Courier, monospace;
-        }
         .pagination {
             display: flex;
             justify-content: center;
@@ -145,6 +142,25 @@ const CourseList = () => {
             margin-top: 20px;
         }
     `;
+
+    const handlePasswordSubmit = (password) => {
+       
+        if (password === 'Admin123') {
+            setIsAuthenticated(true);
+            setShowPasswordOverlay(false);
+            window.location.href = '/dash';
+        } else {
+            alert('Invalid password. Please try again.');
+        }
+    };
+
+    const handleDashboardClick = () => {
+        if (isAuthenticated) {
+            window.location.href = '/dash';
+        } else {
+            setShowPasswordOverlay(true);
+        }
+    };
 
     return (
         <>
@@ -156,7 +172,7 @@ const CourseList = () => {
                     <Link to="/create-course" className="link">Create New Course</Link>
                     <Link to="/category" className="link">Category</Link>
                     <Link to="/quiz" className="link">Quiz</Link>
-                    <Link to="/dash" className="link">Dashboard</Link>
+                    <button className="link" onClick={handleDashboardClick}>Dashboard</button>
                 </div>
                 <div>
                     <Button
@@ -216,6 +232,13 @@ const CourseList = () => {
                     </Button>
                 </div>
             </div>
+            {showPasswordOverlay && (
+                <PasswordOverlay
+                    open={showPasswordOverlay}
+                    onClose={() => setShowPasswordOverlay(false)}
+                    onSubmit={handlePasswordSubmit}
+                />
+            )}
         </>
     );
 };
