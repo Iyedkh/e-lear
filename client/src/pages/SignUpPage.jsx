@@ -96,16 +96,7 @@ const SignUpPage = () => {
                   onChange={(e) => setCity(e.target.value)}
                 />
               </div>
-              <div>
-                <label>Role:</label>
-                <select
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                  required
-                >
-                  <option value="user">User</option>
-                </select>
-              </div>
+              
               <div>
                 <label>Profile Image:</label>
                 <input
