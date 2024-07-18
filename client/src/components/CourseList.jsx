@@ -12,7 +12,7 @@ const CourseList = () => {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [showPasswordOverlay, setShowPasswordOverlay] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false); // State to track authentication status
+    
     const coursesPerPage = 10;
 
     useEffect(() => {
@@ -143,24 +143,9 @@ const CourseList = () => {
         }
     `;
 
-    const handlePasswordSubmit = (password) => {
-       
-        if (password === 'Admin123') {
-            setIsAuthenticated(true);
-            setShowPasswordOverlay(false);
-            window.location.href = '/dash';
-        } else {
-            alert('Invalid password. Please try again.');
-        }
-    };
+    
 
-    const handleDashboardClick = () => {
-        if (isAuthenticated) {
-            window.location.href = '/dash';
-        } else {
-            setShowPasswordOverlay(true);
-        }
-    };
+    
 
     return (
         <>
@@ -172,7 +157,8 @@ const CourseList = () => {
                     <Link to="/create-course" className="link">Create New Course</Link>
                     <Link to="/category" className="link">Category</Link>
                     <Link to="/quiz" className="link">Quiz</Link>
-                    <button className="link" onClick={handleDashboardClick}>Dashboard</button>
+                    <Link to="/dash" className="link">Dashboard</Link>
+                    
                 </div>
                 <div>
                     <Button
@@ -232,13 +218,7 @@ const CourseList = () => {
                     </Button>
                 </div>
             </div>
-            {showPasswordOverlay && (
-                <PasswordOverlay
-                    open={showPasswordOverlay}
-                    onClose={() => setShowPasswordOverlay(false)}
-                    onSubmit={handlePasswordSubmit}
-                />
-            )}
+           
         </>
     );
 };
