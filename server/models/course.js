@@ -1,20 +1,27 @@
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
-  title: String,
+  title: {
+    type: String,
+    required: true
+  },
   ratings: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Rating' // Reference to the Rating model
   }],
-  description: String,
-  
+  description: {
+    type: String,
+    required: true
+  },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category', // Reference to the Category model
-    required: true,
+    required: true
   },
-
-  videoUrl: String,
+  videoUrl: {
+    type: String,
+    required: false
+  },
   imageUrl: {
     type: String,
     required: true
@@ -22,7 +29,11 @@ const courseSchema = new mongoose.Schema({
   comments: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Comment'
-  }] // Reference array to store comment IDs
+  }], // Reference array to store comment IDs
+  quizzes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Quiz' // Reference to the Quiz model
+  }]
 });
 
 // Virtual property to compute average rating

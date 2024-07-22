@@ -6,13 +6,11 @@ import '../components/Dashboard/dash.css';
 import NavBar from '../components/Header/Header';
 import 'chartjs-adapter-date-fns';
 import { Button } from '@mui/material';
-
-const USERS_PER_PAGE = 10;
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const [transformedData, setTransformedData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
   const [timeUnit, setTimeUnit] = useState('day'); // State to manage the time unit
 
   useEffect(() => {
@@ -64,69 +62,6 @@ const Dashboard = () => {
     return cumulativeGrowth;
   };
 
-  const handleChangeRole = async (userId, newRole) => {
-    try {
-      await axios.put(`http://localhost:3000/auth/${userId}`, { role: newRole }, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
-        }
-      });
-      // Refresh data
-      const response = await axios.get('http://localhost:3000/transformed-data', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      setTransformedData(response.data);
-    } catch (error) {
-      console.error('Error changing user role:', error);
-    }
-  };
-
-  const handleDeleteUser = async (userId) => {
-    try {
-      const response = await axios.delete(`http://localhost:3000/auth/${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-
-      if (response.status === 200) {
-        // User deleted successfully
-        window.alert('User deleted successfully!');
-        // Remove the deleted user from the state
-        const updatedUsers = transformedData.users.filter(user => user.id !== userId);
-        setTransformedData(prevData => ({
-          ...prevData,
-          users: updatedUsers
-        }));
-      } else {
-        throw new Error(`Error deleting user: ${response.statusText}`); // Handle specific error
-      }
-    } catch (error) {
-      console.error('Error deleting user:', error);
-      // Display user-friendly error message based on the error type
-    }
-  };
-
-  // Function to handle pagination buttons (previous and next)
-  const handlePageChange = (direction) => {
-    if (direction === 'previous') {
-      setCurrentPage(Math.max(currentPage - 1, 1)); // Prevent going below page 1
-    } else if (direction === 'next') {
-      const totalPages = Math.ceil(transformedData?.users.length / USERS_PER_PAGE);
-      setCurrentPage(Math.min(currentPage + 1, totalPages)); // Prevent going beyond last page
-    }
-  };
-
-  // Function to get users for the current page
-  const getUsersForCurrentPage = () => {
-    const startIndex = (currentPage - 1) * USERS_PER_PAGE;
-    const endIndex = startIndex + USERS_PER_PAGE;
-    return transformedData?.users.slice(startIndex, endIndex) || [];
-  };
-
   const calculateCategoryPercentages = (categories, courses) => {
     const totalCourses = courses.length;
     return categories.map(category => {
@@ -143,6 +78,7 @@ const Dashboard = () => {
         <p>Loading...</p>
       ) : (
         <>
+        
           <div className="card-container">
             <div className="card">
               <h2>Number of Users</h2>
@@ -292,8 +228,8 @@ const Dashboard = () => {
                       x: {
                         type: 'time',
                         time: {
-                          unit: timeUnit, // Use the timeUnit state here
-                          tooltipFormat: timeUnit === 'day' ? 'yyyy-MM-dd' : 'yyyy-MM', // Adjust format based on unit
+                          unit: timeUnit,
+                          tooltipFormat: timeUnit === 'day' ? 'yyyy-MM-dd' : 'yyyy-MM',
                         },
                         title: {
                           display: true,
@@ -313,65 +249,8 @@ const Dashboard = () => {
               )}
             </div>
             
-            <div className="user-list-container">
-            <h2 className="user-list-title">User List</h2>
-            <table className="user-list-table">
-              <thead>
-                <tr>
-                  <th>#</th> {/* User number column */}
-                  <th>Username</th>
-                  <th>Email</th>
-                  <th>City</th>
-                  <th>Role</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {getUsersForCurrentPage().map((user, index) => (
-                  <tr key={user.id}>
-                    <td>{(currentPage - 1) * USERS_PER_PAGE + index + 1}</td> {/* Display user number */}
-                    <td>{user.username}</td>
-                    <td>{user.email}</td>
-                    <td>{user.city}</td>
-                    <td>{user.role}</td>
-                    <td className="action-buttons">
-                      <button
-                        className="role"
-                        onClick={() =>
-                          handleChangeRole(user.id, user.role === 'user' ? 'admin' : 'user')
-                        }
-                      >
-                        {user.role === 'user' ? 'Promote to Admin' : 'Demote to User'}
-                      </button>
-                      <button className="adminDelete" onClick={() => handleDeleteUser(user.id)}>
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="pagination-buttons">
-              <Button className='Previous'
-                variant="contained"
-                disabled={currentPage === 1}
-                onClick={() => handlePageChange('previous')}
-                sx={{ backgroundColor: '#17bf9e', color: 'white' }}
-              >
-                Previous
-              </Button>
-              <span className="page-number">{currentPage}</span>
-              <Button className='next'
-                variant="contained"
-                disabled={currentPage === Math.ceil(transformedData?.users.length / USERS_PER_PAGE)}
-                onClick={() => handlePageChange('next')}
-                sx={{ backgroundColor: '#17bf9e', color: 'white' }}
-              >
-                Next
-              </Button>
-            </div>
+            
           </div>
-        </div>
           
         </>
       )}

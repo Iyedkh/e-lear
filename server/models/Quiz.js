@@ -20,7 +20,12 @@ const quizSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    questions: [questionSchema]
+    questions: [questionSchema],
+    course: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course', // Reference to the Course model
+        required: true
+    }
 });
 
 const Quiz = mongoose.model('Quiz', quizSchema);

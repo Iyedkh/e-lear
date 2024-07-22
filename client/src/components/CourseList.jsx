@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '../components/Header/Header';
 import axios from 'axios';
-import { Button, Menu, MenuItem } from '@mui/material';
-import PasswordOverlay from './PasswordOverlay';
+import { Button, Menu, MenuItem, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import './CourseList.css';
 
 const CourseList = () => {
     const [courses, setCourses] = useState([]);
@@ -11,8 +11,10 @@ const CourseList = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [showPasswordOverlay, setShowPasswordOverlay] = useState(false);
-    
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+    const [deleteCourseId, setDeleteCourseId] = useState(null);
+   
+
     const coursesPerPage = 10;
 
     useEffect(() => {
@@ -42,15 +44,20 @@ const CourseList = () => {
             }
         };
 
+       
+
         fetchCourses();
         fetchCategories();
+        
     }, []);
 
-    const handleDeleteCourse = async (courseId) => {
+    const handleDeleteCourse = async () => {
+        if (!deleteCourseId) return;
         try {
-            await axios.delete(`http://localhost:3000/courses/${courseId}`);
-            console.log('Deleted course:', courseId);
-            // Refresh course list
+            await axios.delete(`http://localhost:3000/courses/${deleteCourseId}`);
+            console.log('Deleted course:', deleteCourseId);
+            setDeleteCourseId(null);
+            setShowDeleteDialog(false);
             const response = await axios.get('http://localhost:3000/courses');
             if (response.status === 200) {
                 setCourses(response.data);
@@ -95,83 +102,31 @@ const CourseList = () => {
     const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
     const currentCourses = filteredCourses.slice((currentPage - 1) * coursesPerPage, currentPage * coursesPerPage);
 
-    const styles = `
-        .container {
-            margin-top: 20px;
-        }
-        .h2 {
-            margin-bottom: 20px;
-            text-align: center;
-            font-family: Courier, monospace;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: space-around;
-        }
-        .link {
-            font-size: 18px;
-            margin-bottom: 20px;
-            display: block;
-            width: fit-content;
-            padding: 10px 20px;
-            background-color: #17bf9e;
-            color: white;
-            text-decoration: none;
-            border-radius: 26px;
-            text-align: center;
-        }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-    `;
-
-    
-
-    
-
     return (
         <>
-            <style>{styles}</style>
             <NavBar />
-            <div className="container">
-                <h2 className='h2'>Courses Page</h2>
-                <div className='d-flex justify-content-evenly align-items-center gap-1'>
+            <h2 className='h23'>Courses Page</h2>
+            <div className="container-list">
+                <div className="sidebar">
                     <Link to="/create-course" className="link">Create New Course</Link>
                     <Link to="/category" className="link">Category</Link>
                     <Link to="/quiz" className="link">Quiz</Link>
                     <Link to="/dash" className="link">Dashboard</Link>
-                    
+                    <Link to="/users">User List</Link>
                 </div>
-                <div>
+
+                <div className="content"> 
                     <Button
                         onClick={handleMenuOpen}
                         style={{
                             backgroundColor: '#17bf9e',
                             color: 'white',
                             padding: '10px 20px',
-                            textTransform: 'none'
+                            textTransform: 'none',
+                            marginTop: '20px'
                         }}>
                         Filter by Category
                     </Button>
-
                     <Menu
                         anchorEl={anchorEl}
                         open={Boolean(anchorEl)}
@@ -183,42 +138,63 @@ const CourseList = () => {
                             </MenuItem>
                         ))}
                     </Menu>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Title</th>
-                            <th>Category</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentCourses.map((course, index) => (
-                            <tr key={course._id}>
-                                <td>{(currentPage - 1) * coursesPerPage + index + 1}</td>
-                                <td>{course.title}</td>
-                                <td>{getCategoryName(course.category)}</td>
-                                <td className="action-buttons">
-                                    <Button component={Link} to={`/enroll/${course._id}`} variant="contained" color="primary">Enroll</Button>
-                                    <Button component={Link} to={`/edit-course/${course._id}`} variant="contained">Update</Button>
-                                    <Button onClick={() => handleDeleteCourse(course._id)} variant="contained" color="error">Delete</Button>
-                                </td>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <div className="pagination">
-                    <Button variant="contained" disabled={currentPage === 1} onClick={handlePreviousPage}>
-                        Previous
-                    </Button>
-                    <span>Page {currentPage} of {totalPages}</span>
-                    <Button variant="contained" disabled={currentPage === totalPages} onClick={handleNextPage}>
-                        Next
-                    </Button>
+                        </thead>
+                        <tbody>
+                            {currentCourses.map((course, index) => (
+                                <tr key={course._id}>
+                                    <td>{(currentPage - 1) * coursesPerPage + index + 1}</td>
+                                    <td>{course.title}</td>
+                                    <td>{getCategoryName(course.category)}</td>
+                                    <td className="action-buttons">
+                                        <Button component={Link} to={`/enroll/${course._id}`} variant="contained" color="primary">Enroll</Button>
+                                        <Button component={Link} to={`/edit-course/${course._id}`} variant="contained">Update</Button>
+                                        <Button onClick={() => { setDeleteCourseId(course._id); setShowDeleteDialog(true); }} variant="contained" color="error">Delete</Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div className="pagination">
+                        <Button variant="contained" disabled={currentPage === 1} onClick={handlePreviousPage}>
+                            Previous
+                        </Button>
+                        <span>Page {currentPage} of {totalPages}</span>
+                        <Button variant="contained" disabled={currentPage === totalPages} onClick={handleNextPage}>
+                            Next
+                        </Button>
+                    </div>
                 </div>
             </div>
-           
+
+            <Dialog
+                open={showDeleteDialog}
+                onClose={() => setShowDeleteDialog(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Confirm Delete"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to delete this course?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setShowDeleteDialog(false)} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleDeleteCourse} color="primary" autoFocus>
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 };

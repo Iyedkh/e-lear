@@ -149,3 +149,30 @@
 .time-unit-buttons button {
   margin-right: 5px;
 }
+.user-list-link{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.View {
+  display: block;
+  font-size: 18px;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #4CAF50; 
+  color: white;
+  border: none;
+  border-radius: 26px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.View:hover {
+  background-color: #45A049; 
+}
+
+.View:active {
+  background-color: #397D3D; 
+}
+

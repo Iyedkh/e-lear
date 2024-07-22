@@ -20,10 +20,11 @@ import CoursesByCategoryPage from './pages/CoursesByCategoryPage';
 import EditQuizPage from './pages/EditQuizPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
+import UserList from './components/UserList';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 
-import './index.css'
+import './index.css';
 
 function App() {
   return (
@@ -49,6 +50,8 @@ function App() {
         <Route path="/create-category" element={<AdminRoute element={CreateCategory} />} />
         <Route path="/category" element={<ProtectedRoute element={Category} />} />
         <Route path="/courses/:categoryId" element={<ProtectedRoute element={CoursesByCategoryPage} />} />
+        <Route path="/users" element={<AdminRoute element={UserList} />} /> 
+       
       </Routes>
     </Router>
   );

@@ -3,12 +3,15 @@ import NavBar from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import './CategoryPage.css';
 
 const CategoryPage = () => {
     const [categories, setCategories] = useState([]);
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [searchInput, setSearchInput] = useState('');
+    const [deleteCategoryId, setDeleteCategoryId] = useState(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -38,13 +41,20 @@ const CategoryPage = () => {
         setFilteredCategories(filtered);
     };
 
-    const handleDelete = async (categoryId) => {
+    const handleDelete = (categoryId) => {
+        setDeleteCategoryId(categoryId);
+        setIsDialogOpen(true);
+    };
+
+    const confirmDeleteCategory = async () => {
         try {
-            await axios.delete(`http://localhost:3000/categories/${categoryId}`);
-            setCategories(categories.filter(category => category._id !== categoryId));
-            setFilteredCategories(filteredCategories.filter(category => category._id !== categoryId));
+            await axios.delete(`http://localhost:3000/categories/${deleteCategoryId}`);
+            setCategories(categories.filter(category => category._id !== deleteCategoryId));
+            setFilteredCategories(filteredCategories.filter(category => category._id !== deleteCategoryId));
         } catch (error) {
             console.error('Error deleting category:', error);
+        } finally {
+            setIsDialogOpen(false);
         }
     };
 
@@ -80,7 +90,7 @@ const CategoryPage = () => {
                                 <td>{category.name}</td>
                                 <td>{category.description}</td>
                                 <td className='action-buttons'>
-                                    <Link to={`/courses/${category._id}`} className="btn2" > Courses</Link>
+                                    <Link to={`/courses/${category._id}`} className="btn2"> Courses</Link>
                                     <button onClick={() => handleDelete(category._id)} className="delete">Delete</button>
                                 </td>
                             </tr>
@@ -89,6 +99,28 @@ const CategoryPage = () => {
                 </table>
             </div>
             <Footer />
+
+            <Dialog
+                open={isDialogOpen}
+                onClose={() => setIsDialogOpen(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Confirm Delete"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to delete this category?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setIsDialogOpen(false)} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={confirmDeleteCategory} color="primary" autoFocus>
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 };

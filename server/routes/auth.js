@@ -1,4 +1,3 @@
-//auth.js route
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -124,18 +123,38 @@ router.delete('/:id', adminMiddleware, async (req, res) => {
         res.status(400).json({ error: 'An error occurred during deletion' });
     }
 });
+
+// Get user profile by ID
+router.get('/user/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = await User.findById(id).select('-password'); // Exclude the password field
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Get current authenticated user
 router.get('/user', authMiddleware, (req, res) => {
     try {
-      const user = req.user;
-      res.status(200).json({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-    
-      });
+        const user = req.user;
+        res.status(200).json({
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            city: user.city,
+            role: user.role,
+            image: user.image,
+        });
     } catch (error) {
-      console.error('Error fetching user:', error);
-      res.status(500).json({ message: 'Server Error' });
+        console.error('Error fetching user:', error);
+        res.status(500).json({ message: 'Server Error' });
     }
-  });
+});
+
 module.exports = router;
