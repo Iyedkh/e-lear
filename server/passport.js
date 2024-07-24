@@ -1,20 +1,18 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('./models/User');
-const dotenv = require('dotenv');
 
-// Load environment variables
-dotenv.config();
+const GOOGLE_CLIENT_ID = '585940467383-r44s6kcecirrji22cret6qr15p5vtudi.apps.googleusercontent.com';
+const GOOGLE_CLIENT_SECRET = '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';
 
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:5000/auth/google/callback"
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/google/callback"
   },
-  async (accessToken, refreshToken, profile, done) => {
+  async (token, tokenSecret, profile, done) => {
     try {
       let user = await User.findOne({ googleId: profile.id });
-
       if (!user) {
         user = new User({
           googleId: profile.id,
@@ -24,7 +22,6 @@ passport.use(new GoogleStrategy({
         });
         await user.save();
       }
-
       done(null, user);
     } catch (err) {
       done(err, null);

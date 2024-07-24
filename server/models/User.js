@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-    
+        default: 'user' // Provide a default value
     },
     registrationDate: {
         type: Date,
@@ -30,7 +30,12 @@ const userSchema = new mongoose.Schema({
     image: {
         type: String, 
         required: false
-    }
+    },
+    googleId: {
+        type: String,
+        required: true,
+        unique: true
+    },
 });
 
 const User = mongoose.model('User', userSchema);

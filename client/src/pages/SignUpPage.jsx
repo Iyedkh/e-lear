@@ -47,6 +47,10 @@ const SignUpPage = () => {
     }
   };
 
+  const handleGoogleLogin = () => {
+    window.location.href = 'http://localhost:3000/auth/google';
+  };
+
   return (
     <>
       <div className="signup-page">
@@ -109,6 +113,10 @@ const SignUpPage = () => {
             </>
           )}
         </form>
+
+        <div>
+          <button className='loginB' onClick={handleGoogleLogin}>Sign Up with Google</button>
+        </div>
       </div>
     </>
   );
