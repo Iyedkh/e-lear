@@ -35,7 +35,7 @@ app.use(express.json());
 
 // Set up Multer storage configuration
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, 'uploads'), // Use path.join for better compatibility
+    destination: 'C:\\Users\\user\\Desktop\\e-lear\\e-lear\\uploads', // Verify this path
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname); // File naming convention
     }
@@ -83,8 +83,7 @@ app.get('/transformed-data', async (req, res) => {
 });
 
 // Serve static files from the 'uploads' directory
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Use path.join for better compatibility
-
+app.use('/uploads', express.static('C:\\Users\\user\\Desktop\\e-lear\\e-lear\\uploads')); // Ensure this path
 // Route for file upload
 app.post('/upload', upload.single('file'), (req, res) => {
     res.status(200).json({ message: 'File uploaded successfully' });
