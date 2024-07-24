@@ -9,21 +9,25 @@ const Header = () => {
   const [role, setRole] = useState('');
   const [image, setImage] = useState('');
   const navigate = useNavigate();
+  const menuRef = useRef();
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
     const storedRole = localStorage.getItem('role');
     const storedImage = localStorage.getItem('image');
 
-
     if (storedUsername) {
+      console.log('Username from localStorage:', storedUsername);
       setUsername(storedUsername);
     }
     if (storedRole) {
+      console.log('Role from localStorage:', storedRole);
       setRole(storedRole);
     }
     if (storedImage) {
-      setImage(`http://localhost:3000/${storedImage.replace(/\\/g, '/')}`); 
+      const imagePath = `http://localhost:3000/uploads/${storedImage.split('\\').join('/')}`;
+      console.log('Image path:', imagePath);
+      setImage(imagePath);
     }
   }, []);
 
@@ -31,9 +35,9 @@ const Header = () => {
     logout(navigate);
   };
 
-  const menuRef = useRef();
-
-  const menuToggle = () => menuRef.current.classList.toggle("active__menu");
+  const menuToggle = () => {
+    menuRef.current.classList.toggle("active__menu");
+  };
 
   const navLinks = [
     {
@@ -48,7 +52,6 @@ const Header = () => {
       display: "Courses",
       url: role === 'admin' ? "/course" : "/userC",
     },
-    
   ];
 
   return (
@@ -71,16 +74,14 @@ const Header = () => {
                 ))}
               </ul>
             </div>
-
-            
-            
           </div>
+
           <div className="nav__user d-flex align-items-center gap-4">
-              {image && <img src={image} alt="User" className="user-image" />}
-              <span>{username || 'Guest'}</span>
-              <button className="btn" onClick={handleLogout}>Logout</button>
-            </div>
-            
+            {image && <img src={image} alt="User" className="user-image" />}
+            <span>{username || 'Guest'}</span>
+            <button className="btn" onClick={handleLogout}>Logout</button>
+          </div>
+
           <div className="mobile__menu">
             <span>
               <i className="ri-menu-line" onClick={menuToggle}></i>

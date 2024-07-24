@@ -7,35 +7,25 @@ const userSchema = new mongoose.Schema({
         unique: true
     },
     password: {
-        type: String,
-        required: true
+        type: String
     },
     username: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     city: {
-        type: String,
-        required: false
+        type: String
     },
     role: {
         type: String,
-        default: 'user' // Provide a default value
-    },
-    registrationDate: {
-        type: Date,
-        default: Date.now
+        default: 'user'
     },
     image: {
-        type: String, 
-        required: false
+        type: String
     },
     googleId: {
-        type: String,
-        required: true,
-        unique: true
-    },
+        type: String
+    }
 });
 
 const User = mongoose.model('User', userSchema);
