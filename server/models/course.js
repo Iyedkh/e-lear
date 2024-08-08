@@ -18,8 +18,8 @@ const courseSchema = new mongoose.Schema({
     ref: 'Category', // Reference to the Category model
     required: true
   },
-  videoUrl: {
-    type: String,
+  videoFileId: {
+    type: mongoose.Schema.Types.ObjectId,
     required: false
   },
   imageUrl: {

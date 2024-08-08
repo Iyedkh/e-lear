@@ -1,65 +1,57 @@
-// courses.js
 const express = require('express');
 const router = express.Router();
 const CourseModel = require('../models/course');
 const multer = require('multer');
-const path = require('path');
+const GridFSBucket = require('mongodb').GridFSBucket;
 const mongoose = require('mongoose');
+const { MongoClient } = require('mongodb');
 
-// Multer storage configuration
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/'); // Destination folder for uploaded files
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname); // File naming convention
+// Database connection
+const mongoURI = 'mongodb://127.0.0.1:27017/e_learn';
+const client = new MongoClient(mongoURI);
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+router.post('/', upload.fields([{ name: 'image', maxCount: 1 }, { name: 'video', maxCount: 1 }]), async (req, res) => {
+    try {
+        const { title, rating, description, category } = req.body;
+        const image = req.files['image'] ? req.files['image'][0] : null;
+        const video = req.files['video'] ? req.files['video'][0] : null;
+
+        if (!title || !description || !category || !video) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        // Upload video to GridFS and get the file ID
+        const videoFileId = await uploadToGridFS(video);
+
+        const newCourse = new CourseModel({
+            title,
+            rating,
+            description,
+            category,
+            videoFileId, // Store GridFS file ID
+            imageUrl: image ? `/uploads/${image.filename}` : null
+        });
+
+        const savedCourse = await newCourse.save();
+        res.status(201).json(savedCourse);
+    } catch (error) {
+        console.error('Error saving course:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 
-// Check file type
-function checkFileType(file, cb) {
-    const allowedTypes = /jpeg|jpg|png/;
-    const isAllowedType = allowedTypes.test(file.mimetype);
-    if (isAllowedType) {
-        return cb(null, true);
-    } else {
-        cb('Error: Images only!');
-    }
+// Function to upload file to GridFS
+async function uploadToGridFS(file) {
+    const db = client.db('e_learn');
+    const bucket = new GridFSBucket(db, { bucketName: 'videos' });
+    const uploadStream = bucket.openUploadStream(file.originalname);
+    uploadStream.end(file.buffer);
+    return uploadStream.id;
 }
 
-// Multer upload instance
-const upload = multer({
-    storage: storage,
-    fileFilter: function (req, file, cb) {
-        checkFileType(file, cb); // Validate file type
-    }
-}).single('image'); // Specify field name for single file upload
-
-// Route to create a new course with photo upload
-router.post('/', (req, res) => {
-    upload(req, res, async (err) => {
-        if (err) {
-            return res.status(400).json({ error: err });
-        }
-        
-        try {
-            const newCourse = new CourseModel({
-                title: req.body.title,
-                rating: req.body.rating,
-                description: req.body.description,
-                category: req.body.category,
-                videoUrl: req.body.videoUrl,
-                imageUrl: req.file ? '/uploads/' + req.file.filename : null // Construct the correct image URL
-            });
-
-            const savedCourse = await newCourse.save();
-
-            res.status(201).json(savedCourse);
-        } catch (error) {
-            res.status(400).json({ error: error.message });
-        }
-    });
-});
 
 // Route to get all courses
 router.get('/', async (req, res) => {

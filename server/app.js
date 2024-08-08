@@ -5,7 +5,7 @@ const path = require('path');
 const multer = require('multer');
 const cors = require('cors');
 const session = require('express-session');
-const authRoutes = require('./routes/auth'); // Ensure correct path to authRoutes
+const authRoutes = require('./routes/auth');
 const faqRouter = require('./routes/faq');
 const ratingRoutes = require('./routes/rating');
 const searchRoutes = require('./routes/search');
@@ -18,10 +18,15 @@ const categoryRoutes = require('./routes/categoryRoute');
 const etlScript = require('./etlScript');
 const averageRatings = require('./routes/averageRating');
 const sockets = require('./sockets');
-const passport = require('./passport'); // Ensure passport.js is correctly configured
+const passport = require('./passport');
 const { authMiddleware, adminMiddleware } = require('./middleware/auth');
+
+
+// Load environment variables
+require('dotenv').config();
+
 // DATABASE CONNECTION
-require('./config/connect'); // Ensure this file correctly connects to your database
+require('./config/connect');
 
 const app = express();
 const server = http.createServer(app);
@@ -30,9 +35,10 @@ const io = socketIo(server);
 app.use(cors());
 app.use(express.json());
 
-// Set up Multer storage configuration
+// Set up Multer storage configuration for images
+const uploadPath = path.join(__dirname, 'uploads');
 const storage = multer.diskStorage({
-    destination: 'C:\\Users\\user\\Desktop\\e-lear\\e-lear\\uploads', // Verify this path
+    destination: uploadPath,
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname);
     }
@@ -44,7 +50,7 @@ io.on('connection', sockets);
 
 // Session and Passport setup
 app.use(session({
-    secret: 'test', // Use a secure secret
+    secret: process.env.SESSION_SECRET || 'test', // Use a secure secret from environment variables
     resave: false,
     saveUninitialized: false
 }));
@@ -53,7 +59,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
-app.use('/auth', authRoutes); // Ensure auth routes are set up correctly
+app.use('/auth', authRoutes);
 app.use('/admin', authMiddleware, adminMiddleware, (req, res) => {
     res.send('Admin area');
 });
@@ -68,6 +74,7 @@ app.use('/quiz', quizData);
 app.use('/categories', categoryRoutes);
 app.use('/average', averageRatings);
 
+
 // ETL Route
 app.get('/transformed-data', async (req, res) => {
     try {
@@ -80,9 +87,9 @@ app.get('/transformed-data', async (req, res) => {
 });
 
 // Serve static files from the 'uploads' directory
-app.use('/uploads', express.static('C:\\Users\\user\\Desktop\\e-lear\\e-lear\\uploads')); // Adjust this path as needed
+app.use('/uploads', express.static(uploadPath));
 
-// Route for file upload
+// Route for file upload (images)
 app.post('/upload', upload.single('file'), (req, res) => {
     res.status(200).json({ message: 'File uploaded successfully' });
 });
@@ -99,7 +106,7 @@ app.get('/protected', isLoggedIn, (req, res) => {
 });
 
 // Start the server
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

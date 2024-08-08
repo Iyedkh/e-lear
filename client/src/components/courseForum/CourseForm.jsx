@@ -9,10 +9,11 @@ const CourseForm = () => {
         rating: '',
         description: '',
         category: '',
-        videoUrl: '',
+        video: null, // Change from videoUrl to video
         image: null
     });
     const [categories, setCategories] = useState([]);
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -35,18 +36,36 @@ const CourseForm = () => {
         setFormData({ ...formData, image: e.target.files[0] });
     };
 
+    const handleVideoChange = (e) => {
+        setFormData({ ...formData, video: e.target.files[0] }); // Handle video file change
+    };
+
+    const validateForm = () => {
+        let formErrors = {};
+        if (!formData.title) formErrors.title = 'Title is required';
+        if (!formData.description) formErrors.description = 'Description is required';
+        if (!formData.category) formErrors.category = 'Category is required';
+        if (!formData.video) formErrors.video = 'Video file is required'; // Validate video file
+        if (!formData.image) formErrors.image = 'Image is required';
+        setErrors(formErrors);
+        return Object.keys(formErrors).length === 0;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+    
+        if (!validateForm()) return;
+    
         const formDataToSend = new FormData();
         formDataToSend.append('title', formData.title);
         formDataToSend.append('rating', formData.rating);
         formDataToSend.append('description', formData.description);
         formDataToSend.append('category', formData.category);
-        formDataToSend.append('videoUrl', formData.videoUrl);
+        formDataToSend.append('video', formData.video); // Ensure this field name matches
         formDataToSend.append('image', formData.image);
-
+    
         try {
-            await axios.post('http://localhost:3000/courses', formDataToSend, {
+            const response = await axios.post('http://localhost:3000/courses', formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -56,12 +75,12 @@ const CourseForm = () => {
                 title: '',
                 rating: '',
                 description: '',
-                category: '', 
-                videoUrl: '',
+                category: '',
+                video: null,
                 image: null
             });
         } catch (error) {
-            console.error('Error adding course:', error);
+            console.error('Error adding course:', error.response ? error.response.data : error.message);
             alert('Error adding course. Please try again.');
         }
     };
@@ -74,28 +93,54 @@ const CourseForm = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Title:</label>
-                        <input type="text" name="title" value={formData.title} onChange={handleChange} />
+                        <input 
+                            type="text" 
+                            name="title" 
+                            value={formData.title} 
+                            onChange={handleChange} 
+                        />
+                        {errors.title && <p className="error">{errors.title}</p>}
                     </div>
                     <div className="form-group">
                         <label>Description:</label>
-                        <textarea name="description" value={formData.description} onChange={handleChange}></textarea>
+                        <textarea 
+                            name="description" 
+                            value={formData.description} 
+                            onChange={handleChange}
+                        ></textarea>
+                        {errors.description && <p className="error">{errors.description}</p>}
                     </div>
                     <div className="form-group">
                         <label>Category:</label>
-                        <select name="category" value={formData.category} onChange={handleChange}>
+                        <select 
+                            name="category" 
+                            value={formData.category} 
+                            onChange={handleChange}
+                        >
                             <option value="">Select a category</option>
                             {categories.map(category => (
                                 <option key={category._id} value={category._id}>{category.name}</option>
                             ))}
                         </select>
+                        {errors.category && <p className="error">{errors.category}</p>}
                     </div>
                     <div className="form-group">
-                        <label>Video URL:</label>
-                        <input type="text" name="videoUrl" value={formData.videoUrl} onChange={handleChange} />
+                        <label>Video:</label>
+                        <input 
+                            type="file" 
+                            accept="video/*" 
+                            onChange={handleVideoChange} 
+                        />
+                        {errors.video && <p className="error">{errors.video}</p>}
                     </div>
                     <div className="form-group">
                         <label>Image:</label>
-                        <input type="file" accept="image/*" onChange={handleImageChange} />
+                        <input 
+                            type="file" 
+                            accept="image/*" 
+                            onChange={handleImageChange} 
+                        />
+                        {errors.image && <p className="error">{errors.image}</p>}
                     </div>
                     <button type="submit">Submit</button>
                 </form>
