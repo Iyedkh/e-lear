@@ -1,3 +1,4 @@
+// src/pages/SignUpPage.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -47,70 +48,74 @@ const SignUpPage = () => {
     }
   };
 
+  const handleGoogleSignUp = () => {
+    window.location.href = 'http://localhost:3000/auth/google';
+  };
+
   return (
-    <>
-      <div className="signup-page">
-        <form onSubmit={handleSignUp} encType="multipart/form-data" className='SignF'>
-          <h2>Sign Up</h2>
-          {error && <p>{error}</p>}
-          {step === 1 && (
-            <>
-              <div>
-                <label>Email:</label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Password:</label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-                <p><span className='span'>*</span>Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, and one number.</p>
-              </div>
-              <button type="button" onClick={handleNext}>Next</button>
-            </>
-          )}
-          {step === 2 && (
-            <>
-              <div>
-                <label>Username:</label>
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>City:</label>
-                <input
-                  type="text"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                />
-              </div>
-              
-              <div>
-                <label>Profile Image:</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setImage(e.target.files[0])}
-                />
-              </div>
-              <button type="submit">Sign Up</button>
-            </>
-          )}
-        </form>
-      </div>
-    </>
+    <div className="signup-page">
+      <form onSubmit={handleSignUp} encType="multipart/form-data" className='SignF'>
+        <h2>Sign Up</h2>
+        {error && <p>{error}</p>}
+        {step === 1 && (
+          <>
+            <div>
+              <label>Email:</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label>Password:</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <p><span className='span'>*</span>Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, and one number.</p>
+            </div>
+            <button type="button" onClick={handleNext}>Next</button>
+          </>
+        )}
+        {step === 2 && (
+          <>
+            <div>
+              <label>Username:</label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label>City:</label>
+              <input
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Profile Image:</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </div>
+            <button type="submit">Sign Up</button>
+          </>
+        )}
+        <button type="button" onClick={handleGoogleSignUp}>
+          Sign Up with Google
+        </button>
+      </form>
+    </div>
   );
 };
 

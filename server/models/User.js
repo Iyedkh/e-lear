@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: false // Optional for Google login
     },
     username: {
         type: String,
@@ -21,7 +21,6 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-    
     },
     registrationDate: {
         type: Date,
@@ -30,6 +29,10 @@ const userSchema = new mongoose.Schema({
     image: {
         type: String, 
         required: false
+    },
+    googleId: {
+        type: String,
+        unique: true
     }
 });
 

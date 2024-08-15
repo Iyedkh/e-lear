@@ -1,9 +1,12 @@
 const express = require('express');
 const http = require('http'); 
 const socketIo = require('socket.io');
+const passport = require('passport');
+const cookieSession = require('cookie-session');
 const path = require('path');
 const multer = require('multer');
 const cors = require('cors');
+require('dotenv').config();
 
 // DATABASE CONNECTION
 require('./config/connect'); // Ensure this file correctly connects to your database
@@ -24,6 +27,9 @@ const etlScript = require('./etlScript');
 const averageRatings = require('./routes/averageRating');
 const sockets = require('./sockets'); // Socket.io event handlers
 
+// Initialize Passport
+require('./config/passport'); // Ensure this file is correctly included
+
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
@@ -31,12 +37,24 @@ const io = socketIo(server);
 app.use(cors());
 app.use(express.json());
 
+// Setup cookie session
+app.use(
+  cookieSession({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [process.env.COOKIE_KEY], // Replace with your cookie secret
+  })
+);
+
+// Initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Set up Multer storage configuration
 const storage = multer.diskStorage({
-    destination: 'C:\\Users\\user\\Desktop\\e-lear\\e-lear\\uploads', // Verify this path
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname); // File naming convention
-    }
+  destination: 'C:\\Users\\user\\Desktop\\e-lear\\e-lear\\uploads', // Verify this path
+  filename: (req, file, cb) => {
+      cb(null, Date.now() + '-' + file.originalname); // File naming convention
+  }
 });
 const upload = multer({ storage: storage });
 
@@ -45,6 +63,8 @@ io.on('connection', sockets);
 
 // Routes
 app.use('/auth', authRoutes);
+
+
 app.use('/admin', authMiddleware, adminMiddleware, (req, res) => {
     res.send('Admin area');
 });
@@ -70,9 +90,7 @@ app.get('/transformed-data', async (req, res) => {
     }
 });
 
-// Serve static files from the 'uploads' directory
 app.use('/uploads', express.static('C:\\Users\\user\\Desktop\\e-lear\\e-lear\\uploads')); // Ensure this path
-
 // Route for file upload
 app.post('/upload', upload.single('file'), (req, res) => {
     res.status(200).json({ message: 'File uploaded successfully' });
